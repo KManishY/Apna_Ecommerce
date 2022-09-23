@@ -1,139 +1,50 @@
-import { useState } from "react";
-import {
-	useColorMode,
-	Switch,
-	Flex,
-	Button,
-	IconButton,
-} from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import NextLink from "next/link";
-
-export const Navbar = () => {
-	const { colorMode, toggleColorMode } = useColorMode();
-	const isDark = colorMode === "dark";
-	const [display, changeDisplay] = useState("none");
+import React, { useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { Link } from "react-router-dom";
+import Wrapper from "./Wrapper.jsx";
+import styled from "./navbar.module.css";
+const Navbar = () => {
+	const [hamBtn, sethamBtn] = useState(false);
+	const handleClick = () => {
+		sethamBtn(!hamBtn);
+	};
 	return (
-		<Flex>
-			<Flex position='fixed' top='1rem' right='1rem' align='center'>
-				{/* Desktop */}
-				<Flex display={["none", "none", "flex", "flex"]}>
-					<NextLink href='/' passHref>
-						<Button
-							as='a'
-							variant='ghost'
-							aria-label='Home'
-							my={5}
-							w='100%'
+		<>
+			<div>
+				<header>
+					<nav className={styled.nav}>
+						<div>
+							<img
+								width='90px'
+								src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ_XlY_YQ_sb2AsnI0MeajVvqJxDawVOJjwg&usqp=CAU'
+							/>
+						</div>
+						<div>
+							<Link className={styled.abc} to='/'>
+								Home
+							</Link>
+							<Link className={styled.abc} to='/login'>
+								Login
+							</Link>
+							<Link className={styled.abc} to='/checkout'>
+								Contact
+							</Link>
+							<Link className={styled.abc} to='/product'>
+								Product
+							</Link>
+						</div>
+						<div
+							className={styled.hamburger}
+							style={{ fontSize: "40px" }}
 						>
-							Home
-						</Button>
-					</NextLink>
-
-					<NextLink href='/about' passHref>
-						<Button
-							as='a'
-							variant='ghost'
-							aria-label='About'
-							my={5}
-							w='100%'
-						>
-							About
-						</Button>
-					</NextLink>
-
-					<NextLink href='/contact' passHref>
-						<Button
-							as='a'
-							variant='ghost'
-							aria-label='Contact'
-							my={5}
-							w='100%'
-						>
-							Contact
-						</Button>
-					</NextLink>
-				</Flex>
-
-				{/* Mobile */}
-				<IconButton
-					aria-label='Open Menu'
-					size='lg'
-					mr={2}
-					icon={<HamburgerIcon />}
-					onClick={() => changeDisplay("flex")}
-					display={["flex", "flex", "none", "none"]}
-				/>
-				<Switch
-					color='green'
-					isChecked={isDark}
-					onChange={toggleColorMode}
-				/>
-			</Flex>
-
-			{/* Mobile Content */}
-			<Flex
-				w='100vw'
-				display={display}
-				bgColor='gray.50'
-				zIndex={20}
-				h='100vh'
-				pos='fixed'
-				top='0'
-				left='0'
-				zIndex={20}
-				overflowY='auto'
-				flexDir='column'
-			>
-				<Flex justify='flex-end'>
-					<IconButton
-						mt={2}
-						mr={2}
-						aria-label='Open Menu'
-						size='lg'
-						icon={<CloseIcon />}
-						onClick={() => changeDisplay("none")}
-					/>
-				</Flex>
-
-				<Flex flexDir='column' align='center'>
-					<NextLink href='/' passHref>
-						<Button
-							as='a'
-							variant='ghost'
-							aria-label='Home'
-							my={5}
-							w='100%'
-						>
-							Home
-						</Button>
-					</NextLink>
-
-					<NextLink href='/about' passHref>
-						<Button
-							as='a'
-							variant='ghost'
-							aria-label='About'
-							my={5}
-							w='100%'
-						>
-							About
-						</Button>
-					</NextLink>
-
-					<NextLink href='/contact' passHref>
-						<Button
-							as='a'
-							variant='ghost'
-							aria-label='Contact'
-							my={5}
-							w='100%'
-						>
-							Contact
-						</Button>
-					</NextLink>
-				</Flex>
-			</Flex>
-		</Flex>
+							<GiHamburgerMenu onClick={handleClick} />
+						</div>
+					</nav>
+				</header>
+				<div>{hamBtn && <Wrapper />}</div>
+			</div>
+		</>
 	);
 };
+
+export default Navbar;
