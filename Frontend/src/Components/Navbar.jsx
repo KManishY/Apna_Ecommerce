@@ -23,6 +23,9 @@ const Navbar = () => {
 							<Link className={styled.abc} to='/'>
 								Home
 							</Link>
+							<Link className={styled.abc} to='/signup'>
+								Signup
+							</Link>
 							<Link className={styled.abc} to='/login'>
 								Login
 							</Link>
