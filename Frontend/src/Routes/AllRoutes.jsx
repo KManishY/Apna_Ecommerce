@@ -3,7 +3,6 @@ import Checkout from "../Pages/Checkout/Checkout";
 import Homepage from "../Pages/Homepage/Homepage";
 import Products from "../Pages/Product/Products";
 import Error from "../Pages/Error";
-
 import React from "react";
 import Navbar from "../Components/Navbar.jsx";
 import Login from "../Pages/Login_Signup/Login";

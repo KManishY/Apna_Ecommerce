@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -35,6 +35,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
 	const classes = useStyles();
+	const initialState = {
+		email: "",
+		password: ""
+	};
+	const [loginDetails, setLoginDetails] = useState(initialState);
+
+	const handleChange = (e) => {
+		// console.log(e.target.value);
+
+		setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value });
+		console.log(loginDetails);
+	};
+	const handleSubmit = () => {};
 
 	return (
 		<Container component='main' maxWidth='xs'>
@@ -46,7 +59,7 @@ export default function Login() {
 				<Typography component='h1' variant='h5'>
 					Login Page
 				</Typography>
-				<form className={classes.form} noValidate>
+				<form>
 					<TextField
 						variant='outlined'
 						margin='normal'
@@ -55,6 +68,7 @@ export default function Login() {
 						id='email'
 						label='Email Address'
 						name='email'
+						onChange={(e) => handleChange(e)}
 						autoComplete='email'
 						autoFocus
 					/>
@@ -63,6 +77,7 @@ export default function Login() {
 						margin='normal'
 						required
 						fullWidth
+						onChange={(e) => handleChange(e)}
 						name='password'
 						label='Password'
 						type='password'
@@ -79,18 +94,17 @@ export default function Login() {
 						variant='contained'
 						color='primary'
 						className={classes.submit}
+						onClick={handleSubmit}
 					>
 						Log In
 					</Button>
 					<Grid container>
 						<Grid item xs>
-							<Link href='#' variant='body2'>
-								Forgot password?
-							</Link>
+							<Link variant='body2'>Forgot password?</Link>
 						</Grid>
 						<Grid item>
-							<Link href='#' variant='body2'>
-								{"Don't have an account? Sign Up"}
+							<Link variant='body2'>
+								{"Don't have an account? Register"}
 							</Link>
 						</Grid>
 					</Grid>
