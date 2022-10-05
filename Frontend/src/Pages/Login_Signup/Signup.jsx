@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -36,6 +36,25 @@ const useStyles = makeStyles((theme) => ({
 export default function Signup() {
 	const classes = useStyles();
 
+	const initialState = {
+		name: "",
+		email: "",
+		password: "",
+		username: "",
+		mobile: ""
+	};
+	const [registerDetails, setRegisterDetails] = useState(initialState);
+
+	const handleChange = (e) => {
+		// console.log(e.target.value);
+
+		setRegisterDetails({
+			...registerDetails,
+			[e.target.name]: e.target.value
+		});
+		console.log(registerDetails);
+	};
+
 	return (
 		<Container component='main' maxWidth='xs'>
 			<CssBaseline />
@@ -46,7 +65,7 @@ export default function Signup() {
 				<Typography component='h1' variant='h5'>
 					Signup Page
 				</Typography>
-				<form className={classes.form} noValidate>
+				<form className={classes.form}>
 					<TextField
 						variant='outlined'
 						margin='normal'
@@ -57,6 +76,7 @@ export default function Signup() {
 						name='name'
 						autoComplete='name'
 						autoFocus
+						onChange={(e) => handleChange(e)}
 					/>
 					<TextField
 						variant='outlined'
@@ -68,6 +88,7 @@ export default function Signup() {
 						name='email'
 						autoComplete='email'
 						autoFocus
+						onChange={(e) => handleChange(e)}
 					/>
 					<TextField
 						variant='outlined'
@@ -79,13 +100,32 @@ export default function Signup() {
 						type='password'
 						id='password'
 						autoComplete='current-password'
+						onChange={(e) => handleChange(e)}
 					/>
-					<FormControlLabel
-						control={<Checkbox value='remember' color='primary' />}
-						label='Remember me'
+					<TextField
+						variant='outlined'
+						margin='normal'
+						required
+						fullWidth
+						name='username'
+						label='Username'
+						type='text'
+						id='username'
+						onChange={(e) => handleChange(e)}
 					/>
+					<TextField
+						variant='outlined'
+						margin='normal'
+						required
+						fullWidth
+						name='mobile'
+						label='Mobile_Number'
+						type='text'
+						id='mobile'
+						onChange={(e) => handleChange(e)}
+					/>
+
 					<Button
-						type='submit'
 						fullWidth
 						variant='contained'
 						color='primary'
@@ -93,20 +133,16 @@ export default function Signup() {
 					>
 						Register
 					</Button>
-					<Grid container>
-						<Grid item xs>
-							<Link href='#' variant='body2'>
-								Forgot password?
-							</Link>
-						</Grid>
-						<Grid item>
-							<Link href='#' variant='body2'>
-								{"Don't have an account? Sign Up"}
-							</Link>
-						</Grid>
-					</Grid>
 				</form>
 			</div>
 		</Container>
 	);
 }
+
+// {
+//     "name":"lovie",
+//     "email": "lovie@gmail.com",
+// 	"password": "123",
+//     "username":"lovie1",
+//     "mobile":"9887654321"
+// }

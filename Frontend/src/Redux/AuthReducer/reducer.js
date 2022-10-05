@@ -1,6 +1,12 @@
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS } from "./constants.js";
+import {
+	LOGIN_FAILURE,
+	LOGIN_REQUEST,
+	LOGIN_SUCCESS,
+	REGISTER_FAILURE,
+	REGISTER_REQUEST,
+	REGISTER_SUCCESS
+} from "./constants.js";
 
-// NOTE: DO NOT MODIFY the intial state structure in this file.
 const initialState = {
 	isAuth: false,
 	token: "",
@@ -25,6 +31,25 @@ const reducer = (oldState = initialState, { type, payload }) => {
 				token: payload
 			};
 		case LOGIN_FAILURE:
+			return {
+				...oldState,
+				isLoading: false,
+				isError: true
+			};
+
+		case REGISTER_REQUEST:
+			return {
+				isLoading: true
+			};
+		case REGISTER_SUCCESS:
+			return {
+				...oldState,
+				isLoading: false,
+				isAuth: true,
+				isError: false,
+				token: payload
+			};
+		case REGISTER_FAILURE:
 			return {
 				...oldState,
 				isLoading: false,
