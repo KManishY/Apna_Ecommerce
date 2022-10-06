@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { getData } from "../../Redux/AppReducer/action.js";
 const Products = () => {
 	const dispatch = useDispatch();
+	const location = useLocation();
 	let { data } = useSelector((state) => state.AppReducer);
 
 	const [searchParams, setSearchParams] = useSearchParams();
+	console.log("searchParams: ", searchParams.getAll("allProduct"));
 
 	const initialProductParams = searchParams.getAll("allProduct");
 
@@ -29,11 +31,32 @@ const Products = () => {
 		}
 	}, [category, setSearchParams]);
 	useEffect(() => {
-		dispatch(getData());
-	}, []);
+		if (location || data.length == 0) {
+			const query = {
+				params: {
+					allProduct: searchParams.getAll("allProduct")
+				}
+			};
+			dispatch(getData(query));
+		}
+	}, [location.search]);
+
+	// 	if (location || musicRecordes.length === 0) {
+	// 		const sortBy = searchParams.get("sortBy");
+	// 		const query = {
+	// 			params: {
+	// 				genre: searchParams.getAll("genre"),
+	// 				_sort: sortBy && "year",
+	// 				_order: sortBy,
+	// 			},
+	// 		};
+	// 		dispatch(getMusicRecord(query));
+	// 	}
+	// }, [location.search]);
 
 	return (
 		<div>
+			{/* filter by category  */}
 			<div>
 				<label>Lamp</label>
 				<input
@@ -42,10 +65,22 @@ const Products = () => {
 					defaultChecked={category.includes("Lamp")}
 					onChange={(e) => handleChange(e)}
 				/>
-				{/* <label>Furnishing</label>
-				<input type='checkbox' value='furnishing' />
-				<label>Wall Art</label>
+				<label>Pots & Planters</label>
+				<input
+					type='checkbox'
+					value='Pots & Planters'
+					defaultChecked={category.includes("Pots & Planters")}
+					onChange={(e) => handleChange(e)}
+				/>
+				{/* <label>Wall Art</label>
 				<input type='checkbox' value='wall_art' /> */}
+			</div>
+
+			{/* sort by price  */}
+
+			<div>
+				<button>ascending</button>
+				<button>decending</button>
 			</div>
 
 			{data &&
@@ -66,7 +101,7 @@ const Products = () => {
 				))}
 		</div>
 	);
-};;
+};;;;;;
 
 // prod_name: {
 // 		type: String,
