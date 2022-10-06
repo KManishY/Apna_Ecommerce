@@ -14,24 +14,27 @@ export const login = (payload) => (dispatch) => {
 	return axios({
 		method: "post",
 		url: "/user/login",
-		baseURL: "https://localhost:8080",
+		baseURL: "http://localhost:8080",
 		data: payload
 	})
-		.then((r) => dispatch({ type: LOGIN_SUCCESS, payload: r.data }))
-
+		.then((r) => {
+			return dispatch({ type: LOGIN_SUCCESS, payload: r.data.token });
+		})
 		.catch((e) => dispatch({ type: LOGIN_FAILURE }));
 };
 
 export const register = (payload) => (dispatch) => {
-	// console.log("payload: ", payload);
+	console.log("payload: ", payload);
 	dispatch({ type: REGISTER_REQUEST });
 	return axios({
 		method: "post",
 		url: "/user/register",
-		baseURL: "https://localhost:8080",
+		baseURL: "http://localhost:8080",
 		data: payload
 	})
-		.then((r) => dispatch({ type: REGISTER_SUCCESS, payload: r.data }))
+		.then((r) =>
+			dispatch({ type: REGISTER_SUCCESS, payload: r.data.message })
+		)
 
 		.catch((e) => dispatch({ type: REGISTER_FAILURE }));
 };

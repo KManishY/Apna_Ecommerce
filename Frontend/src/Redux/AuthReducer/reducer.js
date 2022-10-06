@@ -10,6 +10,7 @@ import {
 const initialState = {
 	isAuth: false,
 	token: "",
+	status: "",
 	isLoading: false,
 	isError: false
 };
@@ -47,7 +48,7 @@ const reducer = (oldState = initialState, { type, payload }) => {
 				isLoading: false,
 				isAuth: true,
 				isError: false,
-				token: payload
+				status: payload
 			};
 		case REGISTER_FAILURE:
 			return {

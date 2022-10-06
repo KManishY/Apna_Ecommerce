@@ -12,6 +12,10 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { login } from "../../Redux/AuthReducer/action.js";
+import { LOGIN_SUCCESS } from "../../Redux/AuthReducer/constants.js";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -25,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.secondary.main
 	},
 	form: {
-		width: "100%", // Fix IE 11 issue.
+		width: "100%",
 		marginTop: theme.spacing(1)
 	},
 	submit: {
@@ -35,19 +39,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
 	const classes = useStyles();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const { token } = useSelector((state) => state.AuthReducer);
+
 	const initialState = {
-		email: "",
+		username: "",
 		password: ""
 	};
 	const [loginDetails, setLoginDetails] = useState(initialState);
 
 	const handleChange = (e) => {
-		// console.log(e.target.value);
-
 		setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value });
-		console.log(loginDetails);
 	};
-	const handleSubmit = () => {};
+	const handleSubmit = () => {
+		if (loginDetails) {
+			dispatch(login(loginDetails)).then((r) => {
+				if (r.type === LOGIN_SUCCESS) {
+					alert("Login Successfully");
+					navigate("/product");
+					localStorage.setItem("token", token);
+				}
+			});
+		}
+	};
 
 	return (
 		<Container component='main' maxWidth='xs'>
@@ -65,11 +80,11 @@ export default function Login() {
 						margin='normal'
 						required
 						fullWidth
-						id='email'
-						label='Email Address'
-						name='email'
+						id='username'
+						label='Username'
+						name='username'
 						onChange={(e) => handleChange(e)}
-						autoComplete='email'
+						autoComplete='username'
 						autoFocus
 					/>
 					<TextField
@@ -84,12 +99,8 @@ export default function Login() {
 						id='password'
 						autoComplete='current-password'
 					/>
-					<FormControlLabel
-						control={<Checkbox value='remember' color='primary' />}
-						label='Remember me'
-					/>
+
 					<Button
-						type='submit'
 						fullWidth
 						variant='contained'
 						color='primary'
@@ -103,7 +114,7 @@ export default function Login() {
 							<Link variant='body2'>Forgot password?</Link>
 						</Grid>
 						<Grid item>
-							<Link variant='body2'>
+							<Link to='/signup'>
 								{"Don't have an account? Register"}
 							</Link>
 						</Grid>

@@ -6,10 +6,10 @@ import {
 } from "redux";
 
 import { reducer as AuthReducer } from "./AuthReducer/reducer.js";
-// import { reducer as AppReducer } from "./AppReducer/reducer.js";
+import { reducer as AppReducer } from "./AppReducer/reducer.js";
 import thunk from "redux-thunk";
 
-const rootReducer = combineReducers({ AuthReducer });
+const rootReducer = combineReducers({ AuthReducer, AppReducer });
 
 const store = legacy_createStore(rootReducer, applyMiddleware(thunk));
 

@@ -1,9 +1,16 @@
-import React from 'react'
-
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getData } from "../../Redux/AppReducer/action.js";
 const Products = () => {
-  return (
-    <div>Products</div>
-  )
-}
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(getData()).then((r) => {
+			if (r.type === GET_DATA_SUCCESS) {
+			}
+		});
+	});
 
-export default Products
+	return <div>Products</div>;
+};
+
+export default Products;
