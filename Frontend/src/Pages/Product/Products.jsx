@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import { getData } from "../../Redux/AppReducer/action.js";
 const Products = () => {
 	const dispatch = useDispatch();
-	const { data } = useSelector((state) => state.AppReducer);
-	const [category, setCategory] = useState([]);
+	let { data } = useSelector((state) => state.AppReducer);
+
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const initialProductParams = searchParams.getAll("allProduct");
+
+	const [category, setCategory] = useState(initialProductParams || []);
 
 	const handleChange = (e) => {
 		const option = e.target.value;
-
 		const newCat = [...category];
 		if (category.includes(option)) {
 			newCat.splice(newCat.indexOf(option), 1);
@@ -16,10 +21,13 @@ const Products = () => {
 			newCat.push(option);
 		}
 		setCategory(newCat);
-		console.log(category);
 	};
 
-	console.log("state: ", data);
+	useEffect(() => {
+		if (category) {
+			setSearchParams({ allProduct: category });
+		}
+	}, [category, setSearchParams]);
 	useEffect(() => {
 		dispatch(getData());
 	}, []);
@@ -58,7 +66,7 @@ const Products = () => {
 				))}
 		</div>
 	);
-};
+};;
 
 // prod_name: {
 // 		type: String,
