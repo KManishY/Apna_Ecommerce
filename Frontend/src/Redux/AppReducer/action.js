@@ -5,7 +5,7 @@ import {
 	GET_DATA_SUCCESS
 } from "./constants.js";
 
-export const getData = () => {
+export const getData = () => (dispatch) => {
 	dispatch({ type: GET_DATA_REQUEST });
 	return axios({
 		method: "get",
@@ -13,6 +13,7 @@ export const getData = () => {
 		baseURL: "http://localhost:8080"
 	})
 		.then((response) => {
+			// console.log(response.data);
 			return dispatch({ type: GET_DATA_SUCCESS, payload: response.data });
 		})
 		.catch((err) => {

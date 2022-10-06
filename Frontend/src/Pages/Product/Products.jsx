@@ -1,16 +1,94 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../../Redux/AppReducer/action.js";
 const Products = () => {
 	const dispatch = useDispatch();
-	useEffect(() => {
-		dispatch(getData()).then((r) => {
-			if (r.type === GET_DATA_SUCCESS) {
-			}
-		});
-	});
+	const { data } = useSelector((state) => state.AppReducer);
+	const [category, setCategory] = useState([]);
 
-	return <div>Products</div>;
+	const handleChange = (e) => {
+		const option = e.target.value;
+
+		const newCat = [...category];
+		if (category.includes(option)) {
+			newCat.splice(newCat.indexOf(option), 1);
+		} else {
+			newCat.push(option);
+		}
+		setCategory(newCat);
+		console.log(category);
+	};
+
+	console.log("state: ", data);
+	useEffect(() => {
+		dispatch(getData());
+	}, []);
+
+	return (
+		<div>
+			<div>
+				<label>Lamp</label>
+				<input
+					type='checkbox'
+					value='Lamp'
+					defaultChecked={category.includes("Lamp")}
+					onChange={(e) => handleChange(e)}
+				/>
+				{/* <label>Furnishing</label>
+				<input type='checkbox' value='furnishing' />
+				<label>Wall Art</label>
+				<input type='checkbox' value='wall_art' /> */}
+			</div>
+
+			{data &&
+				data.map((item) => (
+					<div key={item._id}>
+						<p>{item.prod_name}</p>
+						<p>{item.prod_cat}</p>
+						<p>{item.prod_price}</p>
+						<p>{item.prod_rating}</p>
+						<p>{item.prod_tag}</p>
+						<img
+							width='100px'
+							height='100px'
+							src={item.prod_image}
+						/>
+						{/* <button onClick={handleClick}>add to cart</button> */}
+					</div>
+				))}
+		</div>
+	);
 };
+
+// prod_name: {
+// 		type: String,
+// 		required: true
+// 	},
+// 	prod_cat: {
+// 		type: String,
+// 		required: true
+// 		// unique: true
+// 	},
+// 	prod_price: {
+// 		type: String,
+// 		required: true
+// 		// unique: true
+// 	},
+// 	prod_rating: {
+// 		type: String,
+// 		required: true
+// 	},
+// 	prod_desc: {
+// 		type: String,
+// 		// unique: true,
+// 		required: true
+// 	},
+// 	prod_tag: {
+// 		type: String,
+// 		required: true
+// 	},
+// 	prod_image: {
+// 		type: String
+// 	}
 
 export default Products;
