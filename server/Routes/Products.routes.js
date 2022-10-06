@@ -5,12 +5,19 @@ const dataController = Router();
 
 dataController.get("/", async (req, res) => {
 	const a = req.query.params;
+	console.log("a: ", a);
 
-	// const search = a.allProduct[0];
-	// console.log("a: ", a.allProduct[0]);
 	let product;
-	if (a) {
-		product = await ProductModel.find({ prod_cat: a.allProduct });
+	if (a.sort == "asc" && a.category) {
+		product = await ProductModel.find({ prod_cat: a.category }).sort({
+			prod_price: -1
+		});
+	} else if (a.sort == "desc" && a.category) {
+		product = await ProductModel.find({ prod_cat: a.category }).sort({
+			prod_price: 1
+		});
+	} else if (a.sort == "" || a.category) {
+		product = await ProductModel.find({ prod_cat: a.category });
 	} else {
 		product = await ProductModel.find();
 	}

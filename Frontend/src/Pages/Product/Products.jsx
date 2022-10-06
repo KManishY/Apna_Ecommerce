@@ -6,12 +6,19 @@ const Products = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	let { data } = useSelector((state) => state.AppReducer);
+	console.log("data: ", data);
 
 	const [searchParams, setSearchParams] = useSearchParams();
-	console.log("searchParams: ", searchParams.getAll("allProduct"));
+	console.log("searchParams: ", searchParams.getAll("category"));
 
-	const initialProductParams = searchParams.getAll("allProduct");
+	const initialProductParams = searchParams.getAll("category");
 	const initialSortParams = searchParams.get("sortBy");
+	if (data) {
+		const a = data.filter(
+			(el) => el.prod_cat == searchParams.getAll("category")
+		);
+		console.log("a: ", a);
+	}
 
 	const [category, setCategory] = useState(initialProductParams || []);
 
@@ -35,14 +42,15 @@ const Products = () => {
 
 	useEffect(() => {
 		if (category || sortBy) {
-			setSearchParams({ allProduct: category, sortBy: sortBy });
+			setSearchParams({ category: category, sortBy: sortBy });
 		}
 	}, [category, setSearchParams, sortBy]);
 	useEffect(() => {
 		if (location || data.length == 0) {
 			const query = {
 				params: {
-					allProduct: searchParams.getAll("allProduct")
+					category: searchParams.getAll("category"),
+					sort: sortBy
 				}
 			};
 			dispatch(getData(query));
@@ -52,40 +60,104 @@ const Products = () => {
 	return (
 		<div>
 			{/* filter by category  */}
-			<div>
-				<label>Lamp</label>
-				<input
-					type='checkbox'
-					value='Lamp'
-					defaultChecked={category.includes("Lamp")}
-					onChange={(e) => handleChange(e)}
-				/>
-				<label>Pots & Planters</label>
-				<input
-					type='checkbox'
-					value='Pots & Planters'
-					defaultChecked={category.includes("Pots & Planters")}
-					onChange={(e) => handleChange(e)}
-				/>
+			<div
+				style={{
+					backgroundColor: "blue",
+					fontSize: "20px",
+					padding: "20px",
+					color: "white",
+					display: "flex",
+					gap: "20px",
+					justifyContent: "space-around"
+				}}
+			>
+				<div
+					style={{
+						backgroundColor: "blue",
+						fontSize: "20px",
+						color: "white",
+						display: "flex",
+						gap: "20px",
+						justifyContent: "space-between"
+					}}
+				>
+					<div>
+						<label>Lamp</label>
+						<input
+							type='checkbox'
+							value='Lamp'
+							defaultChecked={category.includes("Lamp")}
+							onChange={(e) => handleChange(e)}
+						/>
+					</div>
+					<div>
+						<label>Pots & Planters</label>
+						<input
+							type='checkbox'
+							value='Pots & Planters'
+							defaultChecked={category.includes(
+								"Pots & Planters"
+							)}
+							onChange={(e) => handleChange(e)}
+						/>
+					</div>
+					<div>
+						<label>Aquariums & Terrariums</label>
+						<input
+							type='checkbox'
+							value='Aquariums & Terrariums'
+							defaultChecked={category.includes(
+								"Aquariums & Terrariums"
+							)}
+							onChange={(e) => handleChange(e)}
+						/>
+					</div>
+					<div>
+						<label>Table Fountains</label>
+						<input
+							type='checkbox'
+							value='Table Fountains'
+							defaultChecked={category.includes(
+								"Table Fountains"
+							)}
+							onChange={(e) => handleChange(e)}
+						/>
+					</div>
+					<div>
+						<label>Garden Accessories</label>
+						<input
+							type='checkbox'
+							value='Garden Accessories'
+							defaultChecked={category.includes(
+								"Garden Accessories"
+							)}
+							onChange={(e) => handleChange(e)}
+						/>
+					</div>
+				</div>
 				{/* <label>Wall Art</label>
 				<input type='checkbox' value='wall_art' /> */}
-			</div>
 
-			{/* sort by price  */}
+				{/* sort by price  */}
 
-			<div onChange={handleSortBy}>
-				<input
-					type='radio'
-					name='sortBy'
-					value='asc'
-					defaultChecked={sortBy === "asc"}
-				/>
-				<input
-					type='radio'
-					name='sortBy'
-					value='desc'
-					defaultChecked={sortBy === "desc"}
-				/>
+				<div onChange={handleSortBy}>
+					<label>Highest Price</label>
+
+					<input
+						type='radio'
+						name='sortBy'
+						value='asc'
+						defaultChecked={sortBy === "asc"}
+					/>
+					<label>Lowest Price</label>
+
+					<input
+						type='radio'
+						name='sortBy'
+						value='desc'
+						defaultChecked={sortBy === "desc"}
+					/>
+				</div>
 			</div>
 
 			{data &&
@@ -106,7 +178,7 @@ const Products = () => {
 				))}
 		</div>
 	);
-};
+};;
 
 
 export default Products;
