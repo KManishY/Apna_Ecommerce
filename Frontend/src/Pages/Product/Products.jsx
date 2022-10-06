@@ -11,8 +11,12 @@ const Products = () => {
 	console.log("searchParams: ", searchParams.getAll("allProduct"));
 
 	const initialProductParams = searchParams.getAll("allProduct");
+	const initialSortParams = searchParams.get("sortBy");
 
 	const [category, setCategory] = useState(initialProductParams || []);
+
+	const [sortBy, setSortBy] = useState(initialSortParams || "");
+	console.log("sortBy: ", sortBy);
 
 	const handleChange = (e) => {
 		const option = e.target.value;
@@ -25,11 +29,15 @@ const Products = () => {
 		setCategory(newCat);
 	};
 
+	const handleSortBy = (e) => {
+		setSortBy(e.target.value);
+	};
+
 	useEffect(() => {
-		if (category) {
-			setSearchParams({ allProduct: category });
+		if (category || sortBy) {
+			setSearchParams({ allProduct: category, sortBy: sortBy });
 		}
-	}, [category, setSearchParams]);
+	}, [category, setSearchParams, sortBy]);
 	useEffect(() => {
 		if (location || data.length == 0) {
 			const query = {
@@ -40,19 +48,6 @@ const Products = () => {
 			dispatch(getData(query));
 		}
 	}, [location.search]);
-
-	// 	if (location || musicRecordes.length === 0) {
-	// 		const sortBy = searchParams.get("sortBy");
-	// 		const query = {
-	// 			params: {
-	// 				genre: searchParams.getAll("genre"),
-	// 				_sort: sortBy && "year",
-	// 				_order: sortBy,
-	// 			},
-	// 		};
-	// 		dispatch(getMusicRecord(query));
-	// 	}
-	// }, [location.search]);
 
 	return (
 		<div>
@@ -78,9 +73,19 @@ const Products = () => {
 
 			{/* sort by price  */}
 
-			<div>
-				<button>ascending</button>
-				<button>decending</button>
+			<div onChange={handleSortBy}>
+				<input
+					type='radio'
+					name='sortBy'
+					value='asc'
+					defaultChecked={sortBy === "asc"}
+				/>
+				<input
+					type='radio'
+					name='sortBy'
+					value='desc'
+					defaultChecked={sortBy === "desc"}
+				/>
 			</div>
 
 			{data &&
@@ -101,37 +106,7 @@ const Products = () => {
 				))}
 		</div>
 	);
-};;;;;;
+};
 
-// prod_name: {
-// 		type: String,
-// 		required: true
-// 	},
-// 	prod_cat: {
-// 		type: String,
-// 		required: true
-// 		// unique: true
-// 	},
-// 	prod_price: {
-// 		type: String,
-// 		required: true
-// 		// unique: true
-// 	},
-// 	prod_rating: {
-// 		type: String,
-// 		required: true
-// 	},
-// 	prod_desc: {
-// 		type: String,
-// 		// unique: true,
-// 		required: true
-// 	},
-// 	prod_tag: {
-// 		type: String,
-// 		required: true
-// 	},
-// 	prod_image: {
-// 		type: String
-// 	}
 
 export default Products;
