@@ -7,10 +7,10 @@ require("dotenv").config();
 
 const userProductController = Router();
 
-userProductController.get("/", async (req, res) => {
-	const product = await ProductModel.find();
-	res.status(200).json(product);
-});
+// userProductController.get("/", async (req, res) => {
+// 	const product = await ProductModel.find();
+// 	res.status(200).json(product);
+// });
 userProductController.get("/cart", async (req, res) => {
 	const product = await CartModel.find();
 	res.status(200).json(product);

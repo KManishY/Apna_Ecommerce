@@ -39,7 +39,7 @@ const Products = () => {
 							height='100px'
 							src={item.prod_image}
 						/>
-						{/* <button onClick={handleClick}>add to cart</button> */}
+						<button onClick={handleClick}>add to cart</button>
 					</div>
 				))}
 		</div>

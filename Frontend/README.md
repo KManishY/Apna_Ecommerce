@@ -6,3 +6,6 @@ This is E Commerce website  where you can find different types of products which
 - [Manish Kumar]("https://github.com/kmanishy") 
 
 
+### Add to cart 
+- create action
+- create reducer
