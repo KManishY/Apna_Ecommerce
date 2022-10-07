@@ -53,7 +53,7 @@ export const reducer = (oldState = initialState, { type, payload }) => {
 		case GET_CART_DATA_SUCCESS:
 			return {
 				isLoading: false,
-				message: payload
+				cart: payload
 			};
 		case GET_CART_DATA_FAIL:
 			return {

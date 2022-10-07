@@ -24,4 +24,11 @@ dataController.get("/", async (req, res) => {
 	res.status(200).json(product);
 });
 
+
+dataController.get("/cartData", async (req, res) => {
+	const ids = req.body;
+	const cartData = await ProductModel.find({});
+});
+
+
 module.exports = { dataController };
