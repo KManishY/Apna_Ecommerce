@@ -1,0 +1,23 @@
+.min_div{
+    display: grid;
+    grid-template-columns: 300px ;
+    gap: 20px;
+    border: 1px solid gray;
+    /* background-color: rebeccapurple; */
+}
+.Filter_main_div{
+    display: grid;
+    grid-template-columns: 400px ;
+    gap: 10px;
+    /* background-color: aqua;
+     */
+     /* background-color: yellow; */
+     border: 1px solid red;
+}
+
+
+/* sorting */
+.sorting_div{
+    display: flex;
+    gap: 20px;
+}
