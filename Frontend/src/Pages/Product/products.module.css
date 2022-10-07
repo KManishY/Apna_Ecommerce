@@ -1,7 +1,24 @@
 .main_div{
-    display: grid;
-    grid-template-columns: 300px 930px;
-    gap: 30px;
+    width:90%;
+    margin: auto;
+    margin-top:20px;
+
+}
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+.zoom {
+  /* padding: 50px; */
+  transition: transform .2s; /* Animation */
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 .products_div{
     display: grid;

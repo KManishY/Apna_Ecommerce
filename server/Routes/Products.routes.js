@@ -5,24 +5,126 @@ const dataController = Router();
 
 dataController.get("/", async (req, res) => {
 	const a = req.query.params;
-	// console.log("a: ", a);
+	console.log("a: ", a);
 
-	let product;
-	if (a.sort == "asc" && a.category) {
-		product = await ProductModel.find({ prod_cat: a.category }).sort({
-			prod_price: -1
-		});
-	} else if (a.sort == "desc" && a.category) {
-		product = await ProductModel.find({ prod_cat: a.category }).sort({
-			prod_price: 1
-		});
-	} else if (a.sort == "" || a.category) {
-		product = await ProductModel.find({ prod_cat: a.category });
-	} else {
-		product = await ProductModel.find();
+	if (a.sort == "asc" && a.category && a.sortByRating == "high") {
+		let product = await ProductModel.find({
+			prod_cat: a.category,
+			prod_rating: { $gte: 4 }
+		})
+			.sort({
+				prod_price: -1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+		return res.status(200).json(product);
 	}
-	res.status(200).json(product);
+	// ---
+	else if (a.sort == "desc" && a.category && a.sortByRating == "low") {
+		let product = await ProductModel.find({
+			prod_cat: a.category,
+			prod_rating: { $lte: 3 }
+		})
+			.sort({
+				prod_price: 1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+		return res.status(200).json(product);
+	}
+	// --
+	else if (a.sort == "asc" && a.sortByRating == "low") {
+		let product = await ProductModel.find({ prod_rating: { $lte: 3 } })
+			.sort({
+				prod_price: -1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+
+		return res.status(200).json(product);
+	} else if (a.sort == "asc" && a.sortByRating == "high") {
+		let product = await ProductModel.find({ prod_rating: { $gte: 4 } })
+			.sort({
+				prod_price: -1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+
+		return res.status(200).json(product);
+	}
+	//----
+	else if (a.sort == "desc" && a.sortByRating == "low") {
+		let product = await ProductModel.find({ prod_rating: { $lte: 3 } })
+			.sort({
+				prod_price: 1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+		return res.status(200).json(product);
+	} else if (a.sort == "desc" && a.sortByRating == "high") {
+		let product = await ProductModel.find({ prod_rating: { $gte: 4 } })
+			.sort({
+				prod_price: 1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+		return res.status(200).json(product);
+	}
+	//_--
+	else if (a.category && a.sortByRating == "low") {
+		let product = await ProductModel.find({
+			prod_cat: a.category,
+			prod_rating: { $lte: 3 }
+		});
+		return res.status(200).json(product);
+	} else if (a.category && a.sortByRating == "high") {
+		let product = await ProductModel.find({
+			prod_cat: a.category,
+			prod_rating: { $gte: 4 }
+		});
+		return res.status(200).json(product);
+	} else if (a.category) {
+		let product = await ProductModel.find({
+			prod_cat: a.category
+		});
+		return res.status(200).json(product);
+	}
+
+	//-----
+	else if (a.sortByRating == "high") {
+		let product = await ProductModel.find({ prod_rating: { $gte: 4 } });
+		return res.status(200).json(product);
+	} else if (a.sortByRating == "low") {
+		let product = await ProductModel.find({ prod_rating: { $lte: 3 } });
+		return res.status(200).json(product);
+	} else if (a.sort == "asc") {
+		let product = await ProductModel.find()
+			.sort({
+				prod_price: -1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+
+		return res.status(200).json(product);
+	}
+
+	//---------
+	else if (a.sort == "desc") {
+		let product = await ProductModel.find()
+			.sort({
+				prod_price: 1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+		return res.status(200).json(product);
+	}
+
+	//---------
+	else if (a.category) {
+		let product = await ProductModel.find({ prod_cat: a.category });
+		return res.status(200).json(product);
+	}
+
+	//---------
+	else {
+		let product = await ProductModel.find();
+		return res.status(200).json(product);
+	}
 });
+
+
 
 
 dataController.get("/cartData", async (req, res) => {
