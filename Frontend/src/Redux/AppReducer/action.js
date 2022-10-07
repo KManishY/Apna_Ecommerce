@@ -9,7 +9,10 @@ import {
 	POST_CART_DATA_FAIL,
 	POST_CART_DATA_REQUEST,
 	POST_CART_DATA_SUCCESS,
-	GET_DATA_FAIL
+	GET_DATA_FAIL,
+	POST_CART_AllDATA_FAIL,
+	POST_CART_AllDATA_SUCCESS,
+	POST_CART_AllDATA_REQUEST
 } from "./constants.js";
 
 export const getData = (params) => (dispatch) => {
@@ -59,10 +62,6 @@ export const postCartData = (payload) => (dispatch) => {
 		});
 };
 
-// export const GET_CART_DATA_REQUEST = "GET_CART_DATA_REQUEST";
-// export const GET_CART_DATA_SUCCESS = "GET_CART_DATA_SUCCESS";
-// export const GET_CART_DATA_FAIL = "GET_CART_DATA_FAIL";
-
 export const getCartData = () => async (dispatch) => {
 	console.log("hello action");
 
@@ -87,3 +86,29 @@ export const getCartData = () => async (dispatch) => {
 			return dispatch({ type: GET_CART_DATA_FAIL });
 		});
 };
+
+// export const postCartDataAll = (payload) => async (dispatch) => {
+// 	console.log("payload: ", payload);
+// 	console.log("hello action");
+
+// 	dispatch({ type: POST_CART_AllDATA_REQUEST });
+// 	// return await axios({
+// 	// 	method: "post",
+// 	// 	url: "/getAllProduct/cartData",
+// 	// 	baseURL: "http://localhost:8080",
+// 	// 	data: payload
+// 	// })
+// 	return axios
+// 		.post("http://localhost:8080/getAllProduct/cartData", payload)
+// 		.then((response) => {
+// 			// console.log("hello action");
+// 			console.log(response.data);
+// 			return dispatch({
+// 				type: POST_CART_AllDATA_SUCCESS,
+// 				payload: response.data
+// 			});
+// 		})
+// 		.catch((err) => {
+// 			return dispatch({ type: POST_CART_AllDATA_FAIL });
+// 		});
+// };

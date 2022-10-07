@@ -15,9 +15,7 @@ const Products = () => {
 	const handleClick = (item) => {
 		const payload = {
 			token: token,
-			data: {
-				Prod_id: item._id
-			}
+			data: item
 		};
 		dispatch(postCartData(payload));
 	};
