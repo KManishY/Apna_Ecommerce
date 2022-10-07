@@ -7,6 +7,7 @@ import React from "react";
 import Navbar from "../Components/Navbar.jsx";
 import Login from "../Pages/Login_Signup/Login";
 import Signup from "../Pages/Login_Signup/Signup.jsx";
+import Cart from "../Pages/Cart/Cart.jsx";
 
 const AllRoutes = () => {
 	return (
@@ -17,7 +18,9 @@ const AllRoutes = () => {
 				<Route exact path='/signup' element={<Signup />} />
 				<Route exact path='/login' element={<Login />} />
 				<Route exact path='/checkout' element={<Checkout />} />
+
 				<Route exact path='/product' element={<Products />} />
+				<Route exact path='/cart' element={<Cart />} />
 				<Route path='*' element={<Error />} />
 			</Routes>
 		</div>

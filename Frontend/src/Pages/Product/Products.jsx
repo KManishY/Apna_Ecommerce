@@ -2,12 +2,26 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
 import Filter from "../../Components/Filter.jsx";
-import { getData } from "../../Redux/AppReducer/action.js";
+import { getData, postCartData } from "../../Redux/AppReducer/action.js";
 const Products = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	let { data } = useSelector((state) => state.AppReducer);
 	const [searchParams] = useSearchParams();
+	//! userEmail, Prod_id, count;
+
+	const token = localStorage.getItem("token");
+	// console.log("token: ", token);
+	const handleClick = (item) => {
+		// console.log("item: ", item);
+		const payload = {
+			token: token,
+			data: {
+				Prod_id: item._id
+			}
+		};
+		dispatch(postCartData(payload));
+	};
 
 	useEffect(() => {
 		if (location || data.length == 0) {
@@ -39,7 +53,9 @@ const Products = () => {
 							height='100px'
 							src={item.prod_image}
 						/>
-						<button onClick={handleClick}>add to cart</button>
+						<button onClick={() => handleClick(item)}>
+							add to cart
+						</button>
 					</div>
 				))}
 		</div>

@@ -9,7 +9,7 @@ import {
 } from "./constants.js";
 
 export const login = (payload) => (dispatch) => {
-	// console.log("payload: ", payload);
+	console.log("payload: ", payload);
 	dispatch({ type: LOGIN_REQUEST });
 	return axios({
 		method: "post",
@@ -18,7 +18,11 @@ export const login = (payload) => (dispatch) => {
 		data: payload
 	})
 		.then((r) => {
-			return dispatch({ type: LOGIN_SUCCESS, payload: r.data.token });
+			console.log("r: ", r.data);
+			setTimeout(() => {
+				localStorage.setItem("token", r.data);
+			}, 100);
+			return dispatch({ type: LOGIN_SUCCESS, payload: r.data });
 		})
 		.catch((e) => dispatch({ type: LOGIN_FAILURE }));
 };

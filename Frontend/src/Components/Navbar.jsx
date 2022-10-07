@@ -35,6 +35,9 @@ const Navbar = () => {
 							<Link className={styled.abc} to='/product'>
 								Product
 							</Link>
+							<Link className={styled.abc} to='/cart'>
+								Cart
+							</Link>
 						</div>
 						<div
 							className={styled.hamburger}

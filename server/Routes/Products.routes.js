@@ -5,7 +5,7 @@ const dataController = Router();
 
 dataController.get("/", async (req, res) => {
 	const a = req.query.params;
-	console.log("a: ", a);
+	// console.log("a: ", a);
 
 	let product;
 	if (a.sort == "asc" && a.category) {

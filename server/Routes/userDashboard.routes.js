@@ -12,7 +12,8 @@ const userProductController = Router();
 // 	res.status(200).json(product);
 // });
 userProductController.get("/cart", async (req, res) => {
-	const product = await CartModel.find();
+	const product = await CartModel.find({ userEmail: req.body.userEmail });
+	console.log("product:cart ", product);
 	res.status(200).json(product);
 });
 
