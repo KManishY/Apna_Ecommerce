@@ -5,7 +5,6 @@ const dataController = Router();
 
 dataController.get("/", async (req, res) => {
 	const a = req.query.params;
-	console.log("a: ", a);
 
 	if (a.sort == "asc" && a.category && a.sortByRating == "high") {
 		let product = await ProductModel.find({
@@ -124,10 +123,7 @@ dataController.get("/", async (req, res) => {
 	}
 });
 
-
-
-
-dataController.get("/cartData", async (req, res) => {
+dataController.post("/cartData", async (req, res) => {
 	const ids = req.body;
 	const cartData = await ProductModel.find({});
 });

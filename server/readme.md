@@ -47,3 +47,9 @@ detail user have to fill at the time of registration
 
 #### Login 
 
+
+
+
+###  posting all data to cart and get all using userDashboard
+
+- action => postCartData => payload= [data]
