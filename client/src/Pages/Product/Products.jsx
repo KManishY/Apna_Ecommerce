@@ -4,32 +4,27 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import Filter from "../../Components/Filter.jsx";
 import { getData, postCartData } from "../../Redux/AppReducer/action.js";
 import styled from "./products.module.css";
-import { Box, Button, Container, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 const Products = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
-	let { data } = useSelector((state) => state.AppReducer);
-	let { message } = useSelector((state) => state.AppReducer);
-	console.log("message: ", message);
-	console.log("data: ", data);
+	//! Product data comming from store
+	let { data, message } = useSelector((state) => state.AppReducer);
 	const [searchParams] = useSearchParams();
 	const token = localStorage.getItem("token");
-	const [state, setState] = useState(true);
-	const handleClick = async (item) => {
-		setTimeout(() => {
-			setState(false);
-		}, 1000);
+	//! add to cart function
+	const handleClick = (item) => {
 		const payload = {
 			token: token,
 			data: item
 		};
+		console.log(payload);
 		dispatch(postCartData(payload));
-		// setTimeout(() => {
-		// 	alert(message);
-		// }, 2000);
 	};
+	//! Problem :- when my handle click function is called after that my product data
+	//! is getting undefined
+
 	useEffect(() => {
-		console.log("hhj");
 		if (location || data.length == 0) {
 			const sortBy = searchParams.get("sortBy");
 			const sortByRating = searchParams.get("sortByRating");
@@ -41,9 +36,11 @@ const Products = () => {
 					sortByRating: sortByRating
 				}
 			};
+			//! dispatching getData function
 			dispatch(getData(query));
 		}
-	}, [location.search, state]);
+	}, [location.search]);
+	console.log(data);
 
 	return (
 		<div className={styled.main_div}>
@@ -100,6 +97,6 @@ const Products = () => {
 			</Flex>
 		</div>
 	);
-};;
+};;;
 
 export default Products;

@@ -13,6 +13,7 @@ import {
 	POST_CART_DATA_SUCCESS
 } from "./constants.js";
 
+// storeing all data into data :[]
 const initialState = {
 	isAuth: false,
 	data: [],
@@ -30,6 +31,7 @@ export const reducer = (oldState = initialState, { type, payload }) => {
 			};
 		case GET_DATA_SUCCESS:
 			return {
+				...oldState,
 				isLoading: false,
 				data: payload
 			};
@@ -41,11 +43,14 @@ export const reducer = (oldState = initialState, { type, payload }) => {
 			return {
 				isLoading: true
 			};
+
 		case POST_CART_DATA_SUCCESS:
 			return {
+				...oldState,
 				isLoading: false,
 				message: payload
 			};
+
 		case POST_CART_DATA_FAIL:
 			return {
 				isError: true
@@ -56,6 +61,7 @@ export const reducer = (oldState = initialState, { type, payload }) => {
 			};
 		case GET_CART_DATA_SUCCESS:
 			return {
+				...oldState,
 				isLoading: false,
 				cart: payload
 			};

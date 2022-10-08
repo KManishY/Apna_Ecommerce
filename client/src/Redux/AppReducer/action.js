@@ -14,7 +14,7 @@ import {
 	POST_CART_AllDATA_SUCCESS,
 	POST_CART_AllDATA_REQUEST
 } from "./constants.js";
-
+//! product data function 
 export const getData = (params) => (dispatch) => {
 	dispatch({ type: GET_DATA_REQUEST });
 	return axios({
@@ -24,7 +24,6 @@ export const getData = (params) => (dispatch) => {
 		params
 	})
 		.then((response) => {
-			// console.log(response.data);
 			return dispatch({ type: GET_DATA_SUCCESS, payload: response.data });
 		})
 		.catch((err) => {
@@ -32,14 +31,12 @@ export const getData = (params) => (dispatch) => {
 		});
 };
 
-//? required to post data
-//! userEmail, Prod_id, count;
+
 
 const token = localStorage.getItem("token");
-console.log("token: ", token);
-
+// console.log("token: ", token);
+//! add to cart function 
 export const postCartData = (payload) => (dispatch) => {
-	console.log("payload: ", payload.data);
 	dispatch({ type: POST_CART_DATA_REQUEST });
 	return axios({
 		method: "post",
@@ -51,22 +48,23 @@ export const postCartData = (payload) => (dispatch) => {
 		data: payload.data
 	})
 		.then((response) => {
-			alert(response.data.message);
-			return dispatch({
+			// alert(response.data.message);
+
+			dispatch({
 				type: POST_CART_DATA_SUCCESS,
 				payload: response.data.message
 			});
 		})
 		.catch((err) => {
-			return dispatch({ type: POST_CART_DATA_FAIL });
+			dispatch({ type: POST_CART_DATA_FAIL });
 		});
 };
-
-export const getCartData = () => async (dispatch) => {
+//! get data from cart
+export const getCartData = () => (dispatch) => {
 	console.log("hello action");
 
 	dispatch({ type: GET_CART_DATA_REQUEST });
-	return await axios({
+	return axios({
 		method: "get",
 		url: "/userDashboard/cart",
 		baseURL: "http://localhost:8080",
