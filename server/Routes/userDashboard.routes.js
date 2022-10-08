@@ -27,9 +27,16 @@ userProductController.post("/create", async (req, res) => {
 		prod_rating,
 		prod_desc,
 		prod_tag,
-		prod_image
+		prod_image,
+		prod_discount
 	} = req.body;
-	console.log(req.body);
+	let alreadyData = await CartModel.findOne({
+		userEmail: req.body.userEmail,
+		prod_id: _id
+	});
+	if (alreadyData) {
+		return res.status(200).send({ message: "Product is already present" });
+	}
 
 	const product = new CartModel({
 		prod_id: _id,
@@ -40,10 +47,11 @@ userProductController.post("/create", async (req, res) => {
 		prod_rating,
 		prod_desc,
 		prod_tag,
+		prod_discount,
 		prod_image
 	});
 	try {
-		// await product.save();
+		await product.save();
 		res.status(200).send({ message: "Product added Successfully" });
 	} catch (error) {
 		console.log("error: ", error);
@@ -54,7 +62,6 @@ userProductController.post("/create", async (req, res) => {
 userProductController.delete("/delete/:id", async (req, res) => {
 	const { id } = req.params;
 	const { userEmail } = req.body;
-	// console.log("blhghgj", id, userEmail);
 	try {
 		await CartModel.findOneAndDelete({
 			_id: id,

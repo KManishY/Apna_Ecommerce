@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const cartSchema = new mongoose.Schema({
-	Prod_id: {
+	prod_id: {
 		type: String,
+		unique: true,
 		required: true
 	},
 	userEmail: {
@@ -38,7 +39,10 @@ const cartSchema = new mongoose.Schema({
 	prod_image: {
 		type: String
 	},
-	count: { type: Number }
+	prod_discount: {
+		type: String
+	},
+	count: { type: Number, default: 1 }
 });
 
 const CartModel = mongoose.model("cart", cartSchema);

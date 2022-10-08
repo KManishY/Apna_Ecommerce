@@ -51,7 +51,7 @@ export const postCartData = (payload) => (dispatch) => {
 		data: payload.data
 	})
 		.then((response) => {
-			// console.log(response.data);
+			alert(response.data.message);
 			return dispatch({
 				type: POST_CART_DATA_SUCCESS,
 				payload: response.data.message
@@ -76,7 +76,6 @@ export const getCartData = () => async (dispatch) => {
 	})
 		.then((response) => {
 			// console.log("hello action");
-			console.log(response.data);
 			return dispatch({
 				type: GET_CART_DATA_SUCCESS,
 				payload: response.data
@@ -87,28 +86,3 @@ export const getCartData = () => async (dispatch) => {
 		});
 };
 
-// export const postCartDataAll = (payload) => async (dispatch) => {
-// 	console.log("payload: ", payload);
-// 	console.log("hello action");
-
-// 	dispatch({ type: POST_CART_AllDATA_REQUEST });
-// 	// return await axios({
-// 	// 	method: "post",
-// 	// 	url: "/getAllProduct/cartData",
-// 	// 	baseURL: "http://localhost:8080",
-// 	// 	data: payload
-// 	// })
-// 	return axios
-// 		.post("http://localhost:8080/getAllProduct/cartData", payload)
-// 		.then((response) => {
-// 			// console.log("hello action");
-// 			console.log(response.data);
-// 			return dispatch({
-// 				type: POST_CART_AllDATA_SUCCESS,
-// 				payload: response.data
-// 			});
-// 		})
-// 		.catch((err) => {
-// 			return dispatch({ type: POST_CART_AllDATA_FAIL });
-// 		});
-// };

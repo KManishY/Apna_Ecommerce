@@ -63,24 +63,7 @@ export const reducer = (oldState = initialState, { type, payload }) => {
 			return {
 				isError: true
 			};
-		// case POST_CART_AllDATA_REQUEST:
-		// 	return {
-		// 		isLoading: true
-		// 	};
-		// case POST_CART_AllDATA_SUCCESS:
-		// 	return {
-		// 		isLoading: false,
-		// 		allCartData: payload
-		// 	};
-		// case POST_CART_AllDATA_FAIL:
-		// 	return {
-		// 		isError: true
-		// 	};
-
 		default:
 			return oldState;
 	}
 };
-// export const POST_CART_DATA_REQUEST = "POST_CART_DATA_REQUEST";
-// export const POST_CART_DATA_SUCCESS = "POST_CART_DATA_SUCCESS";
-// export const POST_CART_DATA_FAIL = "POST_CART_DATA_FAIL";

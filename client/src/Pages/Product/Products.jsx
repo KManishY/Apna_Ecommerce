@@ -9,17 +9,27 @@ const Products = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	let { data } = useSelector((state) => state.AppReducer);
+	let { message } = useSelector((state) => state.AppReducer);
+	console.log("message: ", message);
 	console.log("data: ", data);
 	const [searchParams] = useSearchParams();
 	const token = localStorage.getItem("token");
-	const handleClick = (item) => {
+	const [state, setState] = useState(true);
+	const handleClick = async (item) => {
+		setTimeout(() => {
+			setState(false);
+		}, 1000);
 		const payload = {
 			token: token,
 			data: item
 		};
 		dispatch(postCartData(payload));
+		// setTimeout(() => {
+		// 	alert(message);
+		// }, 2000);
 	};
 	useEffect(() => {
+		console.log("hhj");
 		if (location || data.length == 0) {
 			const sortBy = searchParams.get("sortBy");
 			const sortByRating = searchParams.get("sortByRating");
@@ -33,7 +43,7 @@ const Products = () => {
 			};
 			dispatch(getData(query));
 		}
-	}, [location.search]);
+	}, [location.search, state]);
 
 	return (
 		<div className={styled.main_div}>

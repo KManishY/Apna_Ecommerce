@@ -23,7 +23,7 @@ userController.post("/register", async (req, res) => {
 			res.status(200).send({ message: "Registerd Successful" });
 		} catch (err) {
 			res.status(502).send({ message: "Already Registered" });
-			console.log("err: ", err);
+			// console.log("err: ", err);
 		}
 	});
 });
