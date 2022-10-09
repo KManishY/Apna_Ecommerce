@@ -167,10 +167,3 @@ export default function Signup() {
 	);
 }
 
-// {
-//     "name":"lovie",
-//     "email": "lovie@gmail.com",
-// 	"password": "123",
-//     "username":"lovie1",
-//     "mobile":"9887654321"
-// }

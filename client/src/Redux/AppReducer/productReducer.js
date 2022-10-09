@@ -11,7 +11,7 @@ const initialState = {
 	isLoading: false,
 	isError: false
 };
-export const reducer = (oldState = initialState, { type, payload }) => {
+export const productReducer = (oldState = initialState, { type, payload }) => {
 	switch (type) {
 		case GET_DATA_REQUEST:
 			return {

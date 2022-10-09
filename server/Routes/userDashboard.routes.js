@@ -61,10 +61,11 @@ userProductController.post("/create", async (req, res) => {
 
 userProductController.delete("/delete/:id", async (req, res) => {
 	const { id } = req.params;
+	console.log("id: ", id);
 	const { userEmail } = req.body;
 	try {
 		await CartModel.findOneAndDelete({
-			_id: id,
+			prod_id: id,
 			userEmail
 		});
 		res.status(200).send({ message: "Product delete successfully" });

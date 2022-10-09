@@ -9,7 +9,7 @@ const Products = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	//! Product data comming from store
-	let { data, message } = useSelector((state) => state.AppReducer);
+	let { data, message } = useSelector((state) => state.productReducer);
 	const [searchParams] = useSearchParams();
 	const token = localStorage.getItem("token");
 	//! add to cart function

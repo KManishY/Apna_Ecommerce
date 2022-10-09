@@ -1,13 +1,7 @@
 import {
-	GET_CART_DATA_FAIL,
-	GET_CART_DATA_REQUEST,
-	GET_CART_DATA_SUCCESS,
-	GET_DATA_FAIL,
-	GET_DATA_REQUEST,
-	GET_DATA_SUCCESS,
-	POST_CART_AllDATA_FAIL,
-	POST_CART_AllDATA_REQUEST,
-	POST_CART_AllDATA_SUCCESS,
+	DELETE_CART_DATA_FAIL,
+	DELETE_CART_DATA_REQUEST,
+	DELETE_CART_DATA_SUCCESS,
 	POST_CART_DATA_FAIL,
 	POST_CART_DATA_REQUEST,
 	POST_CART_DATA_SUCCESS
@@ -17,28 +11,14 @@ import {
 const initialState = {
 	isAuth: false,
 	data: [],
-	cart: [],
-	allCartData: [],
+
+	deleteMessage: "",
 	message: "",
 	isLoading: false,
 	isError: false
 };
 export const reducer = (oldState = initialState, { type, payload }) => {
 	switch (type) {
-		case GET_DATA_REQUEST:
-			return {
-				isLoading: true
-			};
-		case GET_DATA_SUCCESS:
-			return {
-				...oldState,
-				isLoading: false,
-				data: payload
-			};
-		case GET_DATA_FAIL:
-			return {
-				isError: true
-			};
 		case POST_CART_DATA_REQUEST:
 			return {
 				isLoading: true
@@ -55,17 +35,18 @@ export const reducer = (oldState = initialState, { type, payload }) => {
 			return {
 				isError: true
 			};
-		case GET_CART_DATA_REQUEST:
+
+		case DELETE_CART_DATA_REQUEST:
 			return {
 				isLoading: true
 			};
-		case GET_CART_DATA_SUCCESS:
+		case DELETE_CART_DATA_SUCCESS:
 			return {
 				...oldState,
 				isLoading: false,
-				cart: payload
+				deleteMessage: payload
 			};
-		case GET_CART_DATA_FAIL:
+		case DELETE_CART_DATA_FAIL:
 			return {
 				isError: true
 			};
@@ -73,3 +54,8 @@ export const reducer = (oldState = initialState, { type, payload }) => {
 			return oldState;
 	}
 };
+
+
+// DELETE_CART_DATA_REQUEST = "DELETE_CART_DATA_REQUEST";
+// export const DELETE_CART_DATA_SUCCESS = "DELETE_CART_DATA_SUCCESS";
+// export const DELETE_CART_DATA_FAIL = "DELETE_CART_DATA_FAIL";

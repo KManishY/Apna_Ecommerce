@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const cartSchema = new mongoose.Schema({
 	prod_id: {
 		type: String,
-		unique: true,
+		// unique: true,
 		required: true
 	},
 	userEmail: {

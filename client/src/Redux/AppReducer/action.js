@@ -1,18 +1,17 @@
 import axios from "axios";
 import {
-	GET_CART_DATA_FAIL,
 	GET_CART_DATA_REQUEST,
 	GET_CART_DATA_SUCCESS,
-	GT_DATA_FAIL,
+	GET_CART_DATA_FAIL,
 	GET_DATA_REQUEST,
 	GET_DATA_SUCCESS,
-	POST_CART_DATA_FAIL,
+	GET_DATA_FAIL,
 	POST_CART_DATA_REQUEST,
 	POST_CART_DATA_SUCCESS,
-	GET_DATA_FAIL,
-	POST_CART_AllDATA_FAIL,
-	POST_CART_AllDATA_SUCCESS,
-	POST_CART_AllDATA_REQUEST
+	POST_CART_DATA_FAIL,
+	DELETE_CART_DATA_REQUEST,
+	DELETE_CART_DATA_SUCCESS,
+	DELETE_CART_DATA_FAIL
 } from "./constants.js";
 //! product data function 
 export const getData = (params) => (dispatch) => {
@@ -48,7 +47,7 @@ export const postCartData = (payload) => (dispatch) => {
 		data: payload.data
 	})
 		.then((response) => {
-			// alert(response.data.message);
+			alert(response.data.message);
 
 			dispatch({
 				type: POST_CART_DATA_SUCCESS,
@@ -84,3 +83,37 @@ export const getCartData = () => (dispatch) => {
 		});
 };
 
+//! delete data from cart
+export const deleteCartData = ({params}) => (dispatch) => {
+	console.log("params: ", params);
+	
+	dispatch({ type: DELETE_CART_DATA_REQUEST });
+	return (
+		axios({
+			method: "delete",
+			url: `/userDashboard/delete/${params}`,
+			baseURL: "http://localhost:8080",
+			headers: {
+				Authorization: token
+			}
+
+			// params
+		})
+			// return axios
+			// 	.delete(`http://localhost:8080/userDashboard/delete/${params}`)
+			.then((response) => {
+				console.log("response: ", response);
+				return dispatch({
+					type: DELETE_CART_DATA_SUCCESS,
+					payload: response.data
+				});
+			})
+			.catch((err) => {
+				return dispatch({ type: DELETE_CART_DATA_FAIL });
+			})
+	);
+};
+
+// DELETE_CART_DATA_REQUEST = "DELETE_CART_DATA_REQUEST";
+// export const DELETE_CART_DATA_SUCCESS = "DELETE_CART_DATA_SUCCESS";
+// export const DELETE_CART_DATA_FAIL = "DELETE_CART_DATA_FAIL";
