@@ -29,7 +29,11 @@ const Login = () => {
 	};
 	const [loginDetails, setLoginDetails] = useState(initialState);
 	// const handleSubmit = () => {};
-	const handleSubmit = () => {
+	const handleChange = (e) => {
+		console.log(loginDetails);
+		setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value });
+	};
+    const handleSubmit = () => {
 		if (loginDetails) {
 			dispatch(login(loginDetails)).then((r) => {
 				if (r.type === LOGIN_SUCCESS) {
@@ -38,10 +42,6 @@ const Login = () => {
 				}
 			});
 		}
-	};
-	const handleChange = (e) => {
-		console.log(loginDetails);
-		setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value });
 	};
 
 	return (
