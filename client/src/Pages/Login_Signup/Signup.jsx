@@ -1,44 +1,32 @@
-import React, { useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
-// import Checkbox from "@material-ui/core/Checkbox";
-// import Link from "@material-ui/core/Link";
-// import Grid from "@material-ui/core/Grid";
-// import Box from "@material-ui/core/Box";
-// import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import { useState } from "react";
+import {
+	Flex,
+	Heading,
+	Input,
+	Button,
+	InputGroup,
+	Stack,
+	InputLeftElement,
+	chakra,
+	Box,
+	// Link,
+	Avatar,
+	FormControl,
+	FormHelperText,
+	InputRightElement
+} from "@chakra-ui/react";
+import { FaUserAlt, FaLock } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../Redux/AuthReducer/action.js";
 import { REGISTER_SUCCESS } from "../../Redux/AuthReducer/constants.js";
-import { useNavigate } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-	paper: {
-		marginTop: theme.spacing(8),
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center"
-	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main
-	},
-	form: {
-		width: "100%",
-		marginTop: theme.spacing(1)
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2)
-	}
-}));
+const CFaUserAlt = chakra(FaUserAlt);
+const CFaLock = chakra(FaLock);
 
-export default function Signup() {
-	const classes = useStyles();
+export default function Login() {
+	const [showPassword, setShowPassword] = useState(false);
+	const handleShowClick = () => setShowPassword(!showPassword);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { status } = useSelector((state) => state.AuthReducer);
@@ -78,92 +66,143 @@ export default function Signup() {
 	};
 
 	return (
-		<Container component='main' maxWidth='xs'>
-			<CssBaseline />
-			<div className={classes.paper}>
-				<Avatar className={classes.avatar}>
-					{/* <LockOutlinedIcon /> */}
-				</Avatar>
-				<Typography component='h1' variant='h5'>
-					Signup Page
-				</Typography>
-				<form className={classes.form}>
-					<TextField
-						variant='outlined'
-						margin='normal'
-						required
-						fullWidth
-						id='name'
-						label='Name'
-						name='name'
-						// value={name}
-						autoComplete='name'
-						autoFocus
-						onChange={(e) => handleChange(e)}
-					/>
-					<TextField
-						variant='outlined'
-						margin='normal'
-						required
-						fullWidth
-						id='email'
-						// value={email}
-						label='Email Address'
-						name='email'
-						autoComplete='email'
-						autoFocus
-						onChange={(e) => handleChange(e)}
-					/>
-					<TextField
-						variant='outlined'
-						margin='normal'
-						required
-						fullWidth
-						// value={password}
-						name='password'
-						label='Password'
-						type='password'
-						id='password'
-						autoComplete='current-password'
-						onChange={(e) => handleChange(e)}
-					/>
-					<TextField
-						variant='outlined'
-						margin='normal'
-						required
-						fullWidth
-						// value={username}
-						name='username'
-						label='Username'
-						type='text'
-						id='username'
-						onChange={(e) => handleChange(e)}
-					/>
-					<TextField
-						variant='outlined'
-						margin='normal'
-						required
-						fullWidth
-						// value={mobile}
-						name='mobile'
-						label='Mobile_Number'
-						type='text'
-						id='mobile'
-						onChange={(e) => handleChange(e)}
-					/>
-
-					<Button
-						fullWidth
-						variant='contained'
-						color='primary'
-						className={classes.submit}
-						onClick={handleSubmit}
-					>
-						Register
-					</Button>
-				</form>
-			</div>
-		</Container>
+		<Flex
+			flexDirection='column'
+			width='100wh'
+			height='100vh'
+			backgroundColor='gray.200'
+			justifyContent='center'
+			alignItems='center'
+		>
+			<Stack
+				flexDir='column'
+				mb='2'
+				justifyContent='center'
+				alignItems='center'
+			>
+				<Avatar bg='teal.500' />
+				<Heading color='teal.400'>Welcome</Heading>
+				<Box minW={{ base: "90%", md: "468px" }}>
+					<form>
+						<Stack
+							spacing={4}
+							p='1rem'
+							backgroundColor='whiteAlpha.900'
+							boxShadow='md'
+						>
+							{/* ---------Name---------  */}
+							<FormControl>
+								<InputGroup>
+									<InputLeftElement
+										pointerEvents='none'
+										children={
+											<CFaUserAlt color='gray.300' />
+										}
+									/>
+									<Input
+										type='text'
+										placeholder='UserName'
+										name='name'
+										onChange={(e) => handleChange(e)}
+									/>
+								</InputGroup>
+							</FormControl>
+							{/* --------username------------  */}
+							<FormControl>
+								<InputGroup>
+									<InputLeftElement
+										pointerEvents='none'
+										children={
+											<CFaUserAlt color='gray.300' />
+										}
+									/>
+									<Input
+										type='text'
+										placeholder='UserName'
+										name='username'
+										onChange={(e) => handleChange(e)}
+									/>
+								</InputGroup>
+							</FormControl>
+							{/* ------------Email------------  */}
+							<FormControl>
+								<InputGroup>
+									<InputLeftElement
+										pointerEvents='none'
+										children={
+											<CFaUserAlt color='gray.300' />
+										}
+									/>
+									<Input
+										type='email'
+										placeholder='Email'
+										name='email'
+										onChange={(e) => handleChange(e)}
+									/>
+								</InputGroup>
+							</FormControl>
+							{/* --------Password------- */}
+							<FormControl>
+								<InputGroup>
+									<InputLeftElement
+										pointerEvents='none'
+										color='gray.300'
+										children={<CFaLock color='gray.300' />}
+									/>
+									<Input
+										type={
+											showPassword ? "text" : "password"
+										}
+										placeholder='Password'
+										name='password'
+										onChange={(e) => handleChange(e)}
+									/>
+									<InputRightElement width='4.5rem'>
+										<Button
+											h='1.75rem'
+											size='sm'
+											onClick={handleShowClick}
+										>
+											{showPassword ? "Hide" : "Show"}
+										</Button>
+									</InputRightElement>
+								</InputGroup>
+							</FormControl>
+							{/* -----------Phone Number----------- */}
+							<FormControl>
+								<InputGroup>
+									<InputLeftElement
+										pointerEvents='none'
+										children={
+											<CFaUserAlt color='gray.300' />
+										}
+									/>
+									<Input
+										type='text'
+										placeholder='Phone Number'
+										name='email'
+										onChange={(e) => handleChange(e)}
+									/>
+								</InputGroup>
+							</FormControl>
+							{/* -------- Sign up Button-------- */}
+							<Button
+								borderRadius={0}
+								type='submit'
+								variant='solid'
+								colorScheme='teal'
+								width='full'
+								onClick={handleSubmit}
+							>
+								Sign Up
+							</Button>
+						</Stack>
+					</form>
+				</Box>
+			</Stack>
+			<Box>
+				<Link to='/login'>already register login</Link>
+			</Box>
+		</Flex>
 	);
 }
-

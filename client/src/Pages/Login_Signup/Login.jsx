@@ -9,7 +9,6 @@ import {
 	InputLeftElement,
 	chakra,
 	Box,
-	Link,
 	Avatar,
 	FormControl,
 	FormHelperText,
@@ -17,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../Redux/AuthReducer/action.js";
 import { LOGIN_SUCCESS } from "../../Redux/AuthReducer/constants.js";
 
@@ -137,11 +136,9 @@ export default function Login() {
 				</Box>
 			</Stack>
 			<Box>
-				New to us?{" "}
-				<Link color='teal.500' href='#'>
-					Sign Up
-				</Link>
+				<Link to='/signup'>New to us? Sign Up</Link>
 			</Box>
 		</Flex>
 	);
 }
+//  "@material-ui/core": "^4.12.4",
