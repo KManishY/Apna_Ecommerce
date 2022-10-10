@@ -45,16 +45,16 @@ const Products = () => {
 	return (
 		<div className={styled.main_div}>
 			{/* filter&& Sorting */}
-			<Flex justify='center'>
-				<Box>
-					<div>
+			<Box justify='center' className={styled.main_flex_box}>
+				<Box >
+					<div className={styled.filter_div}>
 						<Filter />
 					</div>
 				</Box>
-				<Flex wrap='wrap' justifyContent='space-between' gap={3}>
+				<Flex wrap='wrap'  gap={3} className={styled.flex_box}>
 					{data &&
 						data.map((item) => (
-							<Box key={item._id} style={{ width: "330px" }}>
+							<Box key={item._id} style={{ width: "330px" }}className={styled.all_box}>
 								<Box>
 									<img
 										className={styled.zoom}
@@ -74,7 +74,7 @@ const Products = () => {
 									<Flex justifyContent='space-around'>
 										<Box>
 											<Text>
-												<b> &#x20b9; </b>{" "}
+												<b > &#x20b9; </b>{" "}
 												{item.prod_price}
 											</Text>
 										</Box>
@@ -94,7 +94,7 @@ const Products = () => {
 							</Box>
 						))}
 				</Flex>
-			</Flex>
+			</Box>
 		</div>
 	);
 };;;

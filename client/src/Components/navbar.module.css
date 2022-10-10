@@ -3,7 +3,17 @@
 header {
 	width: 100%;
 
-	background-color: blueviolet;
+	background: linear-gradient(180deg, #FFFFFF 0%, #000000 100%), linear-gradient(90deg, #FFFFFF 0%, #000000 100%), #00FFFF;
+background-blend-mode: multiply, screen, normal;
+
+
+}
+.main_div{
+	
+position: sticky;
+top: 0;
+position: -webkit-sticky;
+z-index: 999;
 }
 header .nav {
 	display: flex;
@@ -11,6 +21,7 @@ header .nav {
 	margin-right: 20px;
 	justify-content: space-between;
 	align-items: center;
+	
 }
 header .nav a {
 	text-decoration: none;
@@ -21,6 +32,9 @@ header .nav a {
 	margin-right: 15px;
 	font-family: "Jost", sans-serif;
 	justify-content: right;
+}
+.nav_elem{
+	font-size: 25px;
 }
 
 #nav_icon {
@@ -38,6 +52,7 @@ header .nav a {
 	gap: 10px;
 	font-size: 25px;
 }
+
 
 @media (max-width: 600px) {
 	.hamburger {

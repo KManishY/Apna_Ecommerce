@@ -43,27 +43,29 @@ const Filter = () => {
 
 	return (
 		<Box className={styled.min_div}>
-			<Box className={styled.Filter_main_div}>
-				<Heading size='lg'>Filters</Heading>
-				<Box>
+			<Box className={styled.Filter_main_div} >
+				<Heading 
+				// color={"white"}
+				 size='lg'>Filters</Heading>
+				<Box className={styled.main_box_input}>
 					<input
 						type='checkbox'
 						value='Lamp'
 						defaultChecked={category.includes("Lamp")}
 						onChange={(e) => handleChange(e)}
 					/>
-					<label>Lamp</label>
+					<label className={styled.label}>Lamp</label>
 				</Box>
-				<Box>
+				<Box className={styled.main_box_input}>
 					<input
 						type='checkbox'
 						value='Pots & Planters'
 						defaultChecked={category.includes("Pots & Planters")}
 						onChange={(e) => handleChange(e)}
 					/>
-					<label>Pots & Planters</label>
+					<label className={styled.label}>Pots & Planters</label>
 				</Box>
-				<Box>
+				<Box className={styled.main_box_input}>
 					<input
 						type='checkbox'
 						value='Aquariums & Terrariums'
@@ -72,25 +74,25 @@ const Filter = () => {
 						)}
 						onChange={(e) => handleChange(e)}
 					/>
-					<label>Aquariums & Terrariums</label>
+					<label  className={styled.label}>Aquariums & Terrariums</label>
 				</Box>
-				<Box>
+				<Box className={styled.main_box_input}>
 					<input
 						type='checkbox'
 						value='Table Fountains'
 						defaultChecked={category.includes("Table Fountains")}
 						onChange={(e) => handleChange(e)}
 					/>
-					<label>Table Fountains</label>
+					<label className={styled.label}>Table Fountains</label>
 				</Box>
-				<Box>
+				<Box className={styled.main_box_input}>
 					<input
 						type='checkbox'
 						value='Garden Accessories'
 						defaultChecked={category.includes("Garden Accessories")}
 						onChange={(e) => handleChange(e)}
 					/>
-					<label>Garden Accessories</label>
+					<label className={styled.label}>Garden Accessories</label>
 				</Box>
 			</Box>
 			{/* <label>Wall Art</label>
@@ -98,12 +100,14 @@ const Filter = () => {
 
 			{/* ------------Sort by price---------------  */}
 
-			<Box>
-				<Heading size='lg'>Sorting</Heading>
+			<Box className={styled.Filter_main_div}>
+				<Heading 
+				// color={"white"}
+				 size='lg'>Sorting by Price</Heading>
 
 				<Box onChange={handleSortBy} className={styled.sorting_div}>
-					<Box>
-						<label>Highest Price</label>
+					<Box className={styled.main_box_input}>
+						<label className={styled.label}>Highest Price</label>
 						<input
 							type='radio'
 							name='sortBy'
@@ -111,8 +115,8 @@ const Filter = () => {
 							defaultChecked={sortBy === "asc"}
 						/>
 					</Box>
-					<Box>
-						<label>Lowest Price</label>
+					<Box className={styled.main_box_input}>
+						<label className={styled.label}>Lowest Price</label>
 
 						<input
 							type='radio'
@@ -127,8 +131,11 @@ const Filter = () => {
 					onChange={handleSortByRating}
 					className={styled.sorting_div}
 				>
-					<Box>
-						<label>Highest Rating</label>
+					<Heading size='lg' 
+					// color={"white"}
+					>Sorting by Rating</Heading>
+					<Box className={styled.main_box_input}>
+						<label className={styled.label}>Highest Rating</label>
 						<input
 							type='radio'
 							name='sortByRating'
@@ -136,8 +143,8 @@ const Filter = () => {
 							defaultChecked={sortBy === "high"}
 						/>
 					</Box>
-					<Box>
-						<label>Lowest Rating</label>
+					<Box className={styled.main_box_input}>
+						<label className={styled.label}>Lowest Rating</label>
 
 						<input
 							type='radio'

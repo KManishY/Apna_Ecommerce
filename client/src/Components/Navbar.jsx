@@ -10,7 +10,7 @@ const Navbar = () => {
 	};
 	return (
 		<>
-			<div>
+			<div className={styled.main_div}>
 				<header>
 					<nav className={styled.nav}>
 						<div>
@@ -19,24 +19,29 @@ const Navbar = () => {
 								src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ_XlY_YQ_sb2AsnI0MeajVvqJxDawVOJjwg&usqp=CAU'
 							/>
 						</div>
-						<div>
-							<Link className={styled.abc} to='/'>
-								Home
+						<div > 
+							<Link  className={styled.abc} to='/'>
+								<b className={styled.nav_elem}>Home</b>
 							</Link>
 							<Link className={styled.abc} to='/signup'>
-								Signup
+							<b className={styled.nav_elem}>Signup</b>
+							
 							</Link>
 							<Link className={styled.abc} to='/login'>
-								Login
+								<b className={styled.nav_elem}>Login</b>
+								
 							</Link>
 							<Link className={styled.abc} to='/checkout'>
-								Contact
+								<b className={styled.nav_elem}>Contact</b>
+								
 							</Link>
 							<Link className={styled.abc} to='/product'>
-								Product
+								<b className={styled.nav_elem}>Product</b>
+								
 							</Link>
 							<Link className={styled.abc} to='/cart'>
-								Cart
+								<b className={styled.nav_elem}>Cart</b>
+								
 							</Link>
 						</div>
 						<div
