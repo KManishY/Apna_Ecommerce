@@ -1,32 +1,33 @@
 import {
-	LOGIN_FAILURE,
-	LOGIN_REQUEST,
-	LOGIN_SUCCESS
+	PRODUCT_REQUEST,
+	PRODUCT_SUCCESS,
+	PRODUCT_FAILURE
 } from "../constants/appConstant.js";
 
 const initialState = {
 	isAuth: false,
-	token: "",
+	productData: [],
 	isLoading: false,
 	isError: false
 };
 
-const loginReducer = (oldState = initialState, { type, payload }) => {
+const productReducer = (oldState = initialState, { type, payload }) => {
+	console.log("payload: ", payload);
 	switch (type) {
-		case LOGIN_REQUEST:
+		case PRODUCT_REQUEST:
 			return {
 				...oldState,
 				isLoading: true
 			};
-		case LOGIN_SUCCESS:
+		case PRODUCT_SUCCESS:
 			return {
 				...oldState,
 				isLoading: false,
 				isAuth: true,
 				isError: false,
-				token: payload
+				productData: payload
 			};
-		case LOGIN_FAILURE:
+		case PRODUCT_FAILURE:
 			return {
 				...oldState,
 				isLoading: false,
@@ -37,4 +38,4 @@ const loginReducer = (oldState = initialState, { type, payload }) => {
 	}
 };
 
-export { loginReducer };
+export { productReducer };

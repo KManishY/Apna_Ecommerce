@@ -2,6 +2,7 @@ const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { ProductModel } = require("../Modal/product.module.js");
+const { AuthModel } = require("../Modal/userauth.model.js");
 require("dotenv").config();
 
 const adminProductController = Router();
@@ -9,6 +10,11 @@ const adminProductController = Router();
 adminProductController.get("/", async (req, res) => {
 	const product = await ProductModel.find();
 	res.status(200).json(product);
+});
+adminProductController.get("/users", async (req, res) => {
+	const users = await AuthModel.find();
+	console.log("users: ", users);
+	res.status(200).send(users);
 });
 
 adminProductController.post("/create", async (req, res) => {

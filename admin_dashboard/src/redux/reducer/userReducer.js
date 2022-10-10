@@ -1,32 +1,32 @@
 import {
-	LOGIN_FAILURE,
-	LOGIN_REQUEST,
-	LOGIN_SUCCESS
+	USER_DETAILS_REQUEST,
+	USER_DETAILS_SUCCESS,
+	USER_DETAILS_FAILURE
 } from "../constants/appConstant.js";
 
 const initialState = {
 	isAuth: false,
-	token: "",
+	userData: [],
 	isLoading: false,
 	isError: false
 };
 
-const loginReducer = (oldState = initialState, { type, payload }) => {
+const userReducer = (oldState = initialState, { type, payload }) => {
 	switch (type) {
-		case LOGIN_REQUEST:
+		case USER_DETAILS_REQUEST:
 			return {
 				...oldState,
 				isLoading: true
 			};
-		case LOGIN_SUCCESS:
+		case USER_DETAILS_SUCCESS:
 			return {
 				...oldState,
 				isLoading: false,
 				isAuth: true,
 				isError: false,
-				token: payload
+				userData: payload
 			};
-		case LOGIN_FAILURE:
+		case USER_DETAILS_FAILURE:
 			return {
 				...oldState,
 				isLoading: false,
@@ -37,4 +37,4 @@ const loginReducer = (oldState = initialState, { type, payload }) => {
 	}
 };
 
-export { loginReducer };
+export { userReducer };
