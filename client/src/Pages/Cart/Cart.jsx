@@ -1,53 +1,127 @@
-import { Box, Button, Text } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { EditIcon } from "@chakra-ui/icons";
+import { Box, Button, Heading, IconButton, Text } from "@chakra-ui/react";
+import styled from "@emotion/styled";
+import style from "./cart.module.css";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-	deleteCartData,
-	getCartData,
-	postCartDataAll
+  deleteCartData,
+  getCartData,
+  postCartDataAll,
 } from "../../Redux/AppReducer/action.js";
 
 const Cart = () => {
-	const dispatch = useDispatch();
-	const { cart } = useSelector((state) => state.getCartReducer);
-	console.log("cart: ", cart);
-	if (cart) {
-		const total_price = cart.reduce(
-			(sum, item) => sum + Number(item.prod_price),
-			0
-		);
-		console.log("price", total_price);
-	}
+  const dispatch = useDispatch();
+  const { cart } = useSelector((state) => state.getCartReducer);
+  console.log("cart: ", cart);
+  if (cart) {
+    const total_price = cart.reduce(
+      (sum, item) => sum + Number(item.prod_price),
+      0
+    );
+    console.log("price", total_price);
+  }
+  const [count, setCount] = useState(1);
+  const handelincres = () => {
+    setCount(count + 1);
+  };
+  const handeldec = () => {
+    if (count > 1) {
+      setCount(count - 1);
+    } else {
+      setCount(count);
+    }
+  };
 
-	const handleDelete = (item) => {
-		const query = {
-			params: item
-		};
-		dispatch(deleteCartData(query));
-		dispatch(getCartData());
-	};
+  const handleDelete = (item) => {
+    const query = {
+      params: item,
+    };
+    dispatch(deleteCartData(query));
+    dispatch(getCartData());
+  };
 
-	useEffect(() => {
-		dispatch(getCartData());
-	}, []);
+  useEffect(() => {
+    dispatch(getCartData());
+  }, []);
 
-	return (
-		<Box w='80' m='auto'>
-			{cart &&
-				cart.map((el) => (
-					<Box key={el._id}>
-						<img src={el.prod_image} alt={el.prod_name} />
-						<Text>{el.prod_name}</Text>
-						<Text>{el.prod_price}</Text>
-						<Button onClick={() => handleDelete(el.prod_id)}>
-							delete
-						</Button>
-					</Box>
-				))}
+  const ReadMore = ({ children }) => {
+    const text = children;
+    const [isReadMore, setIsReadMore] = useState(true);
+    const toggleReadMore = () => {
+      setIsReadMore(!isReadMore);
+    };
+    return (
+      <p className="text">
+        {isReadMore ? text.slice(0, 100) : text}
+        <span onClick={toggleReadMore} className="read-or-hide">
+          {isReadMore ? "...read more" : " show less"}
+        </span>
+      </p>
+    )
+  };
+  //   console.log(cart);
 
-			<Button>Order Now</Button>
-		</Box>
-	);
+  return (
+    <Box m="auto" className={style.cart_div}>
+      {cart &&
+        cart.map((el) => (
+          <div key={el._id} className={style.main_div}>
+            <div>
+              <img
+                className={style.img}
+                src={el.prod_image}
+                alt={el.prod_name}
+              />
+            </div>
+
+            <div>
+              {/* product name */}
+              <div>
+                <Heading className={style.product_name}>{el.prod_name}</Heading>
+              </div>
+              {/* product discription */}
+              <div className="container">
+                <ReadMore className={style.prod_description}>
+                  {el.prod_desc}
+                </ReadMore>
+
+                {/* <Text></Text> */}
+              </div>
+
+              <div className={style.price_main_div}>
+                {/* price */}
+
+                {/* discount */}
+                <div>
+                  <Text color={'teal'}> Price: &#x20b9;{el.prod_price*count}</Text>
+                  <Text>
+                    {" "}
+                    Discount: &#x20b9;
+                    <span className={style.discount}>{el.prod_discount}</span>
+                  </Text>
+                </div>
+                <div className={style.inc_dec_main_div}>
+                  <div style={{ display: "flex", gap: "10px" }}>
+                    <button onClick={handelincres}>+</button>
+                    <p>{count}</p>
+                    <button onClick={handeldec}>-</button>
+                  </div>
+                </div>
+              </div>
+              <Button colorScheme="teal"
+                className={style.delete_btn}
+                onClick={() => handleDelete(el.prod_id)}
+              >
+                delete
+              </Button>
+            </div>
+          </div>
+        ))}
+
+      <Button className={style.order_btn}>Order Now</Button>
+    </Box>
+  );
 };
 
 export default Cart;
