@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import {
 	Avatar,
+	Button,
 	Divider,
 	Flex,
 	Heading,
 	IconButton,
 	Text
 } from "@chakra-ui/react";
-import { FiMenu, FiHome } from "react-icons/fi";
+import { FiMenu } from "react-icons/fi";
 import { FaProductHunt } from "react-icons/fa";
 import { ImUsers } from "react-icons/im";
 import { BsCartPlusFill } from "react-icons/bs";
 import NavItem from "./NavItem.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Sidebar = () => {
 	let [navSize, changeNavSize] = useState("large");
+	const navigate = useNavigate();
+	const handleLogout = () => {
+		localStorage.removeItem("authToken");
+		navigate("/login");
+	};
 	return (
 		<div>
 			<Flex
@@ -71,7 +77,8 @@ const Sidebar = () => {
 					p='5%'
 					flexDir='column'
 					w='100%'
-					alignItems={navSize === "small" ? "center" : "flex-start"}
+					// alignItems={navSize === "small" ? "center" : "flex-start"}
+					alignItems='center'
 					mb={4}
 				>
 					<Divider display={navSize === "small" ? "none" : "flex"} />
@@ -93,6 +100,15 @@ const Sidebar = () => {
 							</Heading>
 							<Text color='gray'>Admin</Text>
 						</Flex>
+					</Flex>
+					<Flex
+						mt={5}
+						justifyContent='center'
+						display={navSize === "small" ? "none" : "flex"}
+					>
+						<Button colorScheme='linkedin' onClick={handleLogout}>
+							Logout
+						</Button>
 					</Flex>
 				</Flex>
 			</Flex>

@@ -1,0 +1,8 @@
+.mainDiv{
+    width: 90%;
+    height: 93vh;
+    margin: auto;
+    margin-top: 25px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius :20px;
+}

@@ -7,12 +7,12 @@ import {
 const initialState = {
 	isAuth: false,
 	token: "",
-	status: "",
 	isLoading: false,
 	isError: false
 };
 
 const loginReducer = (oldState = initialState, { type, payload }) => {
+	console.log("payload: ", payload);
 	switch (type) {
 		case LOGIN_REQUEST:
 			return {
