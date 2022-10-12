@@ -47,18 +47,15 @@ const Products = () => {
 	return (
 		<div className={styled.main_div}>
 			{/* filter&& Sorting */}
-			<Box justify='center' className={styled.main_flex_box}>
-				<Box>
-					<div className={styled.filter_div}>
-						<Filter />
-					</div>
-				</Box>
-				<Flex
-					wrap='wrap'
-					gap={3}
-					justify='center'
-					className={styled.flex_box}
-				>
+
+			<div className={styled.side}>
+				<Filter />
+			</div>
+
+			{/* ----------------All Products ---------------- */}
+
+			<div className={styled.main}>
+				<Flex wrap='wrap' gap={3} justify='center'>
 					{data &&
 						data.map((item) => (
 							<Box
@@ -109,7 +106,7 @@ const Products = () => {
 							</Box>
 						))}
 				</Flex>
-			</Box>
+			</div>
 		</div>
 	);
 };;;

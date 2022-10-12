@@ -55,18 +55,20 @@ export default function Login() {
 		<Flex
 			flexDirection='column'
 			width='100wh'
-			height='100vh'
+			height='105.6vh'
 			justifyContent='center'
 			alignItems='center'
+			mt='-110px'
 		>
 			<Stack
+				border='2px solid #070b34'
 				flexDir='column'
 				mb='2'
 				justifyContent='center'
 				alignItems='center'
 			>
-				<Avatar bg='teal.500' />
-				<Heading color='teal.400'>Welcome</Heading>
+				<Avatar bg='#070b34' />
+				<Heading color='#070b34'>Welcome</Heading>
 				<Box minW={{ base: "90%", md: "468px" }}>
 					<form>
 						<Stack
@@ -108,6 +110,10 @@ export default function Login() {
 									/>
 									<InputRightElement width='4.5rem'>
 										<Button
+											style={{
+												color: "white",
+												backgroundColor: "teal"
+											}}
 											h='1.75rem'
 											size='sm'
 											onClick={handleShowClick}

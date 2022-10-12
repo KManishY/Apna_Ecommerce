@@ -1,23 +1,16 @@
-.min_div{
-    margin-right:0.2rem;
-    position:sticky;
-    background-color:#070b34;
-}
+
 .label{
     font-size: 1.2rem;
-    /* color: white; */
 }
 .allHeading{
-
     font-size: 1.5rem !important;
-
+    margin-top:2.5rem;
 }
 .main_box_input{
     display: flex;
     gap: 0.3rem;
 }
 .main_box_input:hover{
-
     cursor: pointer;
     text-decoration: underline;
     color: brown;

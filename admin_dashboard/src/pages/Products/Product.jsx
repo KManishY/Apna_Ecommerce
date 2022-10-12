@@ -81,16 +81,12 @@ const Product = () => {
 												alt={e.prod_name}
 											/>
 											<p>{e.prod_name}</p>
-											<Link to={`/editproduct/${e._id}`}>
-												<Button
-													onClick={() =>
-														handleEdit(e)
-													}
-													colorScheme='teal'
-												>
-													Edit
-												</Button>
-											</Link>
+											<Button
+												onClick={() => handleEdit(e)}
+												colorScheme='teal'
+											>
+												Edit
+											</Button>
 										</GridItem>
 									</div>
 								))}
