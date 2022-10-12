@@ -2,18 +2,36 @@
     word-wrap: break-word
 }
 .main_div{
-    width: 60%;
+    width: 99%;
     margin: auto;
     /* border: 1px solid red; */
     display: grid;
     grid-template-columns: 37% 63%;
-    gap: 20px;
+    gap: 10px;
     /* grid-template-rows: 250px; */
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     margin-top: 20px;
+    background-color:#070b34;
+    border-radius: 2rem;
     
 }
-/* .cart_div */
+.cart_div{
+   display: grid;
+  height: 100vh;
+/*   grid-template-rows: 0.5fr 1.5fr; */
+  grid-template-areas:"main main main side";
+  grid-gap: 0.2rem;
+}
+.side {
+  background: pink;
+  grid-area: side;
+  position:sticky;
+}
+.main {
+  /* background: blue; */
+  grid-area: main;
+}
+
 .main_div :hover{
     /* box-shadow: 0px 1px 2px 0px rgba(0,255,255,0.7),
     1px 2px 4px 0px rgba(0,255,255,0.7),
@@ -34,6 +52,7 @@
 .img{
     height: 250px;
     width: 100%;
+    border-radius: 1rem;
 }
 .container{
     position: absolute;
@@ -44,7 +63,8 @@
     
   .text{
     display: inline;
-    width: 100%;
+    width: 80%;
+    margin:auto;
   }
     
   .read-or-hide{
@@ -53,8 +73,9 @@
   }
   .delete_btn{
     margin-top: 20px;
-    color-scheme: teal;
-    background-color: teal;
+    color:rgb(160, 49, 49);
+    /* color-scheme: teal;
+    background-color: teal; */
 
   }
   .discount{
@@ -82,7 +103,7 @@
    @media only screen and (min-width: 581px) and (max-width:880px){
    
    .product_name{
-    font-size: 25px !important; 
+    font-size: 22px !important; 
    }
    .prod_description{
     font-size: 15px !important;

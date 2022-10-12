@@ -70,7 +70,7 @@ export default function Login() {
 			flexDirection='column'
 			width='100wh'
 			height='100vh'
-			backgroundColor='gray.200'
+			// backgroundColor='gray.200'
 			justifyContent='center'
 			alignItems='center'
 		>
@@ -87,7 +87,7 @@ export default function Login() {
 						<Stack
 							spacing={4}
 							p='1rem'
-							backgroundColor='whiteAlpha.900'
+							// backgroundColor='whiteAlpha.900'
 							boxShadow='md'
 						>
 							{/* ---------Name---------  */}
@@ -159,6 +159,10 @@ export default function Login() {
 									/>
 									<InputRightElement width='4.5rem'>
 										<Button
+											style={{
+												color: "white",
+												backgroundColor: "#0047AB"
+											}}
 											h='1.75rem'
 											size='sm'
 											onClick={handleShowClick}

@@ -13,7 +13,6 @@ const Filter = () => {
 	const [sortByRating, setSortByRating] = useState(
 		initialRatingSortParams || ""
 	);
-
 	const handleChange = (e) => {
 		const option = e.target.value;
 		const newCat = [...category];
@@ -30,7 +29,6 @@ const Filter = () => {
 	const handleSortByRating = (e) => {
 		setSortByRating(e.target.value);
 	};
-
 	useEffect(() => {
 		if (category || sortBy || sortByRating) {
 			setSearchParams({
@@ -43,10 +41,14 @@ const Filter = () => {
 
 	return (
 		<Box className={styled.min_div}>
-			<Box className={styled.Filter_main_div} >
-				<Heading 
-				// color={"white"}
-				 size='lg'>Filters</Heading>
+			<Box className={styled.Filter_main_div}>
+				<Heading
+					// color={"white"}
+					// size='md'
+					className={styled.allHeading}
+				>
+					Filters
+				</Heading>
 				<Box className={styled.main_box_input}>
 					<input
 						type='checkbox'
@@ -74,7 +76,7 @@ const Filter = () => {
 						)}
 						onChange={(e) => handleChange(e)}
 					/>
-					<label  className={styled.label}>Aquariums & Terrariums</label>
+					<label className={styled.label}>Aquariums</label>
 				</Box>
 				<Box className={styled.main_box_input}>
 					<input
@@ -101,29 +103,31 @@ const Filter = () => {
 			{/* ------------Sort by price---------------  */}
 
 			<Box className={styled.Filter_main_div}>
-				<Heading 
-				// color={"white"}
-				 size='lg'>Sorting by Price</Heading>
+				<Heading
+					// color={"white"}
+					className={styled.allHeading}
+				>
+					Sorting by Price
+				</Heading>
 
 				<Box onChange={handleSortBy} className={styled.sorting_div}>
 					<Box className={styled.main_box_input}>
-						<label className={styled.label}>Highest Price</label>
 						<input
 							type='radio'
 							name='sortBy'
 							value='asc'
 							defaultChecked={sortBy === "asc"}
 						/>
+						<label className={styled.label}>Highest Price</label>
 					</Box>
 					<Box className={styled.main_box_input}>
-						<label className={styled.label}>Lowest Price</label>
-
 						<input
 							type='radio'
 							name='sortBy'
 							value='desc'
 							defaultChecked={sortBy === "desc"}
 						/>
+						<label className={styled.label}>Lowest Price</label>
 					</Box>
 				</Box>
 				{/* ------------Sort By Rating-------------------- */}
@@ -131,27 +135,29 @@ const Filter = () => {
 					onChange={handleSortByRating}
 					className={styled.sorting_div}
 				>
-					<Heading size='lg' 
-					// color={"white"}
-					>Sorting by Rating</Heading>
+					<Heading
+						className={styled.allHeading}
+						// color={"white"}
+					>
+						Sorting by Rating
+					</Heading>
 					<Box className={styled.main_box_input}>
-						<label className={styled.label}>Highest Rating</label>
 						<input
 							type='radio'
 							name='sortByRating'
 							value='high'
 							defaultChecked={sortBy === "high"}
 						/>
+						<label className={styled.label}>Highest Rating</label>
 					</Box>
 					<Box className={styled.main_box_input}>
-						<label className={styled.label}>Lowest Rating</label>
-
 						<input
 							type='radio'
 							name='sortByRating'
 							value='low'
 							defaultChecked={sortBy === "low"}
 						/>
+						<label className={styled.label}>Lowest Rating</label>
 					</Box>
 				</Box>
 			</Box>

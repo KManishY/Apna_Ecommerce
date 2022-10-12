@@ -56,7 +56,6 @@ export default function Login() {
 			flexDirection='column'
 			width='100wh'
 			height='100vh'
-			backgroundColor='gray.200'
 			justifyContent='center'
 			alignItems='center'
 		>
@@ -73,7 +72,7 @@ export default function Login() {
 						<Stack
 							spacing={4}
 							p='1rem'
-							backgroundColor='whiteAlpha.900'
+							// backgroundColor='#E2DFD2'
 							boxShadow='md'
 						>
 							<FormControl>

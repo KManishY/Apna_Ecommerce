@@ -2,8 +2,8 @@
 
 header {
 	width: 100%;
-
-	background: linear-gradient(180deg, #FFFFFF 0%, #000000 100%), linear-gradient(90deg, #FFFFFF 0%, #000000 100%), #00FFFF;
+	background-color: #070b34;
+	/* background: linear-gradient(180deg, #FFFFFF 0%, #000000 100%), linear-gradient(90deg, #FFFFFF 0%, #000000 100%), #00FFFF; */
 background-blend-mode: multiply, screen, normal;
 
 

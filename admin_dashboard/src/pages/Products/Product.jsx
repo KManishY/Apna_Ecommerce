@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { getProduct } from "../../redux/action/appAction.js";
 import style from "./product.module.css";
 const Product = () => {
@@ -64,12 +65,16 @@ const Product = () => {
 												alt={e.prod_name}
 											/>
 											<p>{e.prod_name}</p>
-											<Button
-												onClick={() => handleEdit(e)}
-												colorScheme='teal'
-											>
-												Edit
-											</Button>
+											<Link to={`/editproduct/${e._id}`}>
+												<Button
+													onClick={() =>
+														handleEdit(e)
+													}
+													colorScheme='teal'
+												>
+													Edit
+												</Button>
+											</Link>
 										</GridItem>
 									</div>
 								))}

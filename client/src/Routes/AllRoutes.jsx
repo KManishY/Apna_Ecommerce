@@ -13,15 +13,17 @@ const AllRoutes = () => {
 	return (
 		<div>
 			<Navbar />
-			<Routes>
-				<Route exact path='/' element={<Homepage />} />
-				<Route exact path='/signup' element={<Signup />} />
-				<Route exact path='/login' element={<Login />} />
-				<Route exact path='/checkout' element={<Checkout />} />
-				<Route exact path='/product' element={<Products />} />
-				<Route exact path='/cart' element={<Cart />} />
-				<Route path='*' element={<Error />} />
-			</Routes>
+			<div style={{ width: "90%", margin: "auto" }}>
+				<Routes>
+					<Route exact path='/' element={<Homepage />} />
+					<Route exact path='/signup' element={<Signup />} />
+					<Route exact path='/login' element={<Login />} />
+					<Route exact path='/checkout' element={<Checkout />} />
+					<Route exact path='/product' element={<Products />} />
+					<Route exact path='/cart' element={<Cart />} />
+					<Route path='*' element={<Error />} />
+				</Routes>
+			</div>
 		</div>
 	);
 };

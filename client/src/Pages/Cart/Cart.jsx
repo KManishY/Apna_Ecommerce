@@ -1,4 +1,4 @@
-import { Box, Button, Heading, IconButton, Text } from "@chakra-ui/react";
+import { Box, Flex, Button, Heading, IconButton, Text } from "@chakra-ui/react";
 import style from "./cart.module.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,52 +57,62 @@ const Cart = () => {
 	//   console.log(cart);
 
 	return (
-		<Box m='auto' className={style.cart_div}>
-			{cart &&
-				cart.map((el) => (
-					<div key={el._id} className={style.main_div}>
-						<div>
-							<img
-								className={style.img}
-								src={el.prod_image}
-								alt={el.prod_name}
-							/>
-						</div>
-
-						<div>
-							{/* product name */}
+		<div className={style.cart_div}>
+			<div className={style.main}>
+				{cart &&
+					cart.map((el) => (
+						<div key={el._id} className={style.main_div}>
 							<div>
-								<Heading className={style.product_name}>
-									{el.prod_name}
-								</Heading>
-							</div>
-							{/* product discription */}
-							<div className='container'>
-								<ReadMore className={style.prod_description}>
-									{el.prod_desc}
-								</ReadMore>
-
-								{/* <Text></Text> */}
+								<img
+									className={style.img}
+									src={el.prod_image}
+									alt={el.prod_name}
+								/>
 							</div>
 
-							<div className={style.price_main_div}>
-								{/* price */}
-
-								{/* discount */}
+							<div>
+								{/* product name */}
 								<div>
-									<Text color={"teal"}>
-										{" "}
-										Price: &#x20b9;{el.prod_price * count}
-									</Text>
-									<Text>
-										{" "}
-										Discount: &#x20b9;
-										<span className={style.discount}>
-											{el.prod_discount}
-										</span>
-									</Text>
+									<Heading
+										size='lg'
+										className={style.product_name}
+									>
+										{el.prod_name}
+									</Heading>
 								</div>
-								<div className={style.inc_dec_main_div}>
+								{/* product discription */}
+								<div className='container'>
+									<p style={{ color: "gray" }}>
+										Description:
+									</p>
+									<ReadMore
+										className={style.prod_description}
+									>
+										{el.prod_desc}
+									</ReadMore>
+
+									{/* <Text></Text> */}
+								</div>
+
+								<div className={style.price_main_div}>
+									{/* price */}
+
+									{/* discount */}
+									<div>
+										<Text color={"teal"}>
+											{" "}
+											Price: &#x20b9;
+											{el.prod_price * count}
+										</Text>
+										<Text>
+											{" "}
+											Discount: &#x20b9;
+											<span className={style.discount}>
+												{el.prod_discount}
+											</span>
+										</Text>
+									</div>
+									{/* <div className={style.inc_dec_main_div}>
 									<div
 										style={{ display: "flex", gap: "10px" }}
 									>
@@ -112,22 +122,26 @@ const Cart = () => {
 										<p>{count}</p>
 										<button onClick={handeldec}>-</button>
 									</div>
+								</div> */}
 								</div>
+								<Button
+									colorScheme='blue'
+									className={style.delete_btn}
+									onClick={() => handleDelete(el.prod_id)}
+								>
+									Remove
+								</Button>
 							</div>
-							<Button
-								colorScheme='teal'
-								className={style.delete_btn}
-								onClick={() => handleDelete(el.prod_id)}
-							>
-								delete
-							</Button>
 						</div>
-					</div>
-				))}
+					))}
+			</div>
+			<div className={style.side}>
+				jkgadjsvgcdkjlsgcsoudfffffddddffffffffffffffffffffffffffffffffffffffffffffffffffff
+			</div>
 
-			<Button className={style.order_btn}>Order Now</Button>
-		</Box>
+			{/* <Button className={style.order_btn}>Order Now</Button> */}
+		</div>
 	);
-};;
+};
 
 export default Cart;

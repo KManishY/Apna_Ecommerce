@@ -1,10 +1,20 @@
+.min_div{
+    margin-right:0.2rem;
+    position:sticky;
+    background-color:#070b34;
+}
 .label{
-    font-size: 25px;
+    font-size: 1.2rem;
     /* color: white; */
+}
+.allHeading{
+
+    font-size: 1.5rem !important;
+
 }
 .main_box_input{
     display: flex;
-    gap: 10px;
+    gap: 0.3rem;
 }
 .main_box_input:hover{
 
@@ -14,10 +24,10 @@
 }
 .main_div{
     position: sticky;
-    position: fixed;
     top: 10px;
     margin-top: 20px;
 }
 .Filter_main_div{
-    line-height: 60px;
+    line-height: 2.2rem;
+    font-size: 20px;
 }

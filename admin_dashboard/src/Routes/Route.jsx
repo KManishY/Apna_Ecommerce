@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Sidebar from "../components/Sidebar.jsx";
 import Login from "../pages/Login/Login.jsx";
 import Order from "../pages/Orders/Order.jsx";
+import EditProduct from "../pages/Products/EditProduct.jsx";
 import Product from "../pages/Products/Product.jsx";
 import User from "../pages/Users/User.jsx";
 import PrivateRoute from "../Private/Private.jsx";
@@ -40,6 +41,15 @@ const AllRoute = () => {
 							element={
 								<PrivateRoute>
 									<User />
+								</PrivateRoute>
+							}
+						/>
+						<Route
+							exact
+							path='/editproduct/:id'
+							element={
+								<PrivateRoute>
+									<EditProduct />
 								</PrivateRoute>
 							}
 						/>
