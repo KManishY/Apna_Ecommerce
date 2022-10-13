@@ -43,11 +43,23 @@
 		2px 4px 16px 0px rgba(0, 255, 255, 0.7);
 }
 
-
 @media only screen and (min-width: 0px) and (max-width: 580px) {
-	.main_flex_box {
-		grid-template-columns: 1fr;
-		margin: auto;
+	.main_div {
+		display: grid;
+    /* grid-template-rows: 1fr 1fr; */
+		grid-template-areas: "side" "main";
+		grid-gap: 0.2rem;
+		
+	}
+	.side {
+		background-color: #070b34;
+		padding: 0px 0.5rem;
+		grid-area: side;
+		position: sticky;
+		height: auto;
+	}
+	.main {
+		grid-area: main;
 	}
 }
 
@@ -65,14 +77,14 @@
 	display: grid;
 	grid-template-areas: "side main main main";
 	grid-gap: 0.2rem;
-  /* position: absolute; */
+	/* position: absolute; */
 }
 .side {
 	background-color: #070b34;
-  padding:0px .5rem;
+	padding: 0px 0.5rem;
 	grid-area: side;
 	position: sticky;
-  height:90vh;
+	height: 90vh;
 }
 .main {
 	grid-area: main;

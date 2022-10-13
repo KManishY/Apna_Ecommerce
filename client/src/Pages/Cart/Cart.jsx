@@ -13,7 +13,17 @@ const Cart = () => {
 			(sum, item) => sum + Number(item.prod_price),
 			0
 		);
+		const after_Discount_price = cart.reduce(
+			(sum, item) =>
+				sum +
+				Number(item.prod_price) -
+				(Number(item.prod_price) * Number(item.prod_discount)) / 100,
+			0
+		);
+		const discount_rupee = total_price - after_Discount_price;
+		console.log("discount_rupee: ", discount_rupee);
 		console.log("price", total_price);
+		console.log("after discount", after_Discount_price);
 	}
 	const [count, setCount] = useState(1);
 	const handelincres = () => {
@@ -106,9 +116,9 @@ const Cart = () => {
 										</Text>
 										<Text>
 											{" "}
-											Discount: &#x20b9;
+											Discount:{" "}
 											<span className={style.discount}>
-												{el.prod_discount}
+												{el.prod_discount}%
 											</span>
 										</Text>
 									</div>

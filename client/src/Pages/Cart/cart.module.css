@@ -17,7 +17,7 @@
 }
 .cart_div{
    display: grid;
-  height: 100vh;
+  /* height: 100vh; */
 /*   grid-template-rows: 0.5fr 1.5fr; */
   grid-template-areas:"main main main side";
   grid-gap: 0.2rem;
@@ -74,7 +74,7 @@
 
   }
   .discount{
-    text-decoration: line-through;
+    /* text-decoration: line-through; */
     color: brown;
   }
   .order_btn{

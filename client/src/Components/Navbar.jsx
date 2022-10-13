@@ -16,7 +16,7 @@ const Navbar = () => {
 					<nav className={styled.nav}>
 						<div>
 							<img
-								width='90px'
+								width='70px'
 								src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ_XlY_YQ_sb2AsnI0MeajVvqJxDawVOJjwg&usqp=CAU'
 							/>
 						</div>
@@ -30,9 +30,9 @@ const Navbar = () => {
 							<Link className={styled.abc} to='/cart'>
 								<b className={styled.nav_elem}>Cart</b>
 							</Link>
-							<Link className={styled.abc} to='/checkout'>
+							{/* <Link className={styled.abc} to='/checkout'>
 								<b className={styled.nav_elem}>Contact</b>
-							</Link>
+							</Link> */}
 							<Link className={styled.abc} to='/login'>
 								<b className={styled.nav_elem}>Login</b>
 							</Link>

@@ -8,6 +8,7 @@ import Navbar from "../Components/Navbar.jsx";
 import Login from "../Pages/Login_Signup/Login";
 import Signup from "../Pages/Login_Signup/Signup.jsx";
 import Cart from "../Pages/Cart/Cart.jsx";
+import SinglePage from "../Pages/SinglePage/SinglePage.jsx";
 
 const AllRoutes = () => {
 	return (
@@ -20,6 +21,11 @@ const AllRoutes = () => {
 					<Route exact path='/login' element={<Login />} />
 					<Route exact path='/checkout' element={<Checkout />} />
 					<Route exact path='/product' element={<Products />} />
+					<Route
+						exact
+						path='/singleProduct/:id'
+						element={<SinglePage />}
+					/>
 					<Route exact path='/cart' element={<Cart />} />
 					<Route path='*' element={<Error />} />
 				</Routes>

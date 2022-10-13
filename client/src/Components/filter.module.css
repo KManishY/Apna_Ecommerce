@@ -1,4 +1,8 @@
-
+.checkbox_size{
+  width: 25px;
+  height:25px;
+  align-items: center
+}
 .label{
     font-size: 1.2rem;
 }
@@ -9,6 +13,7 @@
 .main_box_input{
     display: flex;
     gap: 0.3rem;
+    align-items: center;
 }
 .main_box_input:hover{
     cursor: pointer;

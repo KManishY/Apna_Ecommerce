@@ -47,10 +47,11 @@ const Filter = () => {
 					// size='md'
 					className={styled.allHeading}
 				>
-					Filters
+					Products
 				</Heading>
 				<Box className={styled.main_box_input}>
 					<input
+						className={styled.checkbox_size}
 						type='checkbox'
 						value='Lamp'
 						defaultChecked={category.includes("Lamp")}
@@ -61,6 +62,7 @@ const Filter = () => {
 				<Box className={styled.main_box_input}>
 					<input
 						type='checkbox'
+						className={styled.checkbox_size}
 						value='Pots & Planters'
 						defaultChecked={category.includes("Pots & Planters")}
 						onChange={(e) => handleChange(e)}
@@ -71,6 +73,7 @@ const Filter = () => {
 					<input
 						type='checkbox'
 						value='Aquariums & Terrariums'
+						className={styled.checkbox_size}
 						defaultChecked={category.includes(
 							"Aquariums & Terrariums"
 						)}
@@ -82,6 +85,7 @@ const Filter = () => {
 					<input
 						type='checkbox'
 						value='Table Fountains'
+						className={styled.checkbox_size}
 						defaultChecked={category.includes("Table Fountains")}
 						onChange={(e) => handleChange(e)}
 					/>
@@ -90,6 +94,7 @@ const Filter = () => {
 				<Box className={styled.main_box_input}>
 					<input
 						type='checkbox'
+						className={styled.checkbox_size}
 						value='Garden Accessories'
 						defaultChecked={category.includes("Garden Accessories")}
 						onChange={(e) => handleChange(e)}
@@ -116,6 +121,7 @@ const Filter = () => {
 							type='radio'
 							name='sortBy'
 							value='asc'
+							className={styled.checkbox_size}
 							defaultChecked={sortBy === "asc"}
 						/>
 						<label className={styled.label}>Highest Price</label>
@@ -124,6 +130,7 @@ const Filter = () => {
 						<input
 							type='radio'
 							name='sortBy'
+							className={styled.checkbox_size}
 							value='desc'
 							defaultChecked={sortBy === "desc"}
 						/>
@@ -145,6 +152,7 @@ const Filter = () => {
 						<input
 							type='radio'
 							name='sortByRating'
+							className={styled.checkbox_size}
 							value='high'
 							defaultChecked={sortBy === "high"}
 						/>
@@ -154,6 +162,7 @@ const Filter = () => {
 						<input
 							type='radio'
 							name='sortByRating'
+							className={styled.checkbox_size}
 							value='low'
 							defaultChecked={sortBy === "low"}
 						/>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import Filter from "../../Components/Filter.jsx";
 import { getData, postCartData } from "../../Redux/AppReducer/action.js";
 import styled from "./products.module.css";
@@ -64,14 +64,16 @@ const Products = () => {
 								className={styled.all_box}
 							>
 								<Box className={styled.cartBtn}>
-									<img
-										className={styled.zoom}
-										style={{
-											height: "200px",
-											width: "100%"
-										}}
-										src={item.prod_image}
-									/>
+									<Link to={`/singleProduct/${item._id}`}>
+										<img
+											className={styled.zoom}
+											style={{
+												height: "200px",
+												width: "100%"
+											}}
+											src={item.prod_image}
+										/>
+									</Link>
 									<button
 										onClick={() => handleClick(item)}
 										className={styled.centered}
