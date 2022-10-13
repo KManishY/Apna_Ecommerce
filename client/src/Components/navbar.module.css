@@ -32,7 +32,9 @@ header .nav a {
 .nav_elem {
 	font-size: 25px;
 }
-
+.mobileNav{
+	background-color:#070b34
+}
 #nav_icon {
 	display: none;
 }
@@ -66,3 +68,20 @@ header .nav a {
 		display: none;
 	}
 }
+/* @media only screen and (min-width:600px) and (max-width:1800px){
+	
+} */
+/* @media (max-width: 600px) {
+	.header {
+		height: 7rem;
+	}
+	.abc {
+		display: none;
+	}
+	#nav_icon {
+		display: block !important;
+	}
+	.navbar-logo {
+		display: none;
+	}
+} */

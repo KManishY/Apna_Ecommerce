@@ -6,6 +6,7 @@ import styled from "./navbar.module.css";
 const Navbar = () => {
 	const [hamBtn, sethamBtn] = useState(false);
 
+
 	const handleClick = () => {
 		sethamBtn(!hamBtn);
 	};
@@ -30,9 +31,6 @@ const Navbar = () => {
 							<Link className={styled.abc} to='/cart'>
 								<b className={styled.nav_elem}>Cart</b>
 							</Link>
-							{/* <Link className={styled.abc} to='/checkout'>
-								<b className={styled.nav_elem}>Contact</b>
-							</Link> */}
 							<Link className={styled.abc} to='/login'>
 								<b className={styled.nav_elem}>Login</b>
 							</Link>
@@ -48,7 +46,7 @@ const Navbar = () => {
 						</div>
 					</nav>
 				</header>
-				<div>{hamBtn && <Wrapper />}</div>
+				<div className={styled.mobileNav}>{hamBtn && <Wrapper />}</div>
 			</div>
 		</>
 	);

@@ -23,18 +23,21 @@
 /* --------image Hovered image class name zoom-------- */
 .zoom {
 	transition: transform 0.2s;
-	width: 200px;
-	height: 200px;
+	object-fit: cover;
+	/* width: 13rem; */
+	height: 16em;
 	border-radius: 1rem;
 	margin: 0 auto;
 }
 .zoom:hover {
 	transform: scale(1.1);
 }
+
 /* ---------------- product card styleing ------------------------ */
 .all_box {
 	background: #070b34;
 	border-radius: 2rem;
+	width: 16rem;
 }
 .all_box:hover {
 	box-shadow: 0px 1px 2px 0px rgba(0, 255, 255, 0.7),
@@ -84,7 +87,8 @@
 	padding: 0px 0.5rem;
 	grid-area: side;
 	position: sticky;
-	height: 90vh;
+	width: 14rem;
+	/* height: 90vh; */
 }
 .main {
 	grid-area: main;

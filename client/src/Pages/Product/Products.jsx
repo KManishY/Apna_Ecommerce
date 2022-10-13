@@ -47,30 +47,21 @@ const Products = () => {
 	return (
 		<div className={styled.main_div}>
 			{/* filter&& Sorting */}
-
 			<div className={styled.side}>
-				<Filter />
+				<div style={{ position: "fixed", top: "20" }}>
+					<Filter />
+				</div>
 			</div>
-
 			{/* ----------------All Products ---------------- */}
-
 			<div className={styled.main}>
 				<Flex wrap='wrap' gap={3} justify='center'>
 					{data &&
 						data.map((item) => (
-							<Box
-								key={item._id}
-								style={{ width: "330px" }}
-								className={styled.all_box}
-							>
+							<Box key={item._id} className={styled.all_box}>
 								<Box className={styled.cartBtn}>
 									<Link to={`/singleProduct/${item._id}`}>
 										<img
 											className={styled.zoom}
-											style={{
-												height: "200px",
-												width: "100%"
-											}}
 											src={item.prod_image}
 										/>
 									</Link>

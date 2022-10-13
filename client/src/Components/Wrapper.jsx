@@ -10,13 +10,16 @@ const Wrapper = () => {
 				<Link to='/'>Home</Link>
 			</div>
 			<div>
-				<Link to='/about'>About</Link>
+				<Link to='/product'>Product</Link>
 			</div>
 			<div>
-				<Link to='/contact'>Contact</Link>
+				<Link to='/cart'>Cart</Link>
 			</div>
 			<div>
-				<Link to='/service'>Service</Link>
+				<Link to='/signup'>Signup</Link>
+			</div>
+			<div>
+				<Link to='/login'>Login</Link>
 			</div>
 		</div>
 	);

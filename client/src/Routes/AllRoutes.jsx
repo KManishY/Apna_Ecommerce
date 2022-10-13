@@ -9,12 +9,12 @@ import Login from "../Pages/Login_Signup/Login";
 import Signup from "../Pages/Login_Signup/Signup.jsx";
 import Cart from "../Pages/Cart/Cart.jsx";
 import SinglePage from "../Pages/SinglePage/SinglePage.jsx";
-
+import styled from "./route.module.css";
 const AllRoutes = () => {
 	return (
 		<div>
 			<Navbar />
-			<div style={{ width: "90%", margin: "auto" }}>
+			<div className={styled.screenSize}>
 				<Routes>
 					<Route exact path='/' element={<Homepage />} />
 					<Route exact path='/signup' element={<Signup />} />
