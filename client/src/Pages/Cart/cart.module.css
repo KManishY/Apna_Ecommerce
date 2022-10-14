@@ -1,65 +1,36 @@
-/* .name {
-	word-wrap: break-word;
-} */
+.cart_div {
+  display: flex;
+  justify-content: space-between;
+}
 .main_div {
-	width: 99%;
+	width: 90%;
 	margin: auto;
 	display: grid;
-	grid-template-columns: 37% 63%;
-	gap: 10px;
+	grid-template-columns: 23% 63%;
 	margin-bottom: 20px;
 	margin-top: 20px;
+  align-items: center;
 	background-color: #070b34;
-	border-radius: 2rem;
+	border-radius: 1rem;
 }
-.cart_div {
-	display: flex;
-	justify-content: space-between;
+.side{
+  width: 25rem;
 }
-/* .side {
-	
-	position: sticky;
-	top: 100;
-	right: 0;
-	border-radius: 3rem;
-} */
 .side_div{
   position: fixed;
-  /* height: 30rem; */
   height:max-content;
   top:30;
+  /* bottom: 10; */
   right:0;
   background:white;
-  width: 25rem;
-	margin: 3rem 1rem;
-
+  /* width: 25rem; */
+  margin: 3rem 1rem;
 }
-/* .main {
-  
-} */
-
-/* .price_main_div {
-	display: flex;
-	justify-content: space-between;
-	padding-right: 40px;
-	margin-top: 10px;
-}
-.inc_dec_main_div {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 10px;
-} */
 .img {
 	height: 17rem;
 	width: 16rem;
 	border-radius: 1rem;
-  margin:.5rem;
-}
-.container {
-	position: absolute;
-	top: 10%;
-	left: 23%;
-	width: 50%;
+  margin-left:.5rem;
 }
 
 .text {
@@ -73,14 +44,14 @@
 	cursor: pointer;
 }
 .delete_btn {
-	margin-top: 20px;
-	color: rgb(160, 49, 49);
-	/* color-scheme: teal;
-    background-color: teal; */
+	margin-top: .5rem;
+  color: brown !important;
+  border:1px solid brown;
+  padding:0;
 }
 .discount {
-	/* text-decoration: line-through; */
 	color: brown;
+  font-size: 1.5rem;
 }
 .order_btn {
 	color: brown;

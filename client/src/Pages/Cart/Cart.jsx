@@ -72,13 +72,13 @@ const Cart = () => {
 				{cart &&
 					cart.map((el) => (
 						<div key={el._id} className={style.main_div}>
-							<div>
-								<img
-									className={style.img}
-									src={el.prod_image}
-									alt={el.prod_name}
-								/>
-							</div>
+							{/* <div> */}
+							<img
+								className={style.img}
+								src={el.prod_image}
+								alt={el.prod_name}
+							/>
+							{/* </div> */}
 
 							<div className={style.details}>
 								{/* product name */}
@@ -91,7 +91,7 @@ const Cart = () => {
 									</Heading>
 								</div>
 								{/* product discription */}
-								<div className='container'>
+								<div>
 									<p style={{ color: "gray" }}>
 										Description:
 									</p>
@@ -100,10 +100,7 @@ const Cart = () => {
 									>
 										{el.prod_desc}
 									</ReadMore>
-
-									{/* <Text></Text> */}
 								</div>
-
 								<div className={style.price_main_div}>
 									{/* price */}
 
@@ -145,11 +142,13 @@ const Cart = () => {
 						</div>
 					))}
 			</div>
-			<div className={style.side_div}>
-				<h1>sdf</h1>
-				<h1>sdf</h1>
-				<h1>sdf</h1>
-				<h1>sdf</h1>
+			<div className={style.side}>
+				<div className={style.side_div}>
+					<h1>sdf</h1>
+					<h1>sdf</h1>
+					<h1>sdf</h1>
+					<h1>sdf</h1>
+				</div>
 			</div>
 
 			{/* <Button className={style.order_btn}>Order Now</Button> */}

@@ -24,9 +24,10 @@
 .zoom {
 	transition: transform 0.2s;
 	object-fit: cover;
-	/* width: 13rem; */
+	padding-top: .4rem;
+	width: 15rem;
 	height: 16em;
-	border-radius: 1rem;
+	border-radius: .6rem;
 	margin: 0 auto;
 }
 .zoom:hover {
@@ -36,7 +37,7 @@
 /* ---------------- product card styleing ------------------------ */
 .all_box {
 	background: #070b34;
-	border-radius: 2rem;
+	border-radius: 1rem;
 	width: 16rem;
 }
 .all_box:hover {
@@ -84,10 +85,10 @@
 }
 .side {
 	background-color: #070b34;
-	padding: 0px 0.5rem;
+	padding: 0px 2rem;
 	grid-area: side;
 	position: sticky;
-	width: 14rem;
+	width: 20rem;
 	min-height: 100vh;
 }
 .main {
