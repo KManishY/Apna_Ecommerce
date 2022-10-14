@@ -55,6 +55,7 @@ const Products = () => {
 			{/* ----------------All Products ---------------- */}
 			<div className={styled.main}>
 				<Flex wrap='wrap' gap={3} justify='center'>
+					{/* <div className={styled.main_div}> */}
 					{data &&
 						data.map((item) => (
 							<Box key={item._id} className={styled.all_box}>
@@ -99,6 +100,7 @@ const Products = () => {
 							</Box>
 						))}
 				</Flex>
+				{/* </div> */}
 			</div>
 		</div>
 	);

@@ -88,8 +88,13 @@
 	grid-area: side;
 	position: sticky;
 	width: 14rem;
-	/* height: 90vh; */
+	min-height: 100vh;
 }
 .main {
 	grid-area: main;
+}
+
+.main_div{
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
 }

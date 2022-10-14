@@ -80,7 +80,7 @@ const Cart = () => {
 								/>
 							</div>
 
-							<div>
+							<div className={style.details}>
 								{/* product name */}
 								<div>
 									<Heading
@@ -145,8 +145,11 @@ const Cart = () => {
 						</div>
 					))}
 			</div>
-			<div className={style.side}>
-				jkgadjsvgcdkjlsgcsoudfffffddddffffffffffffffffffffffffffffffffffffffffffffffffffff
+			<div className={style.side_div}>
+				<h1>sdf</h1>
+				<h1>sdf</h1>
+				<h1>sdf</h1>
+				<h1>sdf</h1>
 			</div>
 
 			{/* <Button className={style.order_btn}>Order Now</Button> */}
