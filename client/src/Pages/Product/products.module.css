@@ -47,7 +47,8 @@
 	.main_div {
 		display: grid;
     /* grid-template-rows: 1fr 1fr; */
-		grid-template-areas: "side" "main";
+		grid-template-areas: "main main main";
+		
 		grid-gap: 0.2rem;
 		
 	}
