@@ -61,6 +61,9 @@
 .details{
   padding:2rem 2rem;
 }
+.prod_description{
+	color:red !important
+}
 @media only screen and (min-width: 0px) and (max-width: 580px) {
 	.product_name {
 		font-size: 15px !important;

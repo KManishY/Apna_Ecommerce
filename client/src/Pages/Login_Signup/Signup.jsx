@@ -71,7 +71,7 @@ export default function Login() {
 			width='100wh'
 			height='103vh'
 			mt='-90px'
-			// backgroundColor='gray.200'
+			// backgroundColor='white'
 			justifyContent='center'
 			alignItems='center'
 		>
@@ -82,10 +82,10 @@ export default function Login() {
 				justifyContent='center'
 				alignItems='center'
 			>
-				<Avatar bg='#070b34' />
-				<Heading color='teal.400'>Welcome</Heading>
+				<Avatar bg='#070b34' mt='1rem' />
+				<Heading color='#070b34'>Welcome</Heading>
 				<Box minW={{ base: "90%", md: "468px" }}>
-					<form>
+					<form style={{ backgroundColor: "white" }}>
 						<Stack
 							spacing={4}
 							p='1rem'
@@ -196,7 +196,7 @@ export default function Login() {
 								borderRadius={0}
 								type='submit'
 								variant='solid'
-								colorScheme='teal'
+								// colorScheme='teal'
 								width='full'
 								onClick={handleSubmit}
 							>

@@ -16,12 +16,32 @@ dataController.get("/", async (req, res) => {
 			})
 			.collation({ locale: "en_US", numericOrdering: true });
 		return res.status(200).json(product);
+	} else if (a.sort == "asc" && a.category && a.sortByRating == "low") {
+		let product = await ProductModel.find({
+			prod_cat: a.category,
+			prod_rating: { $lte: 4 }
+		})
+			.sort({
+				prod_price: -1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+		return res.status(200).json(product);
 	}
 	// ---
 	else if (a.sort == "desc" && a.category && a.sortByRating == "low") {
 		let product = await ProductModel.find({
 			prod_cat: a.category,
 			prod_rating: { $lte: 3 }
+		})
+			.sort({
+				prod_price: 1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+		return res.status(200).json(product);
+	} else if (a.sort == "desc" && a.category && a.sortByRating == "high") {
+		let product = await ProductModel.find({
+			prod_cat: a.category,
+			prod_rating: { $gte: 3 }
 		})
 			.sort({
 				prod_price: 1

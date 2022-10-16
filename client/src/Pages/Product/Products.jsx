@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import Filter from "../../Components/Filter.jsx";
-import { getData, postCartData } from "../../Redux/AppReducer/action.js";
+import {
+	getCartData,
+	getData,
+	postCartData
+} from "../../Redux/AppReducer/action.js";
 import styled from "./products.module.css";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { BsCartPlusFill } from "react-icons/bs";
@@ -21,8 +25,11 @@ const Products = () => {
 			data: item
 		};
 		console.log(payload);
-		dispatch(postCartData(payload));
+		dispatch(postCartData(payload)); //TODO need response there to popup status
+		dispatch(getCartData());
 	};
+	// useEffect(() => {
+	// }, []);
 	//! Problem :- when my handle click function is called after that my product data
 	//! is getting undefined
 
@@ -104,6 +111,6 @@ const Products = () => {
 			</div>
 		</div>
 	);
-};;;
+};;;;;;
 
 export default Products;

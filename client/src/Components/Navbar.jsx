@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { BsFillCartFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import Wrapper from "./Wrapper.jsx";
 import styled from "./navbar.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getCartData } from "../Redux/AppReducer/action.js";
 const Navbar = () => {
 	const [hamBtn, sethamBtn] = useState(false);
-
+	const { cart } = useSelector((state) => state.getCartReducer);
+	// console.log("state:navbar ", cart.length);
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(getCartData());
+	}, []);
 
 	const handleClick = () => {
 		sethamBtn(!hamBtn);
@@ -28,14 +37,46 @@ const Navbar = () => {
 							<Link className={styled.abc} to='/product'>
 								<b className={styled.nav_elem}>Product</b>
 							</Link>
-							<Link className={styled.abc} to='/cart'>
-								<b className={styled.nav_elem}>Cart</b>
-							</Link>
 							<Link className={styled.abc} to='/login'>
 								<b className={styled.nav_elem}>Login</b>
 							</Link>
-							<Link className={styled.abc} to='/signup'>
+							{/* <Link className={styled.abc} to='/signup'>
 								<b className={styled.nav_elem}>Signup</b>
+							</Link> */}
+							<Link className={styled.abc} to='/cart'>
+								<span style={{ position: "absolute" }}>
+									{/* <lord-icon
+										src='https://cdn.lordicon.com/medpcfcy.json'
+										trigger='loop'
+										delay='2000'
+										// style='width:550px;height:550px'
+										style={{
+											width: "50px",
+											height: "50px",
+											backgroundColor: "#FBF8BE",
+											borderRadius: "50%"
+										}}
+									>
+										{" "}
+									</lord-icon> */}
+									<BsFillCartFill
+										style={{ fontSize: "1.8rem" }}
+									/>
+								</span>
+								<span
+									style={{
+										position: "relative",
+										top: "-16px",
+										right: "-9px",
+										color: "red",
+										fontWeight: "bold",
+										fontSize: "1.2rem"
+									}}
+								>
+									{cart && cart.length}
+								</span>
+
+								{/* <b className={styled.nav_elem}>Cart</b> */}
 							</Link>
 						</div>
 						<div

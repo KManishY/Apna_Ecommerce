@@ -66,8 +66,9 @@ export default function Login() {
 				mb='2'
 				justifyContent='center'
 				alignItems='center'
+				bg='white'
 			>
-				<Avatar bg='#070b34' />
+				<Avatar bg='#070b34' mt='1rem' />
 				<Heading color='#070b34'>Welcome</Heading>
 				<Box minW={{ base: "90%", md: "468px" }}>
 					<form>

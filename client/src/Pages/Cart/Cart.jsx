@@ -58,7 +58,11 @@ const Cart = () => {
 		return (
 			<p className='text'>
 				{isReadMore ? text.slice(0, 100) : text}
-				<span onClick={toggleReadMore} className='read-or-hide'>
+				<span
+					style={{ color: "brown" }}
+					onClick={toggleReadMore}
+					className='read-or-hide'
+				>
 					{isReadMore ? "...read more" : " show less"}
 				</span>
 			</p>
@@ -96,6 +100,7 @@ const Cart = () => {
 										Description:
 									</p>
 									<ReadMore
+										style={{ color: "red" }}
 										className={style.prod_description}
 									>
 										{el.prod_desc}
