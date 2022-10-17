@@ -1,41 +1,27 @@
 import {
-  Box,
-  Button,
-  Checkbox,
-  Divider,
-  Flex,
-  Grid,
-  GridItem,
-  Modal,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
-  useDisclosure,
-  Heading,
-  Portal,
+	Box,
+	Button,
+	Checkbox,
+	Divider,
+	Flex,
+	Grid,
+	GridItem,
+	Heading
 } from "@chakra-ui/react";
-import { BiEdit } from "react-icons/bi";
-import { HiOutlineDotsVertical } from "react-icons/hi";
+
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getProduct } from "../../redux/action/appAction.js";
 import style from "./product.module.css";
-import { MdDeleteForever } from "react-icons/md";
 
 const Product = () => {
-  const dispatch = useDispatch();
-  const { productData } = useSelector((state) => state.productReducer);
-  console.log("product: ", productData);
-  const handleEdit = (e) => {
-    console.log(e);
-  };
+	const dispatch = useDispatch();
+	const { productData } = useSelector((state) => state.productReducer);
+	console.log("product: ", productData);
+	const handleEdit = (e) => {
+		console.log(e);
+	};
 
 	useEffect(() => {
 		dispatch(getProduct());
@@ -81,12 +67,16 @@ const Product = () => {
 												alt={e.prod_name}
 											/>
 											<p>{e.prod_name}</p>
-											<Button
-												onClick={() => handleEdit(e)}
-												colorScheme='teal'
-											>
-												Edit
-											</Button>
+											<Link to={`/editproduct/${e._id}`}>
+												<Button
+													onClick={() =>
+														handleEdit(e)
+													}
+													colorScheme='teal'
+												>
+													Edit
+												</Button>
+											</Link>
 										</GridItem>
 									</div>
 								))}
