@@ -20,7 +20,7 @@ export const login = (payload) => (dispatch) => {
 		.then((r) => {
 			console.log("r: ", r.data);
 			setTimeout(() => {
-				localStorage.setItem("token", r.data);
+				localStorage.setItem("token", r.data); //TODO .token added here
 			}, 100);
 			return dispatch({ type: LOGIN_SUCCESS, payload: r.data });
 		})

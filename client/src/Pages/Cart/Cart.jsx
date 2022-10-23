@@ -3,12 +3,16 @@ import style from "./cart.module.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCartData, getCartData } from "../../Redux/AppReducer/action.js";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
 	const dispatch = useDispatch();
-	const { cart } = useSelector((state) => state.getCartReducer);
+	const navigate = useNavigate();
+	const { cart } = useSelector(state => state.getCartReducer);
 	console.log("cart: ", cart);
-	if (cart) {
+	if (cart == "Please Login Again") {
+		navigate("/login");
+	} else if (cart) {
 		const total_price = cart.reduce(
 			(sum, item) => sum + Number(item.prod_price),
 			0
@@ -17,7 +21,7 @@ const Cart = () => {
 			(sum, item) =>
 				sum +
 				Number(item.prod_price) -
-				(Number(item.prod_price) * Number(item.prod_discount)) / 100,
+				Number(item.prod_price) * Number(item.prod_discount) / 100,
 			0
 		);
 		const discount_rupee = total_price - after_Discount_price;
@@ -37,10 +41,8 @@ const Cart = () => {
 		}
 	};
 
-	const handleDelete = (item) => {
-		const query = {
-			params: item
-		};
+	const handleDelete = item => {
+		const query = { params: item };
 		dispatch(deleteCartData(query));
 		dispatch(getCartData());
 	};
@@ -56,12 +58,12 @@ const Cart = () => {
 			setIsReadMore(!isReadMore);
 		};
 		return (
-			<p className='text'>
+			<p className="text">
 				{isReadMore ? text.slice(0, 100) : text}
 				<span
 					style={{ color: "brown" }}
 					onClick={toggleReadMore}
-					className='read-or-hide'
+					className="read-or-hide"
 				>
 					{isReadMore ? "...read more" : " show less"}
 				</span>
@@ -74,7 +76,7 @@ const Cart = () => {
 		<div className={style.cart_div}>
 			<div className={style.main}>
 				{cart &&
-					cart.map((el) => (
+					cart.map(el =>
 						<div key={el._id} className={style.main_div}>
 							{/* <div> */}
 							<img
@@ -88,14 +90,14 @@ const Cart = () => {
 								{/* product name */}
 								<div>
 									<Heading
-										size='lg'
+										size="sm"
 										className={style.product_name}
 									>
 										{el.prod_name}
 									</Heading>
 								</div>
 								{/* product discription */}
-								<div>
+								{/* <div>
 									<p style={{ color: "gray" }}>
 										Description:
 									</p>
@@ -105,20 +107,18 @@ const Cart = () => {
 									>
 										{el.prod_desc}
 									</ReadMore>
-								</div>
+								</div> */}
 								<div className={style.price_main_div}>
 									{/* price */}
 
 									{/* discount */}
 									<div>
 										<Text color={"teal"}>
-											{" "}
-											Price: &#x20b9;
+											{" "}Price: &#x20b9;
 											{el.prod_price * count}
 										</Text>
 										<Text>
-											{" "}
-											Discount:{" "}
+											{" "}Discount:{" "}
 											<span className={style.discount}>
 												{el.prod_discount}%
 											</span>
@@ -137,7 +137,7 @@ const Cart = () => {
 								</div> */}
 								</div>
 								<Button
-									colorScheme='blue'
+									colorScheme="blue"
 									className={style.delete_btn}
 									onClick={() => handleDelete(el.prod_id)}
 								>
@@ -145,7 +145,7 @@ const Cart = () => {
 								</Button>
 							</div>
 						</div>
-					))}
+					)}
 			</div>
 			<div className={style.side}>
 				<div className={style.side_div}>

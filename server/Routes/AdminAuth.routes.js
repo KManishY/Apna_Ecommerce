@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const adminController = Router();
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-
 adminController.post("/register", async (req, res) => {
 	const { name, email, password } = req.body;
 	bcrypt.hash(password, 5, async (err, hash) => {
@@ -46,7 +45,6 @@ adminController.post("/login", async (req, res) => {
 		}
 	});
 });
-
 module.exports = {
 	adminController
 };

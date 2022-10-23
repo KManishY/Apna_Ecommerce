@@ -18,7 +18,7 @@ dataController.get("/", async (req, res) => {
 		return res.status(200).json(product);
 	} else if (a.sort == "asc" && a.category && a.sortByRating == "low") {
 		let product = await ProductModel.find({
-			prod_cat: a.category,
+			prod_cat: a.category, 
 			prod_rating: { $lte: 4 }
 		})
 			.sort({
@@ -83,7 +83,26 @@ dataController.get("/", async (req, res) => {
 			.collation({ locale: "en_US", numericOrdering: true });
 		return res.status(200).json(product);
 	}
-	//_--
+	//_--------------------------------------
+	else if (a.category && a.sort == "asc") {
+		let product = await ProductModel.find({
+			prod_cat: a.category,
+			
+		}).sort({
+				prod_price: -1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+		return res.status(200).json(product);
+	} else if (a.category && a.sort == "desc") {
+		let product = await ProductModel.find({
+			prod_cat: a.category,
+		}).sort({
+				prod_price: 1
+			})
+			.collation({ locale: "en_US", numericOrdering: true });
+		return res.status(200).json(product);
+	}
+		// -----------------------------
 	else if (a.category && a.sortByRating == "low") {
 		let product = await ProductModel.find({
 			prod_cat: a.category,
@@ -96,7 +115,13 @@ dataController.get("/", async (req, res) => {
 			prod_rating: { $gte: 4 }
 		});
 		return res.status(200).json(product);
-	} else if (a.category) {
+	}
+	
+	
+	
+	
+	
+	else if (a.category) {
 		let product = await ProductModel.find({
 			prod_cat: a.category
 		});

@@ -30,7 +30,7 @@ export const getData = (params) => (dispatch) => {
 		});
 };
 
-
+//TODO
 
 const token = localStorage.getItem("token");
 // console.log("token: ", token);
@@ -47,7 +47,7 @@ export const postCartData = (payload) => (dispatch) => {
 		data: payload.data
 	})
 		.then((response) => {
-			// alert(response.data.message);
+			alert(response.data.message);
 
 			dispatch({
 				type: POST_CART_DATA_SUCCESS,

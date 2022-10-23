@@ -39,11 +39,8 @@ userController.post("/login", async (req, res) => {
 			return res.status(406).send({ message: "Wrong Credentials" });
 		}
 		if (result) {
-			const token = jwt.sign(
-				{ userId: user.email },
-				process.env.SECRET_KEY
-			);
-			res.status(200).json(token);
+			const token = jwt.sign({ userId: user.email }, process.env.SECRET_KEY);
+			res.status(200).json(token); //TODO send user details also to client
 		}
 	});
 });

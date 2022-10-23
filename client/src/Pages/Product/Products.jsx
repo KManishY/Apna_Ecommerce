@@ -15,17 +15,18 @@ const Products = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	//! Product data comming from store
-	let { data, message } = useSelector((state) => state.productReducer);
+	let { data, message } = useSelector(state => state.productReducer);
 	const [searchParams] = useSearchParams();
 	const token = localStorage.getItem("token");
 	//! add to cart function
-	const handleClick = (item) => {
+	const handleClick = item => {
 		const payload = {
 			token: token,
 			data: item
 		};
 		console.log(payload);
 		dispatch(postCartData(payload)); //TODO need response there to popup status
+		// alert("data added successfully");
 		dispatch(getCartData());
 	};
 	// useEffect(() => {
@@ -33,22 +34,25 @@ const Products = () => {
 	//! Problem :- when my handle click function is called after that my product data
 	//! is getting undefined
 
-	useEffect(() => {
-		if (location || data.length == 0) {
-			const sortBy = searchParams.get("sortBy");
-			const sortByRating = searchParams.get("sortByRating");
+	useEffect(
+		() => {
+			if (location || data.length == 0) {
+				const sortBy = searchParams.get("sortBy");
+				const sortByRating = searchParams.get("sortByRating");
 
-			const query = {
-				params: {
-					category: searchParams.getAll("category"),
-					sort: sortBy,
-					sortByRating: sortByRating
-				}
-			};
-			//! dispatching getData function
-			dispatch(getData(query));
-		}
-	}, [location.search]);
+				const query = {
+					params: {
+						category: searchParams.getAll("category"),
+						sort: sortBy,
+						sortByRating: sortByRating
+					}
+				};
+				//! dispatching getData function
+				dispatch(getData(query));
+			}
+		},
+		[location.search]
+	);
 	console.log(data);
 
 	return (
@@ -61,10 +65,10 @@ const Products = () => {
 			</div>
 			{/* ----------------All Products ---------------- */}
 			<div className={styled.main}>
-				<Flex wrap='wrap' gap={3} justify='center'>
+				<Flex wrap="wrap" gap={3} justify="center">
 					{/* <div className={styled.main_div}> */}
 					{data &&
-						data.map((item) => (
+						data.map(item =>
 							<Box key={item._id} className={styled.all_box}>
 								<Box className={styled.cartBtn}>
 									<Link to={`/singleProduct/${item._id}`}>
@@ -84,13 +88,13 @@ const Products = () => {
 
 								<Box p={2}>
 									<Text
-										as='b'
-										fontSize='md'
+										as="b"
+										fontSize="md"
 										className={styled.textoverflow}
 									>
 										{item.prod_name}
 									</Text>
-									<Flex justifyContent='space-around'>
+									<Flex justifyContent="space-around">
 										<Box>
 											<Text>
 												<b> &#x20b9; </b>{" "}
@@ -105,12 +109,12 @@ const Products = () => {
 									</Flex>
 								</Box>
 							</Box>
-						))}
+						)}
 				</Flex>
 				{/* </div> */}
 			</div>
 		</div>
 	);
-};;;;;;
+};
 
 export default Products;

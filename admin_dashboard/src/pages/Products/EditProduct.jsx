@@ -8,34 +8,8 @@ const EditProduct = () => {
 	const [item] = productData.filter((el) => el._id === id);
 	console.log("item: ", item);
 
-	// return  <div classname="container">
-	//     <div classname="form_div">
-	//         <h1>Form Validation</h1>
-	//         <form action="" id="form">
-	//             <div classname="input_div">
-	//                 <label for="name">Name</label><br>
-	//                 <input type="text" name="name" id="" required>
-	//             </div>
-	//             <div classname="input_div">
-	//                 <label for="email">Email</label><br>
-	//                 <input classname="email" type="text" name="email" id=""
-	//                     required><br>
-	//                 <label id="message"></label>
-	//             </div>
-	//             <div classname="input_div">
-	//                 <label
-	//                 for="password">Paassword</label><br>
-	//                 <input classname="password" type="password" name="password"
-	//                 required>
-	//                 <label id="passMessage"></label>
-	//             </div>
-	//             <div classname="input_div btn_div">
-	//                 <input classname="submitBtn" type="submit"
-	//                     value="validate"/ >
-	//             </div>
-	//         </form>
-	//     </div>
-	// </div>;
+
+	return <div>EditProduct</div>;
 };
 
 export default EditProduct;
