@@ -25,7 +25,7 @@ adminController.post("/register", async (req, res) => {
 	});
 });
 adminController.post("/login", async (req, res) => {
-	console.log("login: ", req.body);
+	// console.log("login: ", req.body);
 	const { email, password } = req.body;
 	const user = await AdminAuthModel.findOne({ email: email });
 	if (!user) {

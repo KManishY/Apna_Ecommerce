@@ -1,3 +1,4 @@
+import { Alert } from "@chakra-ui/react";
 import axios from "axios";
 import {
 	LOGIN_FAILURE,
@@ -8,7 +9,7 @@ import {
 	REGISTER_SUCCESS
 } from "./constants.js";
 
-export const login = (payload) => (dispatch) => {
+export const login = payload => dispatch => {
 	console.log("payload: ", payload);
 	dispatch({ type: LOGIN_REQUEST });
 	return axios({
@@ -17,14 +18,15 @@ export const login = (payload) => (dispatch) => {
 		baseURL: "http://localhost:8080",
 		data: payload
 	})
-		.then((r) => {
-			console.log("r: ", r.data);
+		.then(r => {
+			console.log("r: login successful", r.data);
 			setTimeout(() => {
 				localStorage.setItem("token", r.data); //TODO .token added here
 			}, 100);
+			// Alert("LOGIN_SUCCESS");
 			return dispatch({ type: LOGIN_SUCCESS, payload: r.data });
 		})
-		.catch((e) => dispatch({ type: LOGIN_FAILURE }));
+		.catch(e => dispatch({ type: LOGIN_FAILURE }));
 };
 
 export const register = (payload) => (dispatch) => {

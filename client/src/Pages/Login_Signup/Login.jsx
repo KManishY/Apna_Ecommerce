@@ -29,25 +29,28 @@ export default function Login() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { token } = useSelector((state) => state.AuthReducer);
-
-	const initialState = {
-		username: "",
-		password: ""
-	};
+	
+	const initialState = { username: "", password: "" };
 	const [loginDetails, setLoginDetails] = useState(initialState);
 
-	const handleChange = (e) => {
-		setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value });
+	const handleChange = e => {
+		setLoginDetails({
+			...loginDetails,
+			[e.target.name]: e.target.value
+		});
 	};
 	const handleSubmit = () => {
 		if (loginDetails) {
-			dispatch(login(loginDetails)).then((r) => {
-				if (r.type === LOGIN_SUCCESS) {
-					alert("Login Successfully");
-					navigate("/product");
-					localStorage.setItem("token", token);
-				}
-			});
+			console.log("loginDetails: ", loginDetails);
+			dispatch(login(loginDetails));
+			// 	.then(r => {
+			// 	if (r.type === LOGIN_SUCCESS) {
+			// 		alert("Login Successfully");
+			// 		localStorage.setItem("token", token);
+			// 		console.log("token: login ", token);
+			// 		// navigate("/product");
+			// 	}
+			// });
 		}
 	};
 

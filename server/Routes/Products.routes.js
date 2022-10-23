@@ -27,7 +27,7 @@ dataController.get("/", async (req, res) => {
 			.collation({ locale: "en_US", numericOrdering: true });
 		return res.status(200).json(product);
 	}
-	// ---
+	// ---------------------------------------
 	else if (a.sort == "desc" && a.category && a.sortByRating == "low") {
 		let product = await ProductModel.find({
 			prod_cat: a.category,
@@ -67,7 +67,7 @@ dataController.get("/", async (req, res) => {
 
 		return res.status(200).json(product);
 	}
-	//----
+	//-----------------------------------------
 	else if (a.sort == "desc" && a.sortByRating == "low") {
 		let product = await ProductModel.find({ prod_rating: { $lte: 3 } })
 			.sort({

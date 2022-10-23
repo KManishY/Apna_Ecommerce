@@ -28,6 +28,7 @@ userController.post("/register", async (req, res) => {
 	});
 });
 userController.post("/login", async (req, res) => {
+	// console.log(req.body, "loginData");
 	const { password, username } = req.body;
 	const user = await AuthModel.findOne({ username: username });
 	if (!user) {
@@ -39,6 +40,7 @@ userController.post("/login", async (req, res) => {
 			return res.status(406).send({ message: "Wrong Credentials" });
 		}
 		if (result) {
+			console.log(result,"login successfully");
 			const token = jwt.sign({ userId: user.email }, process.env.SECRET_KEY);
 			res.status(200).json(token); //TODO send user details also to client
 		}

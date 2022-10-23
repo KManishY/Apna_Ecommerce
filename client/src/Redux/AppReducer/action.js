@@ -59,10 +59,12 @@ export const postCartData = (payload) => (dispatch) => {
 		});
 };
 //! get data from cart
-export const getCartData = () => (dispatch) => {
-	console.log("hello action");
+export const getCartData = () => dispatch => {
+	// console.log("hello action");
 
-	dispatch({ type: GET_CART_DATA_REQUEST });
+	dispatch({
+		type: GET_CART_DATA_REQUEST
+	});
 	return axios({
 		method: "get",
 		url: "/userDashboard/cart",
@@ -71,15 +73,17 @@ export const getCartData = () => (dispatch) => {
 			Authorization: token
 		}
 	})
-		.then((response) => {
+		.then(response => {
 			// console.log("hello action");
 			return dispatch({
 				type: GET_CART_DATA_SUCCESS,
 				payload: response.data
 			});
 		})
-		.catch((err) => {
-			return dispatch({ type: GET_CART_DATA_FAIL });
+		.catch(err => {
+			return dispatch({
+				type: GET_CART_DATA_FAIL
+			});
 		});
 };
 
