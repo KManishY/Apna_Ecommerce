@@ -30,6 +30,7 @@ userController.post("/register", async (req, res) => {
 userController.post("/login", async (req, res) => {
 	const { password, username } = req.body;
 	const user = await AuthModel.findOne({ username: username });
+	console.log(user)
 	if (!user) {
 		return res.status(406).send({ message: "Wrong Credentials" });
 	}

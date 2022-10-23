@@ -29,6 +29,7 @@ const Navbar = () => {
 							<img style={{borderRadius:"50%"}}
 								width='70px'
 								src='https://media.istockphoto.com/vectors/online-shop-logo-designs-template-phone-shop-logo-symbol-icon-logo-vector-id1398022333?b=1&k=20&m=1398022333&s=612x612&w=0&h=nJ5jI5vZ-vBAA40nIvJs8xWEhVWx1d8IR61oVr_nfUs='
+								alt="logo"
 							/>
 							</Link>
 						</div>

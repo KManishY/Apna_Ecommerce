@@ -41,6 +41,7 @@ export default function Login() {
 	};
 	const handleSubmit = () => {
 		if (loginDetails) {
+			console.log(loginDetails);
 			dispatch(login(loginDetails)).then((r) => {
 				if (r.type === LOGIN_SUCCESS) {
 					alert("Login Successfully");
