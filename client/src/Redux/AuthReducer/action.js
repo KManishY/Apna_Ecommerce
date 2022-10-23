@@ -20,6 +20,7 @@ export const login = payload => dispatch => {
 	})
 		.then(r => {
 			console.log("r: login successful", r.data);
+
 			setTimeout(() => {
 				localStorage.setItem("token", r.data); //TODO .token added here
 			}, 100);
