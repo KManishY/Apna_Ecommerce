@@ -1,15 +1,139 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import {
+	Button,
+	chakra,
+	FormControl,
+	FormHelperText,
+	Heading,
+	Input,
+	InputGroup,
+	InputLeftElement,
+	Stack
+} from "@chakra-ui/react";
+import { FaUserAlt, FaLock } from "react-icons/fa";
+import { SiNamecheap } from "react-icons/si";
+import { MdPriceCheck } from "react-icons/md";
+import { FcRating } from "react-icons/fc";
+import { TbDiscount2 } from "react-icons/tb";
 
 const EditProduct = () => {
 	const { id } = useParams();
-	const { productData } = useSelector((state) => state.productReducer);
-	const [item] = productData.filter((el) => el._id === id);
+	const { productData } = useSelector(state => state.productReducer);
+	const [item] = productData.filter(el => el._id === id);
 	console.log("item: ", item);
 
+	var initialState = {
+		prod_name: item.prod_name,
+		prod_price: item.prod_price,
+		prod_rating: item.prod_rating,
+		prod_discount: item.prod_discount
+	};
+	// var initialState = {
+	// 	prod_name: "",
+	// 	prod_price: "",
+	// 	prod_rating: "",
+	// 	prod_discount: ""
+	// };
 
-	return <div>EditProduct</div>;
+	const [product, setProduct] = useState(initialState);
+	console.log("product: ", product);
+	const handleChange = e => {
+		console.log(product);
+		setProduct({ ...product, [e.target.name]: e.target.value });
+	};
+	const handleSubmit = () => {
+		//TODO  onSubmit data fill sand to database to update
+	};
+
+	return (
+		<div>
+			{/* <form> */}
+			<Stack
+				spacing={4}
+				p="1rem"
+				backgroundColor="whiteAlpha.900"
+				boxShadow="md"
+				style={{ width: "40vw", margin: "auto", marginTop: "2rem" }}
+			>
+				<Heading>Update Product</Heading>
+				<FormControl>
+					<InputGroup>
+						<InputLeftElement
+							pointerEvents="none"
+							children={<SiNamecheap color="gray.300" />}
+						/>
+						<Input
+							type="text"
+							value={product.prod_name}
+							placeholder="prod_name"
+							name="prod_name"
+							onChange={e => handleChange(e)}
+						/>
+					</InputGroup>
+				</FormControl>
+				{/* ----------------Prod Price-------------- */}
+				<FormControl>
+					<InputGroup>
+						<InputLeftElement
+							pointerEvents="none"
+							children={<MdPriceCheck color="gray.300" />}
+						/>
+						<Input
+							type="text"
+							value={product.prod_price}
+							placeholder="prod_price"
+							name="prod_price"
+							onChange={e => handleChange(e)}
+						/>
+					</InputGroup>
+				</FormControl>
+				{/* ----------------prod_rating--------------- */}
+				<FormControl>
+					<InputGroup>
+						<InputLeftElement
+							pointerEvents="none"
+							children={<FcRating color="gray.300" />}
+						/>
+						<Input
+							type="text"
+							value={product.prod_rating}
+							placeholder="prod_rating"
+							name="prod_rating"
+							onChange={e => handleChange(e)}
+						/>
+					</InputGroup>
+				</FormControl>
+				{/* -----------prod_discount---------------- */}
+				<FormControl>
+					<InputGroup>
+						<InputLeftElement
+							pointerEvents="none"
+							children={<TbDiscount2 color="gray.300" />}
+						/>
+						<Input
+							type="text"
+							value={product.prod_discount}
+							placeholder="prod_discount"
+							name="prod_discount"
+							onChange={e => handleChange(e)}
+						/>
+					</InputGroup>
+				</FormControl>
+				<Button
+					borderRadius={0}
+					variant="solid"
+					colorScheme="teal"
+					width="full"
+					onClick={handleSubmit}
+				>
+					Update
+				</Button>
+			</Stack>
+			{/* </form> */}
+		</div>
+	);
 };
 
 export default EditProduct;
