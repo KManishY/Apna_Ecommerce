@@ -1,4 +1,4 @@
-import { Box, Flex, Button, Heading, IconButton, Text } from "@chakra-ui/react";
+import {  Button, Heading, Text } from "@chakra-ui/react";
 import style from "./cart.module.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const { cart } = useSelector((state) => state.getCartReducer);
   console.log("cart: ", cart);
-  if (cart == "Please Login Again") {
+  if (cart === "Please Login Again") {
     navigate("/login");
   } else if (cart) {
     const total_price = cart.reduce(
