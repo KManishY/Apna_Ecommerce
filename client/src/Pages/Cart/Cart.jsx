@@ -1,4 +1,4 @@
-import { Box, Flex, Button, Heading, IconButton, Text } from "@chakra-ui/react";
+import { Button, Heading, Text } from "@chakra-ui/react";
 import style from "./cart.module.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,20 +6,29 @@ import { deleteCartData, getCartData } from "../../Redux/AppReducer/action.js";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { cart } = useSelector((state) => state.getCartReducer);
-  console.log("cart: ", cart);
-  let total_price = 0;
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const { cart } = useSelector(state => state.getCartReducer);
+	console.log("cart: ", cart);
+	let total_price = 0;
 	let after_Discount_price = 0;
 	let discount_rupee = 0;
 	let GST = 0;
 	if (cart == "Please Login Again") {
 		navigate("/login");
 	} else if (cart) {
-		total_price = cart.reduce((sum, item) => sum + Number(item.prod_price), 0);
+		total_price = cart.reduce(
+			(sum, item) => sum + Number(item.prod_price),
+			0
+		);
 
-		after_Discount_price = cart.reduce((sum, item) => sum + Number(item.prod_price) - Number(item.prod_price) * Number(item.prod_discount) / 100, 0);
+		after_Discount_price = cart.reduce(
+			(sum, item) =>
+				sum +
+				Number(item.prod_price) -
+				Number(item.prod_price) * Number(item.prod_discount) / 100,
+			0
+		);
 		discount_rupee = (total_price - after_Discount_price).toFixed(2);
 		GST = (total_price * 8 / 100).toFixed(2);
 		after_Discount_price = after_Discount_price + GST;
@@ -38,7 +47,6 @@ const Cart = () => {
 			setCount(count);
 		}
 	};
-
 	const handleDelete = item => {
 		const query = { params: item };
 		dispatch(deleteCartData(query));
@@ -55,18 +63,26 @@ const Cart = () => {
 		const toggleReadMore = () => {
 			setIsReadMore(!isReadMore);
 		};
-		return <p className="text">
+		return (
+			<p className="text">
 				{isReadMore ? text.slice(0, 100) : text}
-				<span style={{ color: "brown" }} onClick={toggleReadMore} className="read-or-hide">
+				<span
+					style={{ color: "brown" }}
+					onClick={toggleReadMore}
+					className="read-or-hide"
+				>
 					{isReadMore ? "...read more" : " show less"}
 				</span>
-			</p>;
+			</p>
+		);
 	};
 	//   console.log(cart);
 
-	return <div className={style.cart_div}>
+	return (
+		<div className={style.cart_div}>
 			<div className={style.main}>
-				{cart && cart.map(el =>
+				{cart &&
+					cart.map(el =>
 						<div key={el._id} className={style.main_div}>
 							{/* <div> */}
 							<img
@@ -203,7 +219,13 @@ const Cart = () => {
 				</div>
 				{/* Coupon duv */}
 				<div className={style.coupon_div}>
-					<input className={style.coupon_input} type="text" name="" id="" placeholder="Coupon Code" />
+					<input
+						className={style.coupon_input}
+						type="text"
+						name=""
+						id=""
+						placeholder="Coupon Code"
+					/>
 					<button className={style.coupon_btn}>Go</button>
 				</div>
 				{/* .checkout div */}
@@ -213,7 +235,8 @@ const Cart = () => {
 			</div>
 
 			{/* <Button className={style.order_btn}>Order Now</Button> */}
-		</div>;
+		</div>
+	);
 };
 
 export default Cart;
