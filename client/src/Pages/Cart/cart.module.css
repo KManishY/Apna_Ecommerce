@@ -2,6 +2,7 @@
   display: flex;
   /* justify-content: space-between; */
 	background-color: #070b34;
+	height: 100vh;
 	
 }
 .main_div {
@@ -18,6 +19,7 @@
 .side{
   width: 25rem;
 	border: 1px solid red;
+	display:absolute;
 }
 .side_div{
   position: fixed;
@@ -58,9 +60,9 @@
 	width: 60%;
   padding: 12px 20px;
 	background-color: #070b34;
-  margin: 8px 0;
+	margin:8px auto;
+ 
   box-sizing: border-box;
-	margin: auto;
 }
 .coupon_btn{
 	color: brown;
