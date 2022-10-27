@@ -11,10 +11,10 @@ import {
 	Stack
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../redux/action/authAction.js";
 import { LOGIN_SUCCESS } from "../../redux/constants/appConstant.js";
 const CFaUserAlt = chakra(FaUserAlt);
@@ -29,13 +29,13 @@ const Login = () => {
 		password: ""
 	};
 	const [loginDetails, setLoginDetails] = useState(initialState);
-	const handleChange = (e) => {
-		console.log(loginDetails);
+	const handleChange = e => {
 		setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value });
 	};
 	const handleSubmit = () => {
+		console.log(loginDetails);
 		if (loginDetails) {
-			dispatch(login(loginDetails)).then((r) => {
+			dispatch(login(loginDetails)).then(r => {
 				if (r.type === LOGIN_SUCCESS) {
 					alert("Login Successfully");
 					navigate("/user");
@@ -50,58 +50,57 @@ const Login = () => {
 			{/* <form> */}
 			<Stack
 				spacing={4}
-				p='1rem'
-				backgroundColor='whiteAlpha.900'
-				boxShadow='md'
+				p="1rem"
+				backgroundColor="whiteAlpha.900"
+				boxShadow="md"
 			>
 				<Heading>Login</Heading>
 				<FormControl>
 					<InputGroup>
 						<InputLeftElement
-							pointerEvents='none'
-							children={<CFaUserAlt color='gray.300' />}
+							pointerEvents="none"
+							children={<CFaUserAlt color="gray.300" />}
 						/>
 						<Input
-							type='email'
-							placeholder='Email'
-							name='email'
-							onChange={(e) => handleChange(e)}
+							type="email"
+							placeholder="Email"
+							name="email"
+							onChange={e => handleChange(e)}
 						/>
 					</InputGroup>
 				</FormControl>
 				<FormControl>
 					<InputGroup>
 						<InputLeftElement
-							pointerEvents='none'
-							color='gray.300'
-							children={<CFaLock color='gray.300' />}
+							pointerEvents="none"
+							color="gray.300"
+							children={<CFaLock color="gray.300" />}
 						/>
 						<Input
 							type={showPassword ? "text" : "password"}
-							placeholder='Password'
-							name='password'
-							onChange={(e) => handleChange(e)}
+							placeholder="Password"
+							name="password"
+							onChange={e => handleChange(e)}
 						/>
-						<InputRightElement width='4.5rem'>
+						<InputRightElement width="4.5rem">
 							<Button
-								h='1.75rem'
-								size='sm'
+								h="1.75rem"
+								size="sm"
 								onClick={handleShowClick}
 							>
 								{showPassword ? "Hide" : "Show"}
 							</Button>
 						</InputRightElement>
 					</InputGroup>
-					<FormHelperText textAlign='right'>
+					<FormHelperText textAlign="right">
 						<Link>forgot password?</Link>
 					</FormHelperText>
 				</FormControl>
 				<Button
 					borderRadius={0}
-					type='submit'
-					variant='solid'
-					colorScheme='teal'
-					width='full'
+					variant="solid"
+					colorScheme="teal"
+					width="full"
 					onClick={handleSubmit}
 				>
 					Login
