@@ -47,6 +47,7 @@ adminProductController.post("/create", async (req, res) => {
 });
 
 adminProductController.patch("/edit/:prodId", async (req, res) => {
+	console.log(req.body);
 	const { prodId } = req.params;
 	const productUpdate = await ProductModel.findOneAndUpdate(
 		{ _id: prodId },

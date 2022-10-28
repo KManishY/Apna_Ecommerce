@@ -18,12 +18,12 @@ userController.post("/register", async (req, res) => {
 			username,
 			mobile
 		});
-		console.log(user);
+		// console.log(user);
 		try {
 			await user.save();
 			res.status(200).send({ message: "Registerd Successful" });
 		} catch (err) {
-			console.log("err: ", err);
+			// console.log("err: ", err);
 			res.status(502).send({ message: "Already Registered" });
 		}
 	});

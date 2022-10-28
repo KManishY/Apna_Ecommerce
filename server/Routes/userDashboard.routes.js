@@ -54,14 +54,14 @@ userProductController.post("/create", async (req, res) => {
 		await product.save();
 		res.status(200).send({ message: "Product added Successfully" });
 	} catch (error) {
-		console.log("error: ", error);
+		// console.log("error: ", error);
 		res.status(500).send({ error: error });
 	}
 });
 
 userProductController.delete("/delete/:id", async (req, res) => {
 	const { id } = req.params;
-	console.log("id: ", id);
+	// console.log("id: ", id);
 	const { userEmail } = req.body;
 	try {
 		await CartModel.findOneAndDelete({

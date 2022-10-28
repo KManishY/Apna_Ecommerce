@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
 	Button,
@@ -17,18 +16,22 @@ import { SiNamecheap } from "react-icons/si";
 import { MdPriceCheck } from "react-icons/md";
 import { FcRating } from "react-icons/fc";
 import { TbDiscount2 } from "react-icons/tb";
+import { editProduct } from "../../redux/action/appAction.js";
+import { useDispatch, useSelector } from "react-redux";
 
 const EditProduct = () => {
 	const { id } = useParams();
 	const { productData } = useSelector(state => state.productReducer);
 	const [item] = productData.filter(el => el._id === id);
 	console.log("item: ", item);
+	const dispatch = useDispatch();
 
 	var initialState = {
 		prod_name: item.prod_name,
 		prod_price: item.prod_price,
 		prod_rating: item.prod_rating,
-		prod_discount: item.prod_discount
+		prod_discount: item.prod_discount,
+		id: id
 	};
 	// var initialState = {
 	// 	prod_name: "",
@@ -38,13 +41,15 @@ const EditProduct = () => {
 	// };
 
 	const [product, setProduct] = useState(initialState);
-	console.log("product: ", product);
+	// console.log("product: ", product);
 	const handleChange = e => {
-		console.log(product);
+		// console.log(product);
 		setProduct({ ...product, [e.target.name]: e.target.value });
 	};
 	const handleSubmit = () => {
 		//TODO  onSubmit data fill sand to database to update
+		dispatch(editProduct(product));
+		// console.log(product, "editPage");
 	};
 
 	return (
