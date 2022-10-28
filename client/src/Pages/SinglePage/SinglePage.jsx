@@ -14,8 +14,8 @@ const SinglePage = () => {
 
 	return (
 		<div>
-			<div style={{marginLeft:"5rem",height:'1.5rem',}}>
-				<button>Back</button>
+			<div style={{marginLeft:"5rem",height:'2.5rem',marginTop:"1.5rem"}}>
+				<button className={styled.back_btn}>Back</button>
 			</div>
 		<div className={styled.singlePage_main_div}>
 			<div>

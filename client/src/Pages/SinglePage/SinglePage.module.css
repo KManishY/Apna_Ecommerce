@@ -8,7 +8,6 @@
     margin-bottom: .5rem;
     border:1px solid rgb(190, 199, 241);
 }
-
 .singlePage_main_div >div{
     text-align: justify;
     padding:1rem;
@@ -26,8 +25,13 @@
 .all_p{
     font-size: 1rem;
 }
-.product_info_div{
-    /* width:300px */
+.back_btn{
+    height: 2.5rem;
+    width: 3.5rem;
+    border: 1px solid brown;
+    border-radius: 2rem;
+    
+
 }
 
 .product_description{
