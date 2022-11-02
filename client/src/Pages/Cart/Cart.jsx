@@ -157,10 +157,10 @@ const Cart = () => {
 			<div className={style.side}>
 				<div>
 					<div className={style.all_paymet_div}>
-						<div>
+						<div className={style.amount_div}>
 							<p>Amount</p>
 						</div>
-						<div>
+						<div className={style.amount_div}>
 							<p>
 								&#x20b9; {total_price}
 							</p>
@@ -217,7 +217,7 @@ const Cart = () => {
 						</p>
 					</div>
 				</div>
-				{/* Coupon duv */}
+				{/* Coupon code */}
 				<div className={style.coupon_div}>
 					<input
 						className={style.coupon_input}
@@ -226,7 +226,7 @@ const Cart = () => {
 						id=""
 						placeholder="Coupon Code"
 					/>
-					<button className={style.coupon_btn}>Go</button>
+					<button className={style.coupon_btn} >Go</button>
 				</div>
 				{/* .checkout div */}
 				<div className={style.checkout}>

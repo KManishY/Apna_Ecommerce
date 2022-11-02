@@ -1,6 +1,6 @@
 .cart_div {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: space-evenly;
 	background-color: #070b34;
 	height: 100vh;
 	
@@ -18,18 +18,27 @@
 }
 .side{
   width: 25rem;
-	border: 1px solid red;
+	/* border: 1px solid red; */
 	display:absolute;
+	margin-top: 3rem;
+	background-color: white;
+	color: black;
+	height: 500px;
+	position: sticky;
+	top: 0;
+	/* bottom: 20; */
 }
 .side_div{
-  position: fixed;
+  position: sticky;
   height:max-content;
-  top:30;
+  top:0;
   /* bottom: 10; */
   right:0;
   background:white;
   /* width: 25rem; */
   margin: 3rem 1rem;
+	
+	
 }
 .all_paymet_div{
 	display: flex;
@@ -52,40 +61,44 @@
 	margin-top: 3rem;
 	margin-bottom: 2.5rem;
 	width: 80%;
-	margin: 3rem 0 2.5rem 0  ;
+	/* margin: 3rem 0 2.5rem 0  ; */
+	margin-left: 3.2rem;
+	background-color: white;
 }
 .coupon_input{
 	border: none;
 	border-bottom: 2px solid wheat;
 	width: 60%;
   padding: 12px 20px;
-	background-color: #070b34;
+	background-color: white;
 	margin:8px auto;
- 
   box-sizing: border-box;
 }
 .coupon_btn{
-	color: brown;
+	color: white;
+	font-weight: bold;
 	/* background-color: brown; */
 	width: 20%;
-	border: 1px solid brown;
+	/* border: 1px solid brown; */
 	height: 40px;
-
-
+	
 }
 
 .checkout{
 	/* margin-top: 5.5rem; */
-	/* background-color: brown; */
+	background-color: white;
 	width: 80%;
 	margin: auto;
-
-
+	margin-left: 3.5rem;
+}
+.amount_div{
+	margin-top: 2rem;
 }
 .checkout_btn{
-	/* background-color: brown; */
-	border: 1px solid brown;
-	color: brown;
+	background-color: white;
+	/* border: 1px solid brown; */
+	color: white;
+	font-weight: bold;
 	height: 40px;
 	width: 80%;
 	margin: auto;
