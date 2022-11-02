@@ -5,7 +5,7 @@ const dataController = Router();
 
 dataController.get("/", async (req, res) => {
 	const a = req.query.params;
-
+	
 	if (a.sort == "asc" && a.category && a.sortByRating == "high") {
 		let product = await ProductModel.find({
 			prod_cat: a.category,
