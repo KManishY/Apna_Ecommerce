@@ -6,21 +6,27 @@ import {
 	Flex,
 	Grid,
 	GridItem,
-	Heading
+	Heading,
+	Text
 } from "@chakra-ui/react";
 
 import React, { useEffect } from "react";
+import { FiEdit } from "react-icons/fi";
+import { MdDelete } from "react-icons/md";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getProduct } from "../../redux/action/appAction.js";
-import style from "./product.module.css";
+import { deleteProduct, getProduct } from "../../redux/action/appAction.js";
+import styled from "./product.module.css";
 
 const Product = () => {
 	const dispatch = useDispatch();
-	const { productData } = useSelector((state) => state.productReducer);
+	const { productData } = useSelector(state => state.productReducer);
 	console.log("product: ", productData);
-	const handleEdit = (e) => {
+	const handleDelete = e => {
 		console.log(e);
+		// dispatch(deleteProduct(e._id));
+		// dispatch(getProduct());
 	};
 
 	useEffect(() => {
@@ -28,9 +34,9 @@ const Product = () => {
 	}, []);
 	return (
 		<div>
-			<div className={style.mainDiv}>
-				<Flex justify='space-between' gap='0'>
-					<Box
+			<div className={styled.mainDiv}>
+				<Flex justify="space-between" gap="0">
+					{/* <Box
 						w='100%'
 						h='90vh'
 						mt='30px'
@@ -54,32 +60,64 @@ const Product = () => {
 						<Checkbox colorScheme='green'>
 							Garden Accessories
 						</Checkbox>
-					</Box>
-					<Box justify='center'>
+					</Box> */}
+					<Box justify="center">
 						<Heading>All Products</Heading>
-						<Grid gap={2} templateColumns='repeat(3, 1fr)'>
+						<Grid gap={2} templateColumns="repeat(3, 1fr)">
 							{productData &&
-								productData.map((e) => (
-									<div key={e._id}>
-										<GridItem>
+								productData.map(item =>
+									<Box
+										key={item._id}
+										className={styled.all_box}
+									>
+										<Box className={styled.cartBtn}>
 											<img
-												src={e.prod_image}
-												alt={e.prod_name}
+												className={styled.zoom}
+												src={item.prod_image}
 											/>
-											<p>{e.prod_name}</p>
-											<Link to={`/editproduct/${e._id}`}>
-												<Button
-													onClick={() =>
-														handleEdit(e)
-													}
-													colorScheme='teal'
+											<Link
+												to={`/editproduct/${item._id}`}
+											>
+												<button
+													className={styled.centered}
 												>
-													Edit
-												</Button>
+													<FiEdit />
+												</button>
 											</Link>
-										</GridItem>
-									</div>
-								))}
+											<button
+												onClick={() =>
+													handleDelete(item)}
+												className={styled.centered_left}
+											>
+												<MdDelete />
+											</button>
+											{/* <p>{item.prod_discount}% off</p> */}
+										</Box>
+
+										<Box p={2}>
+											<Text
+												as="b"
+												fontSize="md"
+												className={styled.textoverflow}
+											>
+												{item.prod_name}
+											</Text>
+											<Flex justifyContent="space-around">
+												<Box>
+													<Text>
+														<b> &#x20b9; </b>{" "}
+														{item.prod_price}
+													</Text>
+												</Box>
+												<Box>
+													<Text>
+														{item.prod_rating}&#9733;
+													</Text>
+												</Box>
+											</Flex>
+										</Box>
+									</Box>
+								)}
 						</Grid>
 					</Box>
 				</Flex>

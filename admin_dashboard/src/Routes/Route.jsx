@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Sidebar from "../components/Sidebar.jsx";
 import Login from "../pages/Login/Login.jsx";
 import Order from "../pages/Orders/Order.jsx";
+import AddProduct from "../pages/Products/AddProduct.jsx";
 import EditProduct from "../pages/Products/EditProduct.jsx";
 import Product from "../pages/Products/Product.jsx";
 import User from "../pages/Users/User.jsx";
@@ -15,11 +16,10 @@ const AllRoute = () => {
 			<Flex>
 				<Sidebar />
 				<div style={{ width: "100%" }}>
-					{" "}
-					<Routes>
+					{" "}<Routes>
 						<Route
 							exact
-							path='/'
+							path="/"
 							element={
 								<PrivateRoute>
 									<Product />
@@ -28,7 +28,7 @@ const AllRoute = () => {
 						/>
 						<Route
 							exact
-							path='/order'
+							path="/order"
 							element={
 								<PrivateRoute>
 									<Order />
@@ -37,7 +37,16 @@ const AllRoute = () => {
 						/>
 						<Route
 							exact
-							path='/user'
+							path="/addProduct"
+							element={
+								<PrivateRoute>
+									<AddProduct />
+								</PrivateRoute>
+							}
+						/>
+						<Route
+							exact
+							path="/user"
 							element={
 								<PrivateRoute>
 									<User />
@@ -46,14 +55,14 @@ const AllRoute = () => {
 						/>
 						<Route
 							exact
-							path='/editproduct/:id'
+							path="/editproduct/:id"
 							element={
 								<PrivateRoute>
 									<EditProduct />
 								</PrivateRoute>
 							}
 						/>
-						<Route exact path='/login' element={<Login />} />
+						<Route exact path="/login" element={<Login />} />
 					</Routes>
 				</div>
 			</Flex>

@@ -42,7 +42,7 @@ adminProductController.post("/create", async (req, res) => {
 		await product.save();
 		res.status(200).send({ employee: "Product added Successfully" });
 	} catch (error) {
-		res.status(500).send({ error: error });
+		res.status(500).send({ message: error });
 	}
 });
 
@@ -62,6 +62,7 @@ adminProductController.patch("/edit/:prodId", async (req, res) => {
 
 adminProductController.delete("/delete/:id", async (req, res) => {
 	const { id } = req.params;
+	console.log("id: ", id);
 	try {
 		await ProductModel.findOneAndDelete({
 			id

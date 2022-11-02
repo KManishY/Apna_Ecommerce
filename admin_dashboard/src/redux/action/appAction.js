@@ -8,7 +8,13 @@ import {
 	PRODUCT_FAILURE,
 	EDIT_PRODUCT_REQUEST,
 	EDIT_PRODUCT_SUCCESS,
-	EDIT_PRODUCT_FAILURE
+	EDIT_PRODUCT_FAILURE,
+	ADD_PRODUCT_REQUEST,
+	ADD_PRODUCT_SUCCESS,
+	ADD_PRODUCT_FAILURE,
+	DELETE_PRODUCT_REQUEST,
+	DELETE_PRODUCT_SUCCESS,
+	DELETE_PRODUCT_FAILURE
 } from "../constants/appConstant.js";
 const token = localStorage.getItem("authToken");
 export const allUsers = () => dispatch => {
@@ -76,5 +82,53 @@ export const editProduct = payload => dispatch => {
 		})
 		.catch(err => {
 			dispatch({ type: EDIT_PRODUCT_FAILURE });
+		});
+};
+export const addProduct = payload => dispatch => {
+	console.log("payload: addProduct ", payload);
+	dispatch({ type: ADD_PRODUCT_REQUEST });
+	return axios({
+		method: "post",
+		url: `/admindashboard/create`,
+		baseURL: "http://localhost:8080",
+		headers: {
+			Authorization: token
+		},
+		data: payload
+	})
+		.then(response => {
+			alert(response.data.message);
+
+			dispatch({
+				type: ADD_PRODUCT_SUCCESS,
+				payload: response.data.message
+			});
+		})
+		.catch(err => {
+			dispatch({ type: ADD_PRODUCT_FAILURE });
+		});
+};
+export const deleteProduct = payload => dispatch => {
+	console.log("payload: deleteProduct ", payload);
+	dispatch({ type: DELETE_PRODUCT_REQUEST });
+	return axios({
+		method: "delete",
+		url: `/admindashboard/delete/${payload}`,
+		baseURL: "http://localhost:8080",
+		headers: {
+			Authorization: token
+		}
+		// data: payload
+	})
+		.then(response => {
+			alert(response.data.message);
+
+			dispatch({
+				type: DELETE_PRODUCT_SUCCESS,
+				payload: response.data.message
+			});
+		})
+		.catch(err => {
+			dispatch({ type: DELETE_PRODUCT_FAILURE });
 		});
 };

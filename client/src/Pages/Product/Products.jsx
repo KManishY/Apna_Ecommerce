@@ -20,12 +20,12 @@ const Products = () => {
 	const token = localStorage.getItem("token");
 	//! add to cart function
 	const handleClick = item => {
-									const payload = { token: token, data: item };
-									// console.log(payload);
-									dispatch(postCartData(payload)); //TODO need response there to popup status
-									// alert("data added successfully");
-									dispatch(getCartData());
-								};
+		const payload = { token: token, data: item };
+		// console.log(payload);
+		dispatch(postCartData(payload)); //TODO need response there to popup status
+		// alert("data added successfully");
+		dispatch(getCartData());
+	};
 	// useEffect(() => {
 	// }, []);
 	//! Problem :- when my handle click function is called after that my product data
