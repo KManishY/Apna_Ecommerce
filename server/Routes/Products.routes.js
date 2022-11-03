@@ -163,7 +163,7 @@ dataController.get("/", async (req, res) => {
 
 	//---------
 	else {
-		let product = await ProductModel.find();
+		let product = await ProductModel.find().limit(10);
 		return res.status(200).json(product);
 	}
 });

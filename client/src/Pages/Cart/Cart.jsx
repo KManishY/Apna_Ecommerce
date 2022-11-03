@@ -3,7 +3,7 @@ import style from "./cart.module.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCartData, getCartData } from "../../Redux/AppReducer/action.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
 	const dispatch = useDispatch();
@@ -95,12 +95,14 @@ const Cart = () => {
 							<div className={style.details}>
 								{/* product name */}
 								<div>
-									<Heading
-										size="sm"
-										className={style.product_name}
-									>
-										{el.prod_name}
-									</Heading>
+									<Link to={`/singleProduct/${el.prod_id}`}>
+										<Heading
+											size="sm"
+											className={style.product_name}
+										>
+											{el.prod_name}
+										</Heading>
+									</Link>
 								</div>
 								{/* product discription */}
 								{/* <div>
@@ -226,7 +228,7 @@ const Cart = () => {
 						id=""
 						placeholder="Coupon Code"
 					/>
-					<button className={style.coupon_btn} >Go</button>
+					<button className={style.coupon_btn}>Go</button>
 				</div>
 				{/* .checkout div */}
 				<div className={style.checkout}>

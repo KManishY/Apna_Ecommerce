@@ -9,7 +9,7 @@ import {
 
 const initialState = {
 	isAuth: false,
-	token: "",
+	user: [],
 	status: "",
 	isLoading: false,
 	isError: false
@@ -29,7 +29,7 @@ const reducer = (oldState = initialState, { type, payload }) => {
 				isLoading: false,
 				isAuth: true,
 				isError: false,
-				token: payload
+				user: payload
 			};
 		case LOGIN_FAILURE:
 			return {

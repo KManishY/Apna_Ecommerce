@@ -5,6 +5,7 @@ import styled from "./SinglePage.module.css";
 
 const SinglePage = () => {
 	const { id } = useParams();
+	console.log("id: ", id);
 	const { data } = useSelector(state => state.productReducer);
 	// console.log("state: ", data);
 	// console.log("params: ", params);

@@ -10,6 +10,7 @@ import {
 import styled from "./products.module.css";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { BsCartPlusFill } from "react-icons/bs";
+import PaginationComp from "../../Components/Pagination.jsx";
 // import { BsCartPlusFill } from "@react-icons/all-files/bs";
 const Products = () => {
 	const dispatch = useDispatch();
@@ -28,8 +29,6 @@ const Products = () => {
 	};
 	// useEffect(() => {
 	// }, []);
-	//! Problem :- when my handle click function is called after that my product data
-	//! is getting undefined
 
 	useEffect(
 		() => {
@@ -108,6 +107,7 @@ const Products = () => {
 							</Box>
 						)}
 				</Flex>
+				{/* <PaginationComp /> */}
 				{/* </div> */}
 			</div>
 		</div>

@@ -1,20 +1,13 @@
 const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { ProductModel } = require("../Modal/product.module.js");
 const { CartModel } = require("../Modal/Cart.module.js");
 require("dotenv").config();
 
 const userProductController = Router();
-
-// userProductController.get("/", async (req, res) => {
-// 	const product = await ProductModel.find();
-// 	res.status(200).json(product);
-// });
 userProductController.get("/cart", async (req, res) => {
 	const product = await CartModel.find({ userEmail: req.body.userEmail });
-
-	res.status(200).json(product);
+	if (product) res.status(200).json(product);
 });
 
 userProductController.post("/create", async (req, res) => {
@@ -34,9 +27,10 @@ userProductController.post("/create", async (req, res) => {
 		userEmail: req.body.userEmail,
 		prod_id: _id
 	});
-	if (alreadyData) {
-		return res.status(200).send({ message: "Product is already present" });
-	}
+	console.log(alreadyData)
+	// if (alreadyData) {
+	// 	return res.status(200).send({ message: "Product is already present" });
+	// }
 
 	const product = new CartModel({
 		prod_id: _id,
@@ -54,14 +48,12 @@ userProductController.post("/create", async (req, res) => {
 		await product.save();
 		res.status(200).send({ message: "Product added Successfully" });
 	} catch (error) {
-		// console.log("error: ", error);
 		res.status(500).send({ error: error });
 	}
 });
 
 userProductController.delete("/delete/:id", async (req, res) => {
 	const { id } = req.params;
-	// console.log("id: ", id);
 	const { userEmail } = req.body;
 	try {
 		await CartModel.findOneAndDelete({

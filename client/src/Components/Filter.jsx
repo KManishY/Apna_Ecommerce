@@ -43,8 +43,6 @@ const Filter = () => {
 		<Box className={styled.min_div}>
 			<Box className={styled.Filter_main_div}>
 				<Heading
-					// color={"white"}
-					// size='md'
 					className={styled.allHeading}
 				>
 					Products
@@ -102,8 +100,6 @@ const Filter = () => {
 					<label className={styled.label}>Garden Accessories</label>
 				</Box>
 			</Box>
-			{/* <label>Wall Art</label>
-				<input type='checkbox' value='wall_art' /> */}
 
 			{/* ------------Sort by price---------------  */}
 

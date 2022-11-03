@@ -19,13 +19,17 @@ export const login = payload => dispatch => {
 		data: payload
 	})
 		.then(r => {
-			console.log("r: login successful", r.data);
+			console.log("r: login successful", r.data.user);
 
 			setTimeout(() => {
-				localStorage.setItem("token", r.data); //TODO .token added here
+				localStorage.setItem("token", r.data.token); //TODO .token added here
+				// localStorage.setItem(JSON.stringify("user", r.data.user)); //TODO .token added here
 			}, 100);
 			// Alert("LOGIN_SUCCESS");
-			return dispatch({ type: LOGIN_SUCCESS, payload: r.data });
+			return dispatch({
+				type: LOGIN_SUCCESS,
+				payload: r.data.user
+			});
 		})
 		.catch(e => dispatch({ type: LOGIN_FAILURE }));
 };
