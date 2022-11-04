@@ -24,10 +24,7 @@ const Login = () => {
 	const navigate = useNavigate();
 	const [showPassword, setShowPassword] = useState(false);
 	const handleShowClick = () => setShowPassword(!showPassword);
-	const initialState = {
-		username: "",
-		password: ""
-	};
+	const initialState = { email: "", password: "" };
 	const [loginDetails, setLoginDetails] = useState(initialState);
 	const handleChange = e => {
 		setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value });
