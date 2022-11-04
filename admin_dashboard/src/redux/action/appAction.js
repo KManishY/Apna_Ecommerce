@@ -23,7 +23,7 @@ export const allUsers = () => dispatch => {
 		method: "get",
 		url: "/admindashboard/users",
 		// localhost:8080/admindashboard/users
-		baseURL: "http://localhost:8080",
+		baseURL: "https://rocky-coast-01134.herokuapp.com",
 		headers: {
 			Authorization: token
 		}
@@ -45,7 +45,7 @@ export const getProduct = () => dispatch => {
 		method: "get",
 		url: "/admindashboard",
 		// localhost:8080/admindashboard/users
-		baseURL: "http://localhost:8080",
+		baseURL: "https://rocky-coast-01134.herokuapp.com",
 		headers: {
 			Authorization: token
 		}
@@ -66,7 +66,7 @@ export const editProduct = payload => dispatch => {
 	return axios({
 		method: "patch",
 		url: `/admindashboard/edit/${payload.id}`,
-		baseURL: "http://localhost:8080",
+		baseURL: "https://rocky-coast-01134.herokuapp.com",
 		headers: {
 			Authorization: token
 		},
@@ -90,7 +90,7 @@ export const addProduct = payload => dispatch => {
 	return axios({
 		method: "post",
 		url: `/admindashboard/create`,
-		baseURL: "http://localhost:8080",
+		baseURL: "https://rocky-coast-01134.herokuapp.com",
 		headers: {
 			Authorization: token
 		},
@@ -114,7 +114,7 @@ export const deleteProduct = payload => dispatch => {
 	return axios({
 		method: "delete",
 		url: `/admindashboard/delete/${payload}`,
-		baseURL: "http://localhost:8080",
+		baseURL: "https://rocky-coast-01134.herokuapp.com",
 		headers: {
 			Authorization: token
 		}

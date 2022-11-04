@@ -10,15 +10,15 @@ export const login = (payload) => (dispatch) => {
 	return axios({
 		method: "post",
 		url: "/admin/login",
-		baseURL: "http://localhost:8080",
+		baseURL: "https://rocky-coast-01134.herokuapp.com",
 		data: payload
 	})
-		.then((r) => {
+		.then(r => {
 			console.log("r: ", r.data);
 			setTimeout(() => {
 				localStorage.setItem("authToken", r.data);
 			}, 100);
 			return dispatch({ type: LOGIN_SUCCESS, payload: r.data });
 		})
-		.catch((e) => dispatch({ type: LOGIN_FAILURE }));
+		.catch(e => dispatch({ type: LOGIN_FAILURE }));
 };
