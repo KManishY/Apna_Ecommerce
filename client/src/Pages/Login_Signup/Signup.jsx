@@ -29,16 +29,10 @@ export default function Login() {
 	const handleShowClick = () => setShowPassword(!showPassword);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { status } = useSelector((state) => state.AuthReducer);
+	const { status } = useSelector(state => state.AuthReducer);
 	// console.log("state: ", status);
 
-	const initialState = {
-		name: "",
-		email: "",
-		password: "",
-		username: "",
-		mobile: ""
-	};
+	const initialState = { name: "", email: "", password: "", username: "", mobile: "" };
 	const [registerDetails, setRegisterDetails] = useState({
 		name: "",
 		email: "",
@@ -58,16 +52,19 @@ export default function Login() {
 		if (registerDetails) {
 			dispatch(register(registerDetails)).then(r => {
 				if (r.type === REGISTER_SUCCESS) {
-					alert(status);
+					alert("Sigup Successfully");
+					// setTimeout(() => {
 					navigate("/login");
+					window.location.reload();
+
+					// }, 500);
 				}
 			});
 		}
 	};
 
 	return <Flex flexDirection="column" width="100wh" height="103vh" mt="-90px" justifyContent="center" alignItems="center">
-			{" "}// backgroundColor='white'
-			<Stack border="2px solid #070b34" flexDir="column" mb="2" justifyContent="center" alignItems="center">
+			{" "}<Stack border="2px solid #070b34" flexDir="column" mb="2" justifyContent="center" alignItems="center">
 				<Avatar bg="#070b34" mt="1rem" />
 				<Heading color="#070b34">Welcome</Heading>
 				<Box minW={{ base: "90%", md: "468px" }}>

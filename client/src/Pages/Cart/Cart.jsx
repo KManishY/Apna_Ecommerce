@@ -17,21 +17,13 @@ const Cart = () => {
 	if (cart == "Please Login Again") {
 		navigate("/login");
 	} else if (cart) {
-		total_price = cart.reduce(
-			(sum, item) => sum + Number(item.prod_price),
-			0
-		);
-
-		after_Discount_price = cart.reduce(
-			(sum, item) =>
-				sum +
-				Number(item.prod_price) -
-				Number(item.prod_price) * Number(item.prod_discount) / 100,
-			0
-		);
+		total_price = cart.reduce((sum, item) => sum + Number(item.prod_price), 0);
+		// total_price.toFixed(2);
+		after_Discount_price = cart.reduce((sum, item) => sum + Number(item.prod_price) - Number(item.prod_price) * Number(item.prod_discount) / 100, 0);
 		discount_rupee = (total_price - after_Discount_price).toFixed(2);
 		GST = (total_price * 8 / 100).toFixed(2);
 		after_Discount_price = after_Discount_price + GST;
+		after_Discount_price = after_Discount_price.split(".")[0];
 		console.log("discount_rupee: ", discount_rupee);
 		console.log("price", total_price);
 		console.log("after discount", after_Discount_price);
@@ -232,7 +224,9 @@ const Cart = () => {
 				</div>
 				{/* .checkout div */}
 				<div className={style.checkout}>
+					<Link to="/checkout">
 					<button className={style.checkout_btn}>CHECKOUT</button>
+					</Link>
 				</div>
 			</div>
 

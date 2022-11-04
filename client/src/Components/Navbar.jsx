@@ -9,14 +9,16 @@ import { useEffect } from "react";
 import { getCartData } from "../Redux/AppReducer/action.js";
 const Navbar = () => {
 	const token = localStorage.getItem("token");
+	const user = localStorage.getItem("user");
 
 	const { name } = useSelector((state) => state.AuthReducer.user);
 	console.log("state: ", name);
 
 	const [hamBtn, sethamBtn] = useState(false);
 	const navigate = useNavigate();
-	const { cart } = useSelector((state) => state.getCartReducer);
-	if (cart == "Please Login") {
+	let { cart } = useSelector((state) => state.getCartReducer);
+	console.log('cart: ', cart);
+	if (cart == "Please Login Again") {
 		console.log(cart);
 		cart = "";
 	}
@@ -33,7 +35,10 @@ const Navbar = () => {
 
 	const handleLogout = () => {
 		localStorage.removeItem("token");
+		localStorage.removeItem("user");
 		navigate("/login");
+		window.location.reload();
+
 	};
 
 	return (
@@ -80,7 +85,7 @@ const Navbar = () => {
 											onClick={handleLogout}
 											className
 										>
-											{name}
+											{user}
 										</span>
 								</span>
 							)}

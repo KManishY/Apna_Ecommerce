@@ -14,18 +14,18 @@ import {
 	DELETE_CART_DATA_FAIL
 } from "./constants.js";
 //! product data function 
-export const getData = (params) => (dispatch) => {
+export const getData = params => dispatch => {
 	dispatch({ type: GET_DATA_REQUEST });
 	return axios({
 		method: "get",
 		url: "/getAllProduct",
-		baseURL: "http://localhost:8080",
+		baseURL: "https://rocky-coast-01134.herokuapp.com",
 		params
 	})
-		.then((response) => {
+		.then(response => {
 			return dispatch({ type: GET_DATA_SUCCESS, payload: response.data });
 		})
-		.catch((err) => {
+		.catch(err => {
 			return dispatch({ type: GET_DATA_FAIL });
 		});
 };
@@ -34,19 +34,19 @@ export const getData = (params) => (dispatch) => {
 
 const token = localStorage.getItem("token");
 // console.log("token: ", token);
-//! add to cart function 
-export const postCartData = (payload) => (dispatch) => {
+//! add to cart function
+export const postCartData = payload => dispatch => {
 	dispatch({ type: POST_CART_DATA_REQUEST });
 	return axios({
 		method: "post",
 		url: "/userDashboard/create",
-		baseURL: "http://localhost:8080",
+		baseURL: "https://rocky-coast-01134.herokuapp.com",
 		headers: {
 			Authorization: token
 		},
 		data: payload.data
 	})
-		.then((response) => {
+		.then(response => {
 			alert(response.data.message);
 
 			dispatch({
@@ -54,7 +54,7 @@ export const postCartData = (payload) => (dispatch) => {
 				payload: response.data.message
 			});
 		})
-		.catch((err) => {
+		.catch(err => {
 			dispatch({ type: POST_CART_DATA_FAIL });
 		});
 };
@@ -68,7 +68,7 @@ export const getCartData = () => dispatch => {
 	return axios({
 		method: "get",
 		url: "/userDashboard/cart",
-		baseURL: "http://localhost:8080",
+		baseURL: "https://rocky-coast-01134.herokuapp.com",
 		headers: {
 			Authorization: token
 		}
@@ -88,15 +88,15 @@ export const getCartData = () => dispatch => {
 };
 
 //! delete data from cart
-export const deleteCartData = ({params}) => (dispatch) => {
+export const deleteCartData = ({ params }) => dispatch => {
 	console.log("params: ", params);
-	
+
 	dispatch({ type: DELETE_CART_DATA_REQUEST });
 	return (
 		axios({
 			method: "delete",
 			url: `/userDashboard/delete/${params}`,
-			baseURL: "http://localhost:8080",
+			baseURL: "https://rocky-coast-01134.herokuapp.com",
 			headers: {
 				Authorization: token
 			}
@@ -104,15 +104,15 @@ export const deleteCartData = ({params}) => (dispatch) => {
 			// params
 		})
 			// return axios
-			// 	.delete(`http://localhost:8080/userDashboard/delete/${params}`)
-			.then((response) => {
+			// 	.delete(`https://rocky-coast-01134.herokuapp.com/userDashboard/delete/${params}`)
+			.then(response => {
 				console.log("response: ", response);
 				return dispatch({
 					type: DELETE_CART_DATA_SUCCESS,
 					payload: response.data
 				});
 			})
-			.catch((err) => {
+			.catch(err => {
 				return dispatch({ type: DELETE_CART_DATA_FAIL });
 			})
 	);

@@ -15,15 +15,16 @@ export const login = payload => dispatch => {
 	return axios({
 		method: "post",
 		url: "/user/login",
-		baseURL: "http://localhost:8080",
+		baseURL: "https://rocky-coast-01134.herokuapp.com",
 		data: payload
 	})
 		.then(r => {
-			console.log("r: login successful", r.data.user);
+			console.log("r: login successful", r.data.user.name);
+			let name = r.data.user.name.split(" ")[0];
 
 			setTimeout(() => {
 				localStorage.setItem("token", r.data.token); //TODO .token added here
-				// localStorage.setItem(JSON.stringify("user", r.data.user)); //TODO .token added here
+				localStorage.setItem("user", name); //TODO .token added here
 			}, 100);
 			// Alert("LOGIN_SUCCESS");
 			return dispatch({
@@ -40,7 +41,7 @@ export const register = (payload) => (dispatch) => {
 	return axios({
 		method: "post",
 		url: "/user/register",
-		baseURL: "http://localhost:8080",
+		baseURL: "https://rocky-coast-01134.herokuapp.com",
 		data: payload
 	})
 		.then((r) =>
