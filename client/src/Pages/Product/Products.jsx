@@ -8,15 +8,26 @@ import {
 	postCartData
 } from "../../Redux/AppReducer/action.js";
 import styled from "./products.module.css";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
 import { BsCartPlusFill } from "react-icons/bs";
 import PaginationComp from "../../Components/Pagination.jsx";
 // import { BsCartPlusFill } from "@react-icons/all-files/bs";
 const Products = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
+	const [text, setText] = useState("");
 	//! Product data comming from store
 	let { data, message } = useSelector(state => state.productReducer);
+	const [globalData, setGlobalData] = useState([]);
+	const [filterData, setFilterData] = useState([]);
+	useEffect(() => {
+		
+		{
+			 data?.length  && setGlobalData(data);
+		}
+	},[data])
+
+
 	const [searchParams] = useSearchParams();
 	const token = localStorage.getItem("token");
 	//! add to cart function
@@ -29,6 +40,21 @@ const Products = () => {
 	};
 	// useEffect(() => {
 	// }, []);
+
+	const handleInputChange = e => {
+		setText(e.target.value);
+		if (text.length == 0) {
+			setFilterData([])
+		}
+		console.log(text);
+		let data = (filterData.length ? filterData : globalData).filter(item =>
+			item.prod_name.toLowerCase().includes(text.toLowerCase())
+		);
+
+		setFilterData(data)
+		
+		console.log("data: filtered ", filterData);
+	};
 
 	useEffect(
 		() => {
@@ -45,11 +71,11 @@ const Products = () => {
 				};
 				//! dispatching getData function
 				dispatch(getData(query));
+				setFilterData([])
 			}
 		},
 		[location.search]
 	);
-	console.log(data);
 
 	return (
 		<div className={styled.main_div}>
@@ -61,10 +87,27 @@ const Products = () => {
 			</div>
 			{/* ----------------All Products ---------------- */}
 			<div className={styled.main}>
+				<div
+					style={{
+						backgroundColor: "white",
+						width: "60%",
+						margin: "auto",
+						marginBottom: "10px",
+						marginTop: "10px",
+						borderRadius:"1rem"
+					}}
+				>
+					<Input
+						textAlign='center'
+						borderRadius="1rem"
+						placeholder="Search for a Product..."
+						size="lg"
+						onChange={e => handleInputChange(e)}
+					/>
+				</div>
 				<Flex wrap="wrap" gap={3} justify="center">
 					{/* <div className={styled.main_div}> */}
-					{data &&
-						data.map(item =>
+					{(filterData.length ? filterData : globalData).map(item =>
 							<Box key={item._id} className={styled.all_box}>
 								<Box className={styled.cartBtn}>
 									<Link to={`/singleProduct/${item._id}`}>

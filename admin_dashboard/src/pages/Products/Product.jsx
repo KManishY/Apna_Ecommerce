@@ -32,10 +32,9 @@ const Product = () => {
 	useEffect(() => {
 		dispatch(getProduct());
 	}, []);
-	return (
-		<div>
+	return <div>
 			<div className={styled.mainDiv}>
-				<Flex justify="space-between" gap="0">
+				<Flex justify="center" gap="0">
 					{/* <Box
 						w='100%'
 						h='90vh'
@@ -63,9 +62,8 @@ const Product = () => {
 					</Box> */}
 					<Box justify="center">
 						<Heading>All Products</Heading>
-						<Grid gap={2} templateColumns="repeat(3, 1fr)">
-							{productData &&
-								productData.map(item =>
+						<Grid gap={2} templateColumns="repeat(4, 1fr)" justifyContent="center">
+							{productData && productData.map(item =>
 									<Box
 										key={item._id}
 										className={styled.all_box}
@@ -79,7 +77,9 @@ const Product = () => {
 												to={`/editproduct/${item._id}`}
 											>
 												<button
-													className={styled.centered}
+													className={
+														styled.centered
+													}
 												>
 													<FiEdit />
 												</button>
@@ -87,7 +87,9 @@ const Product = () => {
 											<button
 												onClick={() =>
 													handleDelete(item)}
-												className={styled.centered_left}
+												className={
+													styled.centered_left
+												}
 											>
 												<MdDelete />
 											</button>
@@ -98,7 +100,9 @@ const Product = () => {
 											<Text
 												as="b"
 												fontSize="md"
-												className={styled.textoverflow}
+												className={
+													styled.textoverflow
+												}
 											>
 												{item.prod_name}
 											</Text>
@@ -122,8 +126,7 @@ const Product = () => {
 					</Box>
 				</Flex>
 			</div>
-		</div>
-	);
+		</div>;
 };
 
 export default Product;

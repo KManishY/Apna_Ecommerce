@@ -1,4 +1,5 @@
 import {
+	Container,
 	Button,
 	chakra,
 	FormControl,
@@ -14,7 +15,6 @@ import { FaUserAlt, FaLock } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import React, { useState } from "react";
-import styled from "styled-components";
 import { login } from "../../redux/action/authAction.js";
 import { LOGIN_SUCCESS } from "../../redux/constants/appConstant.js";
 const CFaUserAlt = chakra(FaUserAlt);
@@ -36,6 +36,7 @@ const Login = () => {
 				if (r.type === LOGIN_SUCCESS) {
 					alert("Login Successfully");
 					navigate("/user");
+					window.location.reload();
 					// localStorage.setItem("token", token);
 				}
 			});
@@ -43,68 +44,82 @@ const Login = () => {
 	};
 
 	return (
-		<div>
-			{/* <form> */}
-			<Stack
-				spacing={4}
-				p="1rem"
-				backgroundColor="whiteAlpha.900"
-				boxShadow="md"
-			>
-				<Heading>Login</Heading>
-				<FormControl>
-					<InputGroup>
-						<InputLeftElement
-							pointerEvents="none"
-							children={<CFaUserAlt color="gray.300" />}
-						/>
-						<Input
-							type="email"
-							placeholder="Email"
-							name="email"
-							onChange={e => handleChange(e)}
-						/>
-					</InputGroup>
-				</FormControl>
-				<FormControl>
-					<InputGroup>
-						<InputLeftElement
-							pointerEvents="none"
-							color="gray.300"
-							children={<CFaLock color="gray.300" />}
-						/>
-						<Input
-							type={showPassword ? "text" : "password"}
-							placeholder="Password"
-							name="password"
-							onChange={e => handleChange(e)}
-						/>
-						<InputRightElement width="4.5rem">
-							<Button
-								h="1.75rem"
-								size="sm"
-								onClick={handleShowClick}
-							>
-								{showPassword ? "Hide" : "Show"}
-							</Button>
-						</InputRightElement>
-					</InputGroup>
-					<FormHelperText textAlign="right">
-						<Link>forgot password?</Link>
-					</FormHelperText>
-				</FormControl>
-				<Button
-					borderRadius={0}
-					variant="solid"
-					colorScheme="teal"
-					width="full"
-					onClick={handleSubmit}
+		<Container>
+			<div>
+				{/* <form> */}
+				<Stack
+					spacing={4}
+					p="1rem"
+					backgroundColor="whiteAlpha.900"
+					boxShadow="md"
 				>
-					Login
-				</Button>
-			</Stack>
-			{/* </form> */}
-		</div>
+					<Heading>Login</Heading>
+					<FormControl>
+						<InputGroup>
+							<InputLeftElement
+								pointerEvents="none"
+								children={<CFaUserAlt color="gray.300" />}
+							/>
+							<Input
+								type="email"
+								placeholder="Email"
+								name="email"
+								onChange={e => handleChange(e)}
+							/>
+						</InputGroup>
+					</FormControl>
+					<FormControl>
+						<InputGroup>
+							<InputLeftElement
+								pointerEvents="none"
+								color="gray.300"
+								children={<CFaLock color="gray.300" />}
+							/>
+							<Input
+								type={showPassword ? "text" : "password"}
+								placeholder="Password"
+								name="password"
+								onChange={e => handleChange(e)}
+							/>
+							<InputRightElement width="4.5rem">
+								<Button
+									h="1.75rem"
+									size="sm"
+									onClick={handleShowClick}
+								>
+									{showPassword ? "Hide" : "Show"}
+								</Button>
+							</InputRightElement>
+						</InputGroup>
+						<FormHelperText textAlign="right">
+							<Link>forgot password?</Link>
+						</FormHelperText>
+					</FormControl>
+					<Button
+						borderRadius={0}
+						variant="solid"
+						colorScheme="teal"
+						width="full"
+						onClick={handleSubmit}
+					>
+						Login
+					</Button>
+				</Stack>
+				<div>
+					<h3>
+						<b>Admin Details:-</b>
+					</h3>
+					<h4>
+						<b>Email:</b>manishyadav4657@gmail.com
+					</h4>
+					<h4>
+						<b>Password:</b>manish123
+					</h4>
+					<p>Please don't delete product more than one</p>
+				</div>
+				{/* </form> */}
+			</div>
+		</Container>
 	);
 };
 

@@ -4,10 +4,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCartData, getCartData } from "../../Redux/AppReducer/action.js";
 import { Link, useNavigate } from "react-router-dom";
+import Checkout from "../Checkout/Checkout.jsx";
 
 const Cart = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [show, setShow] = useState(false);
 	const { cart } = useSelector(state => state.getCartReducer);
 	console.log("cart: ", cart);
 	let total_price = 0;
@@ -17,9 +19,18 @@ const Cart = () => {
 	if (cart == "Please Login Again") {
 		navigate("/login");
 	} else if (cart) {
-		total_price = cart.reduce((sum, item) => sum + Number(item.prod_price), 0);
+		total_price = cart.reduce(
+			(sum, item) => sum + Number(item.prod_price),
+			0
+		);
 		// total_price.toFixed(2);
-		after_Discount_price = cart.reduce((sum, item) => sum + Number(item.prod_price) - Number(item.prod_price) * Number(item.prod_discount) / 100, 0);
+		after_Discount_price = cart.reduce(
+			(sum, item) =>
+				sum +
+				Number(item.prod_price) -
+				Number(item.prod_price) * Number(item.prod_discount) / 100,
+			0
+		);
 		discount_rupee = (total_price - after_Discount_price).toFixed(2);
 		GST = (total_price * 8 / 100).toFixed(2);
 		after_Discount_price = after_Discount_price + GST;
@@ -43,6 +54,9 @@ const Cart = () => {
 		const query = { params: item };
 		dispatch(deleteCartData(query));
 		dispatch(getCartData());
+	};
+	const handleCheckout = () => {
+		setShow(true);
 	};
 
 	useEffect(() => {
@@ -224,12 +238,18 @@ const Cart = () => {
 				</div>
 				{/* .checkout div */}
 				<div className={style.checkout}>
-					<Link to="/checkout">
-					<button className={style.checkout_btn}>CHECKOUT</button>
-					</Link>
+					{/* <Link to="/checkout"> */}
+					<button
+						className={style.checkout_btn}
+						onClick={handleCheckout}
+					>
+						CHECKOUT
+					</button>
+					{/* </Link> */}
 				</div>
 			</div>
 
+			<Checkout />
 			{/* <Button className={style.order_btn}>Order Now</Button> */}
 		</div>
 	);
