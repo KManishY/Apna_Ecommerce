@@ -10,7 +10,7 @@ export const login = (payload) => (dispatch) => {
 	return axios({
 		method: "post",
 		url: "/admin/login",
-		baseURL: "https://rocky-coast-01134.herokuapp.com",
+		baseURL: "http://localhost:8080",
 		data: payload
 	})
 		.then(r => {

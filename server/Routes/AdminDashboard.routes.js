@@ -8,80 +8,82 @@ require("dotenv").config();
 const adminProductController = Router();
 
 adminProductController.get("/", async (req, res) => {
-	const product = await ProductModel.find();
-	res.status(200).json(product);
+  try {
+    const products = await ProductModel.find();
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
+
 adminProductController.get("/users", async (req, res) => {
-	const users = await AuthModel.find();
-	console.log("users: ", users);
-	res.status(200).send(users);
+  try {
+    const users = await AuthModel.find();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 adminProductController.post("/create", async (req, res) => {
-	const {
-		prod_name,
-		prod_cat,
-		prod_price,
-		prod_rating,
-		prod_desc,
-		prod_tag,
-		prod_image
-	} = req.body;
-	console.log(req.body);
+  try {
+    const {
+      prod_name,
+      prod_cat,
+      prod_price,
+      prod_rating,
+      prod_desc,
+      prod_tag,
+      prod_image
+    } = req.body;
 
-	const product = new ProductModel({
-		prod_name,
-		prod_cat,
-		prod_price,
-		prod_rating,
-		prod_desc,
-		prod_tag,
-		prod_image
-	});
-	try {
-		await product.save();
-		res.status(200).send({ employee: "Product added Successfully" });
-	} catch (error) {
-		res.status(500).send({ message: error });
-	}
+    const product = new ProductModel({
+      prod_name,
+      prod_cat,
+      prod_price,
+      prod_rating,
+      prod_desc,
+      prod_tag,
+      prod_image
+    });
+
+    await product.save();
+
+    res.status(200).json({ message: "Product added successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 adminProductController.patch("/edit/:prodId", async (req, res) => {
-	console.log(req.body);
-	const { prodId } = req.params;
-	const productUpdate = await ProductModel.findOneAndUpdate(
-		{ _id: prodId },
-		req.body
-	);
-	if (productUpdate) {
-		res.status(200).send({ message: "Product Updated Successfully" });
-	} else {
-		res.send({ message: "Try Again" });
-	}
+  try {
+    const { prodId } = req.params;
+
+    const productUpdate = await ProductModel.findOneAndUpdate(
+      { _id: prodId },
+      req.body
+    );
+
+    if (productUpdate) {
+      res.status(200).json({ message: "Product updated successfully" });
+    } else {
+      res.status(404).json({ message: "Product not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 adminProductController.delete("/delete/:id", async (req, res) => {
-	const { id } = req.params;
-	console.log("id: ", id);
-	try {
-		await ProductModel.findOneAndDelete({
-			id
-		});
-		res.status(200).send({ message: "Product delete successfully" });
-	} catch (error) {
-		res.status(500).send(error);
-	}
+  try {
+    const { id } = req.params;
+
+    await ProductModel.findOneAndDelete({ _id: id });
+
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
+
 module.exports = { adminProductController };
-
-
-
- {
-		// "prod_name":"product1",
-		// 	"prod_cat":"cat1",
-		// 	"prod_price":"price1",
-		// 	"prod_rating":"rating1",
-		// 	"prod_desc":"desc1",
-		// 	"prod_tag":"tag1",
-		// 	"prod_image":"imag1";
- }

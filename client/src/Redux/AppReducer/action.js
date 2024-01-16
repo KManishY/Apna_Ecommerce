@@ -19,7 +19,7 @@ export const getData = params => dispatch => {
 	return axios({
 		method: "get",
 		url: "/getAllProduct",
-		baseURL: "https://rocky-coast-01134.herokuapp.com",
+		baseURL: "http://localhost:8080",
 		params
 	})
 		.then(response => {
@@ -40,7 +40,7 @@ export const postCartData = payload => dispatch => {
 	return axios({
 		method: "post",
 		url: "/userDashboard/create",
-		baseURL: "https://rocky-coast-01134.herokuapp.com",
+		baseURL: "http://localhost:8080",
 		headers: {
 			Authorization: token
 		},
@@ -68,7 +68,7 @@ export const getCartData = () => dispatch => {
 	return axios({
 		method: "get",
 		url: "/userDashboard/cart",
-		baseURL: "https://rocky-coast-01134.herokuapp.com",
+		baseURL: "http://localhost:8080",
 		headers: {
 			Authorization: token
 		}
@@ -96,7 +96,7 @@ export const deleteCartData = ({ params }) => dispatch => {
 		axios({
 			method: "delete",
 			url: `/userDashboard/delete/${params}`,
-			baseURL: "https://rocky-coast-01134.herokuapp.com",
+			baseURL: "http://localhost:8080",
 			headers: {
 				Authorization: token
 			}
@@ -104,7 +104,7 @@ export const deleteCartData = ({ params }) => dispatch => {
 			// params
 		})
 			// return axios
-			// 	.delete(`https://rocky-coast-01134.herokuapp.com/userDashboard/delete/${params}`)
+			// 	.delete(`http://localhost:8080/userDashboard/delete/${params}`)
 			.then(response => {
 				console.log("response: ", response);
 				return dispatch({

@@ -3,9 +3,28 @@ const { AdminAuthModel } = require("../Modal/AdminAuth.model.js");
 const bcrypt = require("bcrypt");
 const adminController = Router();
 const jwt = require("jsonwebtoken");
-const { adminControllerFn } = require("../controller/admin.Route.js");
 require("dotenv").config();
-adminController.post("/register",adminControllerFn);
+adminController.post("/register",async (req, res) => {
+	const { name, email, password } = req.body;
+	await bcrypt.hash(password, 5, async (err, hash) => {
+		if (err) {
+			return res.status(504).json("some error in while storing password");
+		}
+		const user = new AdminAuthModel({
+			name,
+			email,
+			password: hash
+		});
+		try {
+			await user.save();
+			res.status(200).send({ message: "Registerd Successful" });
+		} catch (err) {
+			console.log('err: during register ', err);
+			res.status(502).send({ message: "Already Registered" });
+			// console.log("err: ", err);
+		}
+	});
+});
 adminController.post("/login", async (req, res) => {
 	// console.log("login: ", req.body);
 	const { email, password } = req.body;
@@ -16,6 +35,7 @@ adminController.post("/login", async (req, res) => {
 	const hash = user.password;
 	bcrypt.compare(password, hash, async (err, result) => {
 		if (err) {
+			console.log('err: during Login ', err);
 			return res.status(406).send({ message: "Wrong Credentials" });
 		}
 		if (result) {
