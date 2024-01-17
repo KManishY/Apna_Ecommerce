@@ -15,7 +15,7 @@ export const login = payload => dispatch => {
 	return axios({
 		method: "post",
 		url: "/user/login",
-		baseURL: "http://localhost:8080",
+		baseURL: "https://homedecorserver.onrender.com",
 		data: payload
 	})
 		.then(r => {
@@ -41,7 +41,7 @@ export const register = (payload) => (dispatch) => {
 	return axios({
 		method: "post",
 		url: "/user/register",
-		baseURL: "http://localhost:8080",
+		baseURL: "https://homedecorserver.onrender.com",
 		data: payload
 	})
 		.then((r) =>

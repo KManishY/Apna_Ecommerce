@@ -10,7 +10,7 @@ export const login = (payload) => (dispatch) => {
 	return axios({
 		method: "post",
 		url: "/admin/login",
-		baseURL: "http://localhost:8080",
+		baseURL: "https://homedecorserver.onrender.com",
 		data: payload
 	})
 		.then(r => {
