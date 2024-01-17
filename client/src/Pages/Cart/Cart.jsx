@@ -87,8 +87,8 @@ const Cart = () => {
 	return (
 		<div className={style.cart_div}>
 			<div className={style.main}>
-				{cart &&
-					cart.map(el =>
+				{cart!=="Please Login Again" &&
+					cart?.map(el =>
 						<div key={el._id} className={style.main_div}>
 							{/* <div> */}
 							<img
