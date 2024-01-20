@@ -12,70 +12,62 @@ import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
 import { BsCartPlusFill } from "react-icons/bs";
 import PaginationComp from "../../Components/Pagination.jsx";
 // import { BsCartPlusFill } from "@react-icons/all-files/bs";
+
+
+
+
 const Products = () => {
 	const dispatch = useDispatch();
-	const location = useLocation();
-	const [text, setText] = useState("");
-	//! Product data comming from store
-	let { data, message } = useSelector(state => state.productReducer);
-	const [globalData, setGlobalData] = useState([]);
-	const [filterData, setFilterData] = useState([]);
-	useEffect(() => {
-		
-		{
-			 data?.length  && setGlobalData(data);
-		}
-	},[data])
+  const location = useLocation();
+  const [text, setText] = useState("");
+  const { data } = useSelector((state) => state.productReducer);
+  const [globalData, setGlobalData] = useState([]);
+  const [filterData, setFilterData] = useState([]);
+  const [searchParams] = useSearchParams();
+  const token = localStorage.getItem("token");
 
+  // Update globalData when data changes
+  useEffect(() => {
+    data?.length && setGlobalData(data);
+  }, [data]);
 
-	const [searchParams] = useSearchParams();
-	const token = localStorage.getItem("token");
-	//! add to cart function
-	const handleClick = item => {
-		const payload = { token: token, data: item };
-		// console.log(payload);
-		dispatch(postCartData(payload)); //TODO need response there to popup status
-		// alert("data added successfully");
-		dispatch(getCartData());
-	};
-	// useEffect(() => {
-	// }, []);
+  // Add to cart function
+  const handleClick = (item) => {
+    const payload = { token: token, data: item };
+    dispatch(postCartData(payload));
+    dispatch(getCartData());
+  };
 
-	const handleInputChange = e => {
-		setText(e.target.value);
-		if (text.length == 0) {
-			setFilterData([])
-		}
-		console.log(text);
-		let data = (filterData.length ? filterData : globalData).filter(item =>
-			item.prod_name.toLowerCase().includes(text.toLowerCase())
+  // Handle input change for filtering data
+  const handleInputChange = (e) => {
+		const searchText = e.target.value.toLowerCase();
+	
+		setText(searchText);
+	
+		const filteredData = globalData.filter((item) =>
+			item.prod_name.toLowerCase().includes(searchText)
 		);
-
-		setFilterData(data)
-		
-		console.log("data: filtered ", filterData);
+	
+		setFilterData(filteredData);
 	};
+	
 
-	useEffect(
-		() => {
-			if (location || data.length == 0) {
-				const sortBy = searchParams.get("sortBy");
-				const sortByRating = searchParams.get("sortByRating");
+  // Fetch data based on search params or location changes
+  useEffect(() => {
+    const sortBy = searchParams.get("sortBy");
+    const sortByRating = searchParams.get("sortByRating");
 
-				const query = {
-					params: {
-						category: searchParams.getAll("category"),
-						sort: sortBy,
-						sortByRating: sortByRating
-					}
-				};
-				//! dispatching getData function
-				dispatch(getData(query));
-				setFilterData([])
-			}
-		},
-		[location.search]
-	);
+    const query = {
+      params: {
+        category: searchParams.getAll("category"),
+        sort: sortBy,
+        sortByRating: sortByRating
+      }
+    };
+
+    dispatch(getData(query));
+    setFilterData([]);
+  }, [location.search, dispatch, searchParams]);
 
 	return (
 		<div className={styled.main_div}>

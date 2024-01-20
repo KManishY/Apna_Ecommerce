@@ -1,87 +1,76 @@
 @import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;1,200;1,300&display=swap");
 
 header {
-	width: 100%;
-	background-color: #070b34;
-	/* background: linear-gradient(180deg, #FFFFFF 0%, #000000 100%), linear-gradient(90deg, #FFFFFF 0%, #000000 100%), #00FFFF; */
-	background-blend-mode: multiply, screen, normal;
-}
-.main_div {
-	position: sticky;
-	top: 0;
-	position: -webkit-sticky;
-	z-index: 999;
-}
-header .nav {
-	display: flex;
-	margin-left: 20px;
-	margin-right: 20px;
-	justify-content: space-between;
-	align-items: center;
-}
-header .nav a {
-	text-decoration: none;
-	color: white;
-	font-size: 17px;
-	margin-top: 20px;
-	padding: 10px 11px;
-	margin-right: 15px;
-	font-family: "Jost", sans-serif;
-	justify-content: right;
-}
-.nav_elem {
-	font-size: 25px;
-}
-.mobileNav{
-	background-color:#070b34
-}
-#nav_icon {
-	display: none;
+  width: 100%;
+  background-color: #070b34;
+  background-blend-mode: multiply, screen, normal;
 }
 
+.main_div {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+header .nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px 0px 30px;
+}
+
+header .nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 17px;
+  font-family: "Jost", sans-serif;
+  padding: 10px 11px;
+}
+
+.nav_elem {
+  font-size: 25px;
+}
+
+.mobileNav {
+  background-color: #070b34;
+  padding: 10px;
+}
+
+#nav_icon,
 .hamburger {
-	display: none;
+  display: none;
 }
 
 .wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 10px;
-	font-size: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 25px;
 }
 
 @media (max-width: 600px) {
-	.hamburger {
-		display: block;
-	}
-	.header {
-		height: 7rem;
-	}
-	.abc {
-		display: none;
-	}
-	#nav_icon {
-		display: block !important;
-	}
-	.navbar-logo {
-		display: none;
-	}
+  .hamburger,
+  #nav_icon {
+    display: block;
+  }
+
+  header .nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  header .nav a {
+    margin: 5px 0;
+    margin-right: 0;
+  }
+
+  header {
+    height: auto;
+  }
+
+  .abc,
+  .navbar-logo {
+    display: none;
+  }
 }
-/* @media only screen and (min-width:600px) and (max-width:1800px){
-	
-} */
-/* @media (max-width: 600px) {
-	.header {
-		height: 7rem;
-	}
-	.abc {
-		display: none;
-	}
-	#nav_icon {
-		display: block !important;
-	}
-	.navbar-logo {
-		display: none;
-	}
-} */
