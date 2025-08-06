@@ -105,18 +105,7 @@ const Login = () => {
 						Login
 					</Button>
 				</Stack>
-				<div>
-					<h3>
-						<b>Admin Details:-</b>
-					</h3>
-					<h4>
-						<b>Email:</b>manishyadav4657@gmail.com
-					</h4>
-					<h4>
-						<b>Password:</b>manish123
-					</h4>
-					<p>Please don't delete product more than one</p>
-				</div>
+				
 				{/* </form> */}
 			</div>
 		</Container>
