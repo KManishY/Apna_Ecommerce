@@ -215,34 +215,7 @@ const Product = () => {
 								transition="transform 0.3s ease"
 							/>
 							
-							{/* Action Buttons */}
-							<HStack
-								position="absolute"
-								top={2}
-								right={2}
-								spacing={1}
-								opacity={0}
-								_hover={{ opacity: 1 }}
-								transition="opacity 0.2s ease"
-							>
-								<Link to={`/editproduct/${product._id}`}>
-									<IconButton
-										icon={<FiEdit />}
-										size="sm"
-										colorScheme="blue"
-										variant="solid"
-										aria-label="Edit product"
-									/>
-								</Link>
-								<IconButton
-									icon={<FiTrash2 />}
-									size="sm"
-									colorScheme="red"
-									variant="solid"
-									aria-label="Delete product"
-									onClick={() => handleDelete(product)}
-								/>
-							</HStack>
+
 
 							{/* Discount Badge */}
 							{product.prod_discount > 0 && (
@@ -262,23 +235,54 @@ const Product = () => {
 
 						<Box p={4}>
 							<VStack align="start" spacing={3}>
-								<Box>
-									<Text
-										fontSize="md"
-										fontWeight="semibold"
-										color={textColor}
-										noOfLines={2}
-									>
-										{product.prod_name}
-									</Text>
-									<Badge
-										colorScheme="blue"
-										variant="subtle"
-										mt={1}
-										borderRadius="full"
-									>
-										{product.prod_cat}
-									</Badge>
+								<Box w="full">
+									<HStack justify="space-between" align="start" mb={2}>
+										<Box flex="1">
+											<Text
+												fontSize="md"
+												fontWeight="semibold"
+												color={textColor}
+												noOfLines={2}
+											>
+												{product.prod_name}
+											</Text>
+											<Badge
+												colorScheme="blue"
+												variant="subtle"
+												mt={1}
+												borderRadius="full"
+											>
+												{product.prod_cat}
+											</Badge>
+										</Box>
+										
+										{/* Action Buttons - Always Visible */}
+										<HStack spacing={1}>
+											<Link to={`/editproduct/${product._id}`}>
+												<IconButton
+													icon={<FiEdit />}
+													size="sm"
+													colorScheme="blue"
+													variant="solid"
+													aria-label="Edit product"
+													boxShadow="md"
+													_hover={{ transform: "scale(1.1)" }}
+													transition="transform 0.2s ease"
+												/>
+											</Link>
+											<IconButton
+												icon={<FiTrash2 />}
+												size="sm"
+												colorScheme="red"
+												variant="solid"
+												aria-label="Delete product"
+												onClick={() => handleDelete(product)}
+												boxShadow="md"
+												_hover={{ transform: "scale(1.1)" }}
+												transition="transform 0.2s ease"
+											/>
+										</HStack>
+									</HStack>
 								</Box>
 
 								<HStack justify="space-between" w="full">

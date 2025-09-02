@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
 	Box,
 	Button,
@@ -31,16 +32,23 @@ import {
 	FiPercent,
 	FiFileText,
 	FiSave,
-	FiArrowLeft
+	FiArrowLeft,
+	FiEdit
 } from "react-icons/fi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addProduct } from "../../redux/action/appAction.js";
+import { addProduct, editProduct } from "../../redux/action/appAction.js";
 
 const AddProduct = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const toast = useToast();
+	const { id } = useParams();
+	const { productData } = useSelector(state => state.productReducer);
+
+	// Determine if we're in edit mode
+	const isEditMode = Boolean(id);
+	const existingProduct = isEditMode ? productData?.find(product => product._id === id) : null;
 
 	// Color mode values
 	const cardBg = useColorModeValue("white", "gray.800");
@@ -61,6 +69,31 @@ const AddProduct = () => {
 	const [product, setProduct] = useState(initialState);
 	const [errors, setErrors] = useState({});
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	// Load existing product data when in edit mode
+	useEffect(() => {
+		if (isEditMode && existingProduct) {
+			setProduct({
+				prod_name: existingProduct.prod_name || "",
+				prod_cat: existingProduct.prod_cat || "",
+				prod_price: existingProduct.prod_price || "",
+				prod_rating: existingProduct.prod_rating || "",
+				prod_desc: existingProduct.prod_desc || "",
+				prod_tag: existingProduct.prod_tag || "",
+				prod_image: existingProduct.prod_image || "",
+				prod_discount: existingProduct.prod_discount || ""
+			});
+		}
+	}, [isEditMode, existingProduct]);
+
+	// Show loading state if in edit mode but product data is not loaded yet
+	if (isEditMode && !existingProduct) {
+		return (
+			<Box maxW="4xl" mx="auto" textAlign="center" py="20">
+				<Text fontSize="lg" color="gray.500">Loading product data...</Text>
+			</Box>
+		);
+	}
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -121,19 +154,33 @@ const AddProduct = () => {
 
 		setIsSubmitting(true);
 		try {
-			await dispatch(addProduct(product));
-			toast({
-				title: "Product Added",
-				description: `${product.prod_name} has been added successfully`,
-				status: "success",
-				duration: 3000,
-				isClosable: true,
-			});
+			if (isEditMode) {
+				// Edit mode - include the product ID
+				const editData = { ...product, id: id };
+				await dispatch(editProduct(editData));
+				toast({
+					title: "Product Updated",
+					description: `${product.prod_name} has been updated successfully`,
+					status: "success",
+					duration: 3000,
+					isClosable: true,
+				});
+			} else {
+				// Add mode
+				await dispatch(addProduct(product));
+				toast({
+					title: "Product Added",
+					description: `${product.prod_name} has been added successfully`,
+					status: "success",
+					duration: 3000,
+					isClosable: true,
+				});
+			}
 			navigate("/products");
 		} catch (error) {
 			toast({
 				title: "Error",
-				description: "Failed to add product. Please try again.",
+				description: `Failed to ${isEditMode ? 'update' : 'add'} product. Please try again.`,
 				status: "error",
 				duration: 3000,
 				isClosable: true,
@@ -157,10 +204,10 @@ const AddProduct = () => {
 				</Button>
 				<Box>
 					<Heading size="lg" color={textColor} mb={2}>
-						Add New Product
+						{isEditMode ? "Edit Product" : "Add New Product"}
 					</Heading>
 					<Text color="gray.500">
-						Create a new product listing for your store
+						{isEditMode ? "Update product information" : "Create a new product listing for your store"}
 					</Text>
 				</Box>
 			</HStack>
@@ -170,9 +217,9 @@ const AddProduct = () => {
 				<Box bg={cardBg} border="1px solid" borderColor={borderColor} borderRadius="lg" p={6}>
 					<Box mb={6}>
 						<HStack spacing={3}>
-							<Icon as={FiPackage} boxSize={6} color="blue.500" />
+							<Icon as={isEditMode ? FiEdit : FiPackage} boxSize={6} color="blue.500" />
 							<Heading size="md" color={textColor}>
-								Product Information
+								{isEditMode ? "Update Product Information" : "Product Information"}
 							</Heading>
 						</HStack>
 					</Box>
@@ -367,11 +414,11 @@ const AddProduct = () => {
 								size="lg"
 								onClick={handleSubmit}
 								isLoading={isSubmitting}
-								loadingText="Adding Product..."
+								loadingText={isEditMode ? "Updating Product..." : "Adding Product..."}
 								borderRadius="lg"
 								w="full"
 							>
-								Add Product
+								{isEditMode ? "Update Product" : "Add Product"}
 							</Button>
 						</Stack>
 					</Box>
@@ -381,7 +428,7 @@ const AddProduct = () => {
 				<Box bg={cardBg} border="1px solid" borderColor={borderColor} h="fit-content" borderRadius="lg" p={6}>
 					<Box mb={4}>
 						<Heading size="md" color={textColor}>
-							Product Preview
+							{isEditMode ? "Updated Product Preview" : "Product Preview"}
 						</Heading>
 					</Box>
 					<Box>
