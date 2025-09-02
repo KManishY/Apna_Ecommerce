@@ -2,26 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {  useLocation, useSearchParams } from "react-router-dom";
 import {
-	getCartData,
 	getData,
-	postCartData
 } from "../../Redux/AppReducer/action.js";
 import Banner from "./Banner.jsx";
 import HomePageContainer from "./HomePageContainer.jsx";
 
 const Homepage = () => {
-	const { data, isLoading, isError, errorMessage } = useSelector(state => state.productReducer);
+	const { data, isLoading, isError } = useSelector(state => state.productReducer);
 	const [retryCount, setRetryCount] = useState(0);
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const [searchParams] = useSearchParams();
-	const token = localStorage.getItem("token");
 	
-	const handleClick = item => {
-		const payload = { data: item }; // Remove token from payload
-		dispatch(postCartData(payload)); 
-		dispatch(getCartData());
-	};
 	
 	const fetchProducts = () => {
 		// Always fetch data when component mounts or search params change

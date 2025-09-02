@@ -19,10 +19,6 @@ import {
 	Icon,
 	useToast,
 	useColorModeValue,
-	Alert,
-	AlertIcon,
-	AlertTitle,
-	AlertDescription,
 	Spinner,
 	Center,
 	Code
@@ -30,23 +26,18 @@ import {
 import { 
 	FiTrash2, 
 	FiShoppingCart, 
-	FiTag, 
 	FiCreditCard, 
 	FiArrowRight,
-	FiMinus,
-	FiPlus,
 	FiPackage,
 	FiRefreshCw,
 	FiSettings
 } from "react-icons/fi";
-import Checkout from "../Checkout/Checkout.jsx";
 import { baseURL } from "../../apiConfig.js";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 	const toast = useToast();
-  const [show, setShow] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [debugInfo, setDebugInfo] = useState({});
 	const cartState = useSelector((state) => state.getCartReducer);
@@ -646,9 +637,6 @@ const Cart = () => {
 						</Box>
 					</Box>
 				</Flex>
-
-				{/* Checkout Modal */}
-				{show && <Checkout />}
 			</Container>
 		</Box>
   );

@@ -36,8 +36,7 @@ const Orders = () => {
   const toast = useToast();
   
   const { orders, loading, error } = useSelector((state) => state.orderReducer);
-  const { user } = useSelector((state) => state.authReducer);
-
+  const { user } = useSelector((state) => state.AuthReducer || {});
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
   const textColor = useColorModeValue('gray.600', 'gray.300');

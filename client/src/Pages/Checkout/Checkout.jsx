@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getAddresses, addAddress, setDefaultAddress } from "../../Redux/AddressReducer/action.js";
+import { getAddresses, addAddress } from "../../Redux/AddressReducer/action.js";
 import { createOrder } from "../../Redux/OrderReducer/action.js";
 import { getCartData } from "../../Redux/AppReducer/action.js";
 import {
@@ -32,7 +32,6 @@ import {
 	ModalHeader,
 	ModalBody,
 	ModalFooter,
-	ModalCloseButton,
 	useDisclosure
 } from "@chakra-ui/react";
 import { 
@@ -47,8 +46,6 @@ import {
 	FiMail,
 	FiPhone,
 	FiPlus,
-	FiEdit,
-	FiTrash2,
 	FiUser
 } from "react-icons/fi";
 
@@ -56,12 +53,11 @@ const Checkout = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const toast = useToast();
-	const { isOpen, onOpen, onClose } = useDisclosure();
+	const { isOpen, onClose } = useDisclosure();
 	
 	// Redux state
 	const { cart } = useSelector(state => state.getCartReducer);
 	const { addresses, isLoading: addressLoading } = useSelector(state => state.addressReducer);
-	const { isLoading: orderLoading } = useSelector(state => state.orderReducer);
 
 	// Color mode values
 	const bgColor = useColorModeValue("gray.50", "gray.900");

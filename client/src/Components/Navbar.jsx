@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Flex,
@@ -46,7 +46,6 @@ import { getCartData } from "../Redux/AppReducer/action.js";
 const Navbar = () => {
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
-  const { name } = useSelector((state) => state.AuthReducer.user);
   const navigate = useNavigate();
   const location = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -72,8 +71,7 @@ const Navbar = () => {
   // Color scheme
   const bgColor = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-  const textColor = useColorModeValue("white", "white");
-  const accentColor = useColorModeValue("blue.500", "blue.300");
+
 
   const isActive = (path) => location.pathname === path;
 
@@ -177,13 +175,10 @@ const Navbar = () => {
         borderRadius="xl"
         boxShadow="xl"
         py="2"
-        bg="transparent"
-        _hover={{ bg: "transparent" }}
       >
         <MenuItem
           icon={<Icon as={FiUser} />}
           bg="transparent !important"
-          _hover={{ bg: "transparent !important" }}
           _active={{ bg: "transparent !important" }}
           _focus={{ bg: "transparent !important" }}
           borderRadius="md"
@@ -195,7 +190,6 @@ const Navbar = () => {
         <MenuItem
           icon={<Icon as={FiHeart} />}
           bg="transparent !important"
-          _hover={{ bg: "transparent !important" }}
           _active={{ bg: "transparent !important" }}
           _focus={{ bg: "transparent !important" }}
           borderRadius="md"
@@ -207,7 +201,6 @@ const Navbar = () => {
         <MenuItem
           icon={<Icon as={FiShoppingBag} />}
           bg="transparent !important"
-          _hover={{ bg: "transparent !important" }}
           _active={{ bg: "transparent !important" }}
           _focus={{ bg: "transparent !important" }}
           borderRadius="md"
@@ -221,7 +214,6 @@ const Navbar = () => {
           icon={<Icon as={FiLogOut} />}
           color="red.500"
           bg="transparent !important"
-          _hover={{ bg: "transparent !important" }}
           _active={{ bg: "transparent !important" }}
           _focus={{ bg: "transparent !important" }}
           borderRadius="md"

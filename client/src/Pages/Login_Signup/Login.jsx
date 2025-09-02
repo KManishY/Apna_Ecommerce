@@ -33,7 +33,7 @@ export default function Login() {
 	const handleShowClick = () => setShowPassword(!showPassword);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { token, user } = useSelector(state => state.AuthReducer);
+	const { token, user } = useSelector(state => state.AuthReducer || {});
 	
 	const initialState = { username: "", password: "" };
 	const [loginDetails, setLoginDetails] = useState(initialState);
