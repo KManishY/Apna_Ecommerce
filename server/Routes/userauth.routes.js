@@ -27,21 +27,20 @@ userController.post("/login", async (req, res) => {
   try {
     const { password, username } = req.body;
     const user = await AuthModel.findOne({ username: username });
-
     if (!user) {
       return res.status(406).send({ message: "Wrong Credentials" });
     }
 
     const result = await bcrypt.compare(password, user.password);
-
+    console.log(result);
     if (result) {
-      const token = jwt.sign({ userId: user.email }, process.env.SECRET_KEY);
+      const token = jwt.sign({ userId: user.email }, "manish" || "manish");
       res.status(200).json({ token, user });
     } else {
       res.status(406).send({ message: "Wrong Credentials" });
     }
   } catch (err) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(203).send({ message: "Internal Server Error" });
   }
 });
 

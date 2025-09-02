@@ -18,7 +18,7 @@ export const login = payload => dispatch => {
 		data: payload
 	})
 		.then(r => {
-			console.log("r: login successful", r.data.user.name);
+			console.log("r: login successful", r.data.token);
 			let name = r.data.user.name.split(" ")[0];
 
 			setTimeout(() => {

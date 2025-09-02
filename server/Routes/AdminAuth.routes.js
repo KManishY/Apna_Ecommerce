@@ -41,7 +41,7 @@ adminController.post("/login", async (req, res) => {
 		if (result) {
 			const token = jwt.sign(
 				{ userId: user.email },
-				process.env.SECRET_KEY
+				"manish"
 			);
 			res.status(200).json(token);
 		}

@@ -16,7 +16,7 @@ const authentication = async (req, res, next) => {
     return res.send("Please Login Again");
   }
   const token = req.headers.authorization;
-  await jwt.verify(token, process.env.SECRET_KEY, function(err, decoded) {
+  await jwt.verify(token, "manish", function(err, decoded) {
     if (err) {
       res.send("Please Login");
     } else {
@@ -71,7 +71,7 @@ const authorized = async (req, res, next) => {
   console.log("helloUpdate")
 
   const token = req.headers.authorization;
-  await jwt.verify(token, process.env.SECRET_KEY, function (err, decoded) {
+  await jwt.verify(token, "manish", function (err, decoded) {
     // console.log(decoded);
     if (err) {
       res.status(400).send(err);

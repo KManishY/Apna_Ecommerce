@@ -63,7 +63,6 @@ export default function Login() {
 				localStorage.setItem("token", token);
 				localStorage.setItem("user", user);
 				navigate("/product");
-				window.location.reload();
 			} else {
 				setError("Invalid credentials. Please try again.");
 			}

@@ -130,6 +130,7 @@ const Cart = () => {
 	const handleTestCartAPI = async () => {
 		try {
 			const token = localStorage.getItem("token");
+			console.log(token,"token")
 			const response = await fetch(baseURL + "/userDashboard/cart", {
 				method: "GET",
 				headers: {
