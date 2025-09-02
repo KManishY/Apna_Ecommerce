@@ -40,6 +40,7 @@ import {
 	FiSettings
 } from "react-icons/fi";
 import Checkout from "../Checkout/Checkout.jsx";
+import { baseURL } from "../../apiConfig.js";
 
 const Cart = () => {
 	const dispatch = useDispatch();

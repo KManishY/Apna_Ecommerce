@@ -7,7 +7,7 @@ import {
 	REGISTER_REQUEST,
 	REGISTER_SUCCESS
 } from "./constants.js";
-import { baseURL } from "../../../apiConfig.js";
+import { baseURL } from "../../apiConfig.js";
 
 export const login = payload => dispatch => {
 	dispatch({ type: LOGIN_REQUEST });

@@ -13,7 +13,7 @@ import {
   DELETE_CART_DATA_SUCCESS,
   DELETE_CART_DATA_FAIL
 } from "./constants.js";
-import { baseURL } from "../../../apiConfig.js";
+import { baseURL } from "../../apiConfig.js";
 
 // Create an Axios instance with common configuration
 const axiosInstance = axios.create({
