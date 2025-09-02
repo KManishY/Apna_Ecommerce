@@ -11,7 +11,10 @@ import {
   POST_CART_DATA_FAIL,
   DELETE_CART_DATA_REQUEST,
   DELETE_CART_DATA_SUCCESS,
-  DELETE_CART_DATA_FAIL
+  DELETE_CART_DATA_FAIL,
+  UPDATE_CART_DATA_REQUEST,
+  UPDATE_CART_DATA_SUCCESS,
+  UPDATE_CART_DATA_FAIL
 } from "./constants.js";
 import { baseURL } from "../../apiConfig.js";
 
@@ -75,11 +78,23 @@ export const getCartData = () => async (dispatch) => {
     });
     
     // Check if response contains cart data
-    if (response.data && Array.isArray(response.data)) {
-      dispatch({ type: GET_CART_DATA_SUCCESS, payload: response.data });
-    } else if (response.data && response.data.message) {
+    if (response.data) {
+      // Handle new aggregated response format
+      if (response.data.success && response.data.data && response.data.data.items) {
+        dispatch({ type: GET_CART_DATA_SUCCESS, payload: response.data.data.items });
+      } 
+      // Handle old direct array format
+      else if (Array.isArray(response.data)) {
+        dispatch({ type: GET_CART_DATA_SUCCESS, payload: response.data });
+      }
       // Handle case where server returns a message instead of cart data
-      dispatch({ type: GET_CART_DATA_SUCCESS, payload: [] });
+      else if (response.data.message) {
+        dispatch({ type: GET_CART_DATA_SUCCESS, payload: [] });
+      } 
+      // Fallback to empty array
+      else {
+        dispatch({ type: GET_CART_DATA_SUCCESS, payload: [] });
+      }
     } else {
       dispatch({ type: GET_CART_DATA_SUCCESS, payload: [] });
     }
@@ -124,3 +139,6 @@ export const deleteCartData = ({ params }) => async (dispatch) => {
     throw error;
   }
 };
+
+
+

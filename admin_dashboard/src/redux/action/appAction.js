@@ -53,7 +53,6 @@ export const getProduct = () => dispatch => {
 		}
 	})
 		.then(r => {
-			console.log("r: ", r);
 			return dispatch({ type: PRODUCT_SUCCESS, payload: r.data });
 		})
 		.catch(e => {
@@ -63,7 +62,6 @@ export const getProduct = () => dispatch => {
 };
 
 export const editProduct = payload => dispatch => {
-	console.log("payload:edit ", payload.id);
 	dispatch({ type: EDIT_PRODUCT_REQUEST });
 	return axios({
 		method: "patch",
@@ -87,7 +85,6 @@ export const editProduct = payload => dispatch => {
 		});
 };
 export const addProduct = payload => dispatch => {
-	console.log("payload: addProduct ", payload);
 	dispatch({ type: ADD_PRODUCT_REQUEST });
 	return axios({
 		method: "post",
@@ -111,7 +108,6 @@ export const addProduct = payload => dispatch => {
 		});
 };
 export const deleteProduct = payload => dispatch => {
-	console.log("payload: deleteProduct ", payload);
 	dispatch({ type: DELETE_PRODUCT_REQUEST });
 	return axios({
 		method: "delete",

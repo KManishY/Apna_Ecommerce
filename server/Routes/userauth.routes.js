@@ -30,9 +30,7 @@ userController.post("/login", async (req, res) => {
     if (!user) {
       return res.status(406).send({ message: "Wrong Credentials" });
     }
-
     const result = await bcrypt.compare(password, user.password);
-    console.log(result);
     if (result) {
       const token = jwt.sign({ userId: user.email }, "manish" || "manish");
       res.status(200).json({ token, user });

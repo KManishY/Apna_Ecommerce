@@ -43,41 +43,57 @@ import Checkout from "../Checkout/Checkout.jsx";
 import { baseURL } from "../../apiConfig.js";
 
 const Cart = () => {
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 	const toast = useToast();
-	const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [debugInfo, setDebugInfo] = useState({});
 	const cartState = useSelector((state) => state.getCartReducer);
 	
 	// Destructure cart state for better debugging
 	const { cart, isLoading: isCartLoading, isError, errorMessage } = cartState;
-
+	
 	// Color mode values
 	const bgColor = useColorModeValue("gray.50", "gray.900");
 	const cardBg = useColorModeValue("white", "gray.800");
 	const borderColor = useColorModeValue("gray.200", "gray.700");
 	const textColor = useColorModeValue("gray.700", "gray.200");
 
-	// Debug logging
+	// Safely get cart data and ensure it's an array
+	// Handle both old format (direct array) and new format (with data wrapper)
+	let cartItems = [];
+	if (Array.isArray(cart)) {
+		cartItems = cart;
+	} else if (cart && cart.data && Array.isArray(cart.data.items)) {
+		cartItems = cart.data.items;
+	} else if (cart && Array.isArray(cart.items)) {
+		cartItems = cart.items;
+	}
+	
+	const safeCart = cartItems;
+	
+	// Debug logging after safeCart is defined
 	console.log("Cart State:", cartState);
 	console.log("Cart Data:", cart);
-	console.log("Is Loading:", isCartLoading);
-	console.log("Is Error:", isError);
-	console.log("Error Message:", errorMessage);
-
-	// Safely get cart data and ensure it's an array
-	const safeCart = Array.isArray(cart) ? cart : [];
+	console.log("Safe Cart:", safeCart);
 	const isCartError = isError || cart === "Please Login Again" || cart === "Please Login";
 
-	// Calculate totals safely
-	const total_price = safeCart.reduce((sum, item) => sum + Number(item.prod_price || 0), 0);
+	// Calculate totals safely using the new data structure
+	const total_price = safeCart.reduce((sum, item) => {
+		// Use totalPrice if available (from aggregation), otherwise calculate from productPrice and count
+		if (item.totalPrice) {
+			return sum + Number(item.totalPrice);
+		}
+		return sum + (Number(item.productPrice || item.prod_price || 0) * Number(item.count || 1));
+	}, 0);
+	
 	const after_Discount_price = safeCart.reduce(
 		(sum, item) => {
-			const price = Number(item.prod_price || 0);
+			const price = Number(item.productPrice || item.prod_price || 0);
 			const discount = Number(item.prod_discount || 0);
-			return sum + (price - (price * discount / 100));
+			const quantity = Number(item.count || 1);
+			return sum + ((price - (price * discount / 100)) * quantity);
 		},
 		0
 	);
@@ -112,9 +128,9 @@ const Cart = () => {
 		}
 	};
 
-	const handleCheckout = () => {
-		setShow(true);
-	};
+  const handleCheckout = () => {
+    navigate('/checkout');
+  };
 
 	const handleRefreshCart = () => {
 		toast({
@@ -130,7 +146,6 @@ const Cart = () => {
 	const handleTestCartAPI = async () => {
 		try {
 			const token = localStorage.getItem("token");
-			console.log(token,"token")
 			const response = await fetch(baseURL + "/userDashboard/cart", {
 				method: "GET",
 				headers: {
@@ -140,10 +155,6 @@ const Cart = () => {
 			});
 			
 			const data = await response.text();
-			console.log("Raw API Response:", data);
-			console.log("Response Status:", response.status);
-			console.log("Response Headers:", response.headers);
-			
 			setDebugInfo({
 				status: response.status,
 				statusText: response.statusText,
@@ -176,7 +187,7 @@ const Cart = () => {
 		}
 	};
 
-	useEffect(() => {
+  useEffect(() => {
 		// Check if user is logged in
 		const token = localStorage.getItem("token");
 		if (!token) {
@@ -192,7 +203,7 @@ const Cart = () => {
 		}
 
 		// Fetch cart data
-		dispatch(getCartData());
+    dispatch(getCartData());
 	}, [dispatch, navigate, toast]);
 
 	// Handle authentication errors
@@ -310,7 +321,7 @@ const Cart = () => {
 
 	// Empty cart state
 	if (safeCart.length === 0) {
-		return (
+    return (
 			<Box bg={bgColor} minH="100vh" py="8">
 				<Container maxW="4xl">
 					<Center py="20">
@@ -357,7 +368,7 @@ const Cart = () => {
 		);
 	}
 
-	return (
+  return (
 		<Box bg={bgColor} minH="100vh" py="8">
 			<Container maxW="7xl">
 				<Flex justify="space-between" align="center" mb="8">
@@ -367,7 +378,7 @@ const Cart = () => {
 					</Heading>
 					
 					<HStack spacing="4">
-						<Button
+						{/* <Button
 							onClick={handleTestCartAPI}
 							variant="outline"
 							colorScheme="orange"
@@ -378,8 +389,8 @@ const Cart = () => {
 								borderColor: "orange.300"
 							}}
 						>
-							Debug
-						</Button>
+							Debug API
+						</Button> */}
 						
 						<Button
 							onClick={handleRefreshCart}
@@ -396,6 +407,16 @@ const Cart = () => {
 						</Button>
 					</HStack>
 				</Flex>
+
+				{/* Debug Information */}
+				{Object.keys(debugInfo).length > 0 && (
+					<Box mb="6" p="4" bg="gray.100" borderRadius="lg">
+						<Heading size="sm" mb="2" color="gray.700">Debug Information:</Heading>
+						<Code fontSize="xs" p="2" bg="gray.200" borderRadius="md" display="block" whiteSpace="pre-wrap" maxH="200px" overflowY="auto">
+							{JSON.stringify(debugInfo, null, 2)}
+						</Code>
+					</Box>
+				)}
 
 				<Flex direction={{ base: "column", lg: "row" }} gap="8">
 					{/* Cart Items */}
@@ -421,8 +442,8 @@ const Cart = () => {
 										{/* Product Image */}
 										<Link to={`/singleProduct/${item.prod_id}`}>
 											<Image
-												src={item.prod_image}
-												alt={item.prod_name}
+												src={item.productImage || item.prod_image}
+												alt={item.productName || item.prod_name}
 												w="32"
 												h="32"
 												objectFit="cover"
@@ -440,16 +461,45 @@ const Cart = () => {
 											<VStack align="stretch" spacing="4">
 												<Link to={`/singleProduct/${item.prod_id}`}>
 													<Heading size="md" color={textColor} _hover={{ color: "blue.500" }}>
-														{item.prod_name}
-													</Heading>
-												</Link>
+														{item.productName || item.prod_name}
+                    </Heading>
+                  </Link>
 
-												{/* Price and Discount */}
+												{/* Product Category and Rating */}
+												<HStack spacing="4" align="center">
+													{item.productCategory && (
+														<Badge colorScheme="blue" variant="subtle" borderRadius="full">
+															{item.productCategory}
+														</Badge>
+													)}
+													{item.productRating && (
+														<HStack spacing="1">
+															<Text fontSize="sm" color="gray.500">Rating:</Text>
+															<Text fontSize="sm" fontWeight="semibold" color="orange.500">
+																{item.productRating} ⭐
+															</Text>
+														</HStack>
+													)}
+												</HStack>
+
+												{/* Quantity and Price */}
 												<HStack justify="space-between" align="center">
 													<VStack align="start" spacing="1">
-														<Text fontSize="lg" fontWeight="bold" color="blue.600">
-															₹{item.prod_price}
-														</Text>
+														<HStack spacing="2">
+															<Text fontSize="lg" fontWeight="bold" color="blue.600">
+																₹{item.productPrice || item.prod_price}
+															</Text>
+															{item.count > 1 && (
+																<Text fontSize="sm" color="gray.500">
+																	× {item.count}
+																</Text>
+															)}
+														</HStack>
+														{item.totalPrice && (
+															<Text fontSize="md" fontWeight="bold" color="green.600">
+																Total: ₹{item.totalPrice}
+															</Text>
+														)}
 														{item.prod_discount > 0 && (
 															<Badge colorScheme="green" variant="subtle" borderRadius="full">
 																{item.prod_discount}% OFF
@@ -524,7 +574,7 @@ const Cart = () => {
 										</Text>
 										<Text fontSize="xl" fontWeight="bold" color="blue.600">
 											₹{finalTotal}
-										</Text>
+                    </Text>
 									</HStack>
 								</Box>
 
@@ -532,7 +582,7 @@ const Cart = () => {
 								<Box>
 									<Text fontSize="sm" color="gray.500" mb="2">
 										Have a coupon code?
-									</Text>
+                    </Text>
 									<HStack>
 										<Input
 											placeholder="Enter coupon code"
@@ -544,8 +594,8 @@ const Cart = () => {
 												boxShadow: "0 0 0 1px blue.500"
 											}}
 										/>
-										<Button
-											colorScheme="blue"
+                <Button
+                  colorScheme="blue"
 											borderRadius="lg"
 											px="6"
 											_hover={{
@@ -553,7 +603,7 @@ const Cart = () => {
 											}}
 										>
 											Apply
-										</Button>
+                </Button>
 									</HStack>
 								</Box>
 
@@ -601,7 +651,7 @@ const Cart = () => {
 				{show && <Checkout />}
 			</Container>
 		</Box>
-	);
+  );
 };
 
 export default Cart;

@@ -18,7 +18,6 @@ export const login = payload => dispatch => {
 		data: payload
 	})
 		.then(r => {
-			console.log("r: login successful", r.data.token);
 			let name = r.data.user.name.split(" ")[0];
 
 			setTimeout(() => {
@@ -35,7 +34,6 @@ export const login = payload => dispatch => {
 };
 
 export const register = (payload) => (dispatch) => {
-	console.log("payload: ", payload);
 	dispatch({ type: REGISTER_REQUEST });
 	return axios({
 		method: "post",

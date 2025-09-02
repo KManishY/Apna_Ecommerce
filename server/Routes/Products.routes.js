@@ -8,7 +8,6 @@ dataController.get("/", async (req, res) => {
     const a = req.query || {}; // ✅ fallback if no query params
     let query = {};
     let sort = {};
-    console.log(a);
     // Filter by category
     if (a.category) {
       query.prod_cat = a.category;

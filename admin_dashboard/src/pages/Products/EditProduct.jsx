@@ -20,7 +20,6 @@ const EditProduct = () => {
 	const { id } = useParams();
 	const { productData } = useSelector(state => state.productReducer);
 	const [item] = productData.filter(el => el._id === id);
-	console.log("item: ", item);
 	const dispatch = useDispatch();
 
 	var initialState = {
@@ -38,15 +37,12 @@ const EditProduct = () => {
 	// };
 
 	const [product, setProduct] = useState(initialState);
-	// console.log("product: ", product);
 	const handleChange = e => {
-		// console.log(product);
 		setProduct({ ...product, [e.target.name]: e.target.value });
 	};
 	const handleSubmit = () => {
 		//TODO  onSubmit data fill sand to database to update
 		dispatch(editProduct(product));
-		// console.log(product, "editPage");
 	};
 
 	return (

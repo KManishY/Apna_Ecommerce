@@ -156,9 +156,9 @@ const Navbar = () => {
         leftIcon={<Avatar size="sm" name={user} bgGradient="linear(to-r, blue.400, purple.500)" />}
         rightIcon={<Icon as={FiUser} />}
         color="white"
-        bgGradient="linear(to-r, blue.500, purple.500)"
+        bg="transparent"
         _hover={{
-          bgGradient: "linear(to-r, blue.600, purple.600)",
+          bg: "transparent",
           transform: "translateY(-2px)"
         }}
         _active={{
@@ -167,39 +167,52 @@ const Navbar = () => {
         transition="all 0.2s ease"
         borderRadius="xl"
         fontWeight="semibold"
-        boxShadow="md"
+        boxShadow="none"
       >
         {user}
       </MenuButton>
       <MenuList
-        bg={bgColor}
         border="1px solid"
         borderColor={borderColor}
         borderRadius="xl"
         boxShadow="xl"
         py="2"
+        bg="transparent"
+        _hover={{ bg: "transparent" }}
       >
         <MenuItem
           icon={<Icon as={FiUser} />}
-          _hover={{ bg: "gray.100" }}
+          bg="transparent !important"
+          _hover={{ bg: "transparent !important" }}
+          _active={{ bg: "transparent !important" }}
+          _focus={{ bg: "transparent !important" }}
           borderRadius="md"
           mx="2"
+          onClick={() => navigate('/profile')}
         >
           Profile
         </MenuItem>
         <MenuItem
           icon={<Icon as={FiHeart} />}
-          _hover={{ bg: "gray.100" }}
+          bg="transparent !important"
+          _hover={{ bg: "transparent !important" }}
+          _active={{ bg: "transparent !important" }}
+          _focus={{ bg: "transparent !important" }}
           borderRadius="md"
           mx="2"
+          onClick={() => navigate('/wishlist')}
         >
           Wishlist
         </MenuItem>
         <MenuItem
           icon={<Icon as={FiShoppingBag} />}
-          _hover={{ bg: "gray.100" }}
+          bg="transparent !important"
+          _hover={{ bg: "transparent !important" }}
+          _active={{ bg: "transparent !important" }}
+          _focus={{ bg: "transparent !important" }}
           borderRadius="md"
           mx="2"
+          onClick={() => navigate('/orders')}
         >
           Orders
         </MenuItem>
@@ -207,7 +220,10 @@ const Navbar = () => {
         <MenuItem
           icon={<Icon as={FiLogOut} />}
           color="red.500"
-          _hover={{ bg: "red.50" }}
+          bg="transparent !important"
+          _hover={{ bg: "transparent !important" }}
+          _active={{ bg: "transparent !important" }}
+          _focus={{ bg: "transparent !important" }}
           borderRadius="md"
           mx="2"
           onClick={handleLogout}

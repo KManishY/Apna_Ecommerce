@@ -21,12 +21,10 @@ adminController.post("/register",async (req, res) => {
 		} catch (err) {
 			console.log('err: during register ', err);
 			res.status(502).send({ message: "Already Registered" });
-			// console.log("err: ", err);
 		}
 	});
 });
 adminController.post("/login", async (req, res) => {
-	// console.log("login: ", req.body);
 	const { email, password } = req.body;
 	const user = await AdminAuthModel.findOne({ email: email });
 	if (!user) {

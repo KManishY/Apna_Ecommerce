@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getAddresses, addAddress, setDefaultAddress } from "../../Redux/AddressReducer/action.js";
+import { createOrder } from "../../Redux/OrderReducer/action.js";
+import { getCartData } from "../../Redux/AppReducer/action.js";
 import {
 	Box,
 	Button,
@@ -42,7 +45,11 @@ import {
 	FiMap,
 	FiGlobe,
 	FiMail,
-	FiPhone
+	FiPhone,
+	FiPlus,
+	FiEdit,
+	FiTrash2,
+	FiUser
 } from "react-icons/fi";
 
 const Checkout = () => {
@@ -50,7 +57,11 @@ const Checkout = () => {
 	const navigate = useNavigate();
 	const toast = useToast();
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	
+	// Redux state
 	const { cart } = useSelector(state => state.getCartReducer);
+	const { addresses, isLoading: addressLoading } = useSelector(state => state.addressReducer);
+	const { isLoading: orderLoading } = useSelector(state => state.orderReducer);
 
 	// Color mode values
 	const bgColor = useColorModeValue("gray.50", "gray.900");
@@ -59,18 +70,35 @@ const Checkout = () => {
 	const textColor = useColorModeValue("gray.700", "gray.200");
 
 	const initialState = {
+		fullName: "",
+		phone: "",
 		addressLine1: "",
 		addressLine2: "",
 		landmark: "",
 		city: "",
 		pinCode: "",
 		state: "",
-		phone: "",
-		email: ""
+		country: "India",
+		addressType: "home"
 	};
 
 	const [addressDetails, setAddressDetails] = useState(initialState);
+	const [selectedAddress, setSelectedAddress] = useState(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [showAddressForm, setShowAddressForm] = useState(false);
+
+	// Load addresses on component mount
+	useEffect(() => {
+		dispatch(getAddresses());
+	}, [dispatch]);
+
+	// Set default address when addresses are loaded
+	useEffect(() => {
+		if (addresses.length > 0 && !selectedAddress) {
+			const defaultAddr = addresses.find(addr => addr.isDefault) || addresses[0];
+			setSelectedAddress(defaultAddr);
+		}
+	}, [addresses, selectedAddress]);
 
 	const handleChange = (e) => {
 		setAddressDetails({
@@ -79,9 +107,9 @@ const Checkout = () => {
 		});
 	};
 
-	const handleSubmit = async () => {
+	const handleAddAddress = async () => {
 		// Basic validation
-		const requiredFields = ['addressLine1', 'city', 'pinCode', 'state', 'phone'];
+		const requiredFields = ['fullName', 'phone', 'addressLine1', 'city', 'pinCode', 'state'];
 		const missingFields = requiredFields.filter(field => !addressDetails[field]);
 		
 		if (missingFields.length > 0) {
@@ -95,27 +123,83 @@ const Checkout = () => {
 			return;
 		}
 
+		try {
+			await dispatch(addAddress(addressDetails));
+			setAddressDetails(initialState);
+			setShowAddressForm(false);
+			toast({
+				title: "Address Added",
+				description: "New address has been added successfully",
+				status: "success",
+				duration: 3000,
+				isClosable: true,
+			});
+		} catch (error) {
+			toast({
+				title: "Error",
+				description: "Failed to add address",
+				status: "error",
+				duration: 3000,
+				isClosable: true,
+			});
+		}
+	};
+
+	const handleSubmit = async () => {
+		if (!selectedAddress) {
+			toast({
+				title: "No Address Selected",
+				description: "Please select a delivery address",
+				status: "warning",
+				duration: 3000,
+				isClosable: true,
+			});
+			return;
+		}
+
+		if (!cart || cart.length === 0) {
+			toast({
+				title: "Empty Cart",
+				description: "Your cart is empty",
+				status: "warning",
+				duration: 3000,
+				isClosable: true,
+			});
+			return;
+		}
+
 		setIsSubmitting(true);
 		
 		try {
-			// Simulate API call
-			await new Promise(resolve => setTimeout(resolve, 2000));
+			const orderData = {
+				shippingAddressId: selectedAddress._id,
+				billingAddressId: selectedAddress._id, // Same as shipping for now
+				paymentMethod: "cod",
+				notes: ""
+			};
+
+			const result = await dispatch(createOrder(orderData));
 			
 			toast({
 				title: "Order Placed Successfully!",
-				description: "Your order has been confirmed and will be delivered soon.",
+				description: `Your order ID is: ${result.data.orderId}`,
 				status: "success",
 				duration: 5000,
 				isClosable: true,
 			});
+
+			// Refresh cart data
+			dispatch(getCartData());
 			
-			onOpen(); // Show success modal
+			// Navigate to order confirmation or home
+			navigate("/");
+			
 		} catch (error) {
 			toast({
 				title: "Order Failed",
-				description: "There was an error placing your order. Please try again.",
+				description: error.message || "Failed to place order. Please try again.",
 				status: "error",
-				duration: 3000,
+				duration: 5000,
 				isClosable: true,
 			});
 		} finally {
@@ -123,8 +207,13 @@ const Checkout = () => {
 		}
 	};
 
-	// Calculate order total
-	const orderTotal = cart?.reduce((sum, item) => sum + Number(item.prod_price), 0) || 0;
+	// Calculate order total - handle both old and new cart structures
+	const orderTotal = cart?.reduce((sum, item) => {
+		if (item.totalPrice) {
+			return sum + Number(item.totalPrice);
+		}
+		return sum + (Number(item.productPrice || item.prod_price || 0) * Number(item.count || 1));
+	}, 0) || 0;
 
 	return (
 		<Box bg={bgColor} minH="100vh" py="8">
@@ -145,34 +234,167 @@ const Checkout = () => {
 							border="1px solid"
 							borderColor={borderColor}
 						>
-							<Heading size="lg" mb="6" color={textColor} display="flex" alignItems="center">
-								<Icon as={FiMapPin} mr="2" color="blue.500" />
-								Delivery Address
+							<Heading size="lg" mb="6" color={textColor} display="flex" alignItems="center" justifyContent="space-between">
+								<HStack>
+									<Icon as={FiMapPin} mr="2" color="blue.500" />
+									Delivery Address
+								</HStack>
+								<Button
+									size="sm"
+									colorScheme="blue"
+									variant="outline"
+									leftIcon={<Icon as={FiPlus} />}
+									onClick={() => setShowAddressForm(!showAddressForm)}
+								>
+									{showAddressForm ? "Cancel" : "Add New"}
+								</Button>
 							</Heading>
 
-							<VStack spacing="6" align="stretch">
-								{/* Address Line 1 */}
-								<FormControl isRequired>
-									<FormLabel color={textColor} fontWeight="medium">
-										<Icon as={FiHome} mr="2" />
-										Address Line 1
-									</FormLabel>
-									<Input
-										type="text"
-										name="addressLine1"
-										value={addressDetails.addressLine1}
-										onChange={handleChange}
-										placeholder="Street address, apartment, suite, etc."
-										size="lg"
-										borderRadius="lg"
-										border="2px solid"
-										borderColor="gray.200"
-										_focus={{
-											borderColor: "blue.500",
-											boxShadow: "0 0 0 1px blue.500"
-										}}
-									/>
-								</FormControl>
+							{/* Address Selection */}
+							{!showAddressForm && (
+								<VStack spacing="4" align="stretch">
+									{addresses.length > 0 ? (
+										addresses.map((address) => (
+											<Box
+												key={address._id}
+												p="4"
+												border="2px solid"
+												borderColor={selectedAddress?._id === address._id ? "blue.500" : borderColor}
+												borderRadius="lg"
+												cursor="pointer"
+												onClick={() => setSelectedAddress(address)}
+												_hover={{
+													borderColor: "blue.300",
+													transform: "translateY(-1px)",
+													transition: "all 0.2s ease"
+												}}
+												transition="all 0.2s ease"
+												bg={selectedAddress?._id === address._id ? "blue.50" : cardBg}
+											>
+												<HStack justify="space-between" align="start">
+													<VStack align="start" spacing="2" flex="1">
+														<HStack>
+															<Text fontWeight="bold" color={textColor}>
+																{address.fullName}
+															</Text>
+															{address.isDefault && (
+																<Badge colorScheme="green" size="sm">Default</Badge>
+															)}
+															<Badge colorScheme="blue" size="sm" variant="outline">
+																{address.addressType}
+															</Badge>
+														</HStack>
+														<Text color={textColor}>
+															{address.addressLine1}
+															{address.addressLine2 && `, ${address.addressLine2}`}
+														</Text>
+														{address.landmark && (
+															<Text fontSize="sm" color="gray.500">
+																Near: {address.landmark}
+															</Text>
+														)}
+														<Text color={textColor}>
+															{address.city}, {address.state} - {address.pinCode}
+														</Text>
+														<Text color={textColor} fontSize="sm">
+															<Icon as={FiPhone} mr="1" />
+															{address.phone}
+														</Text>
+													</VStack>
+													{selectedAddress?._id === address._id && (
+														<Icon as={FiCheckCircle} color="blue.500" boxSize="5" />
+													)}
+												</HStack>
+											</Box>
+										))
+									) : (
+										<Alert status="info" borderRadius="lg">
+											<AlertIcon />
+											<Box>
+												<AlertTitle>No addresses found!</AlertTitle>
+												<AlertDescription>
+													Please add a delivery address to continue.
+												</AlertDescription>
+											</Box>
+										</Alert>
+									)}
+								</VStack>
+							)}
+
+							{/* Add New Address Form */}
+							{showAddressForm && (
+								<VStack spacing="6" align="stretch">
+									<Heading size="md" color={textColor}>
+										Add New Address
+									</Heading>
+									{/* Full Name and Phone */}
+									<Grid templateColumns="1fr 1fr" gap="4">
+										<FormControl isRequired>
+											<FormLabel color={textColor} fontWeight="medium">
+												<Icon as={FiUser} mr="2" />
+												Full Name
+											</FormLabel>
+											<Input
+												type="text"
+												name="fullName"
+												value={addressDetails.fullName}
+												onChange={handleChange}
+												placeholder="Enter full name"
+												size="lg"
+												borderRadius="lg"
+												border="2px solid"
+												borderColor="gray.200"
+												_focus={{
+													borderColor: "blue.500",
+													boxShadow: "0 0 0 1px blue.500"
+												}}
+											/>
+										</FormControl>
+										<FormControl isRequired>
+											<FormLabel color={textColor} fontWeight="medium">
+												<Icon as={FiPhone} mr="2" />
+												Phone Number
+											</FormLabel>
+											<Input
+												type="tel"
+												name="phone"
+												value={addressDetails.phone}
+												onChange={handleChange}
+												placeholder="Enter phone number"
+												size="lg"
+												borderRadius="lg"
+												border="2px solid"
+												borderColor="gray.200"
+												_focus={{
+													borderColor: "blue.500",
+													boxShadow: "0 0 0 1px blue.500"
+												}}
+											/>
+										</FormControl>
+									</Grid>
+
+									{/* Address Line 1 */}
+									<FormControl isRequired>
+										<FormLabel color={textColor} fontWeight="medium">
+											<Icon as={FiHome} mr="2" />
+											Address Line 1
+										</FormLabel>
+										<Input
+											type="text"
+											name="addressLine1"
+											value={addressDetails.addressLine1}
+											onChange={handleChange}
+											placeholder="Street address, apartment, suite, etc."
+											size="lg"
+											borderRadius="lg"
+											border="2px solid"
+											borderColor="gray.200"
+											_focus={{
+												borderColor: "blue.500",
+												boxShadow: "0 0 0 1px blue.500"
+											}}
+										/>
+									</FormControl>
 
 								{/* Address Line 2 */}
 								<FormControl>
@@ -336,7 +558,24 @@ const Checkout = () => {
 										}}
 									/>
 								</FormControl>
+
+								{/* Submit Button */}
+								<Button
+									colorScheme="blue"
+									size="lg"
+									onClick={handleAddAddress}
+									isLoading={addressLoading}
+									borderRadius="xl"
+									_hover={{
+										transform: "translateY(-1px)",
+										boxShadow: "lg"
+									}}
+									transition="all 0.2s ease"
+								>
+									Add Address
+								</Button>
 							</VStack>
+							)}
 						</Box>
 					</GridItem>
 
@@ -367,11 +606,18 @@ const Checkout = () => {
 									<VStack spacing="2" align="stretch">
 										{cart?.map((item, index) => (
 											<HStack key={index} justify="space-between">
-												<Text fontSize="sm" color="gray.600" noOfLines={1}>
-													{item.prod_name}
-												</Text>
+												<VStack align="start" spacing="0" flex="1">
+													<Text fontSize="sm" color="gray.600" noOfLines={1}>
+														{item.productName || item.prod_name}
+													</Text>
+													{item.count > 1 && (
+														<Text fontSize="xs" color="gray.500">
+															Qty: {item.count}
+														</Text>
+													)}
+												</VStack>
 												<Text fontSize="sm" fontWeight="semibold">
-													₹{item.prod_price}
+													₹{item.totalPrice || (Number(item.productPrice || item.prod_price || 0) * Number(item.count || 1))}
 												</Text>
 											</HStack>
 										))}

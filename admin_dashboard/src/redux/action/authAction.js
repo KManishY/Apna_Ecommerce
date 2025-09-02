@@ -14,7 +14,6 @@ export const login = (payload) => (dispatch) => {
 		data: payload
 	})
 		.then(r => {
-			console.log("r: ", r.data);
 			setTimeout(() => {
 				localStorage.setItem("authToken", r.data);
 			}, 100);

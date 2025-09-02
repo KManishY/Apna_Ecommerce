@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { AuthModel } = require("../Modal/userauth.model.js");
 require("dotenv").config();
 
 const authentication = async (req, res, next) => {
@@ -6,16 +7,24 @@ const authentication = async (req, res, next) => {
 		return res.send("Please Login Again");
 	}
 	const token = req.headers.authorization;
-	// console.log(token);
-	await jwt.verify(token, "manish" || "manish", function(err, decoded) {
-		if (err) {
-			console.log(err);
-			res.send("Please Login");
-		} else {
-			req.body.userEmail = decoded.userId;
-			next();
+	
+	try {
+		const decoded = jwt.verify(token, "manish" || "manish");
+		const userEmail = decoded.userId;
+		
+		// Find user in database to get ObjectId
+		const user = await AuthModel.findOne({ email: userEmail });
+		if (!user) {
+			return res.send("User not found");
 		}
-	});
+		
+		req.body.userEmail = userEmail;
+		req.body.userId = user._id; // Set the actual ObjectId
+		next();
+	} catch (err) {
+		console.log(err);
+		res.send("Please Login");
+	}
 };
 
 module.exports = { authentication };

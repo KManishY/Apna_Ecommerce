@@ -12,7 +12,6 @@ const initialState = {
 };
 
 const productReducer = (oldState = initialState, { type, payload }) => {
-	// console.log("payload: ", payload);
 	switch (type) {
 		case PRODUCT_REQUEST:
 			return { ...oldState, isLoading: true };

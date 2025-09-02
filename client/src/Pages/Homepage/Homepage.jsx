@@ -12,11 +12,6 @@ import HomePageContainer from "./HomePageContainer.jsx";
 const Homepage = () => {
 	const { data, isLoading, isError, errorMessage } = useSelector(state => state.productReducer);
 	const [retryCount, setRetryCount] = useState(0);
-	console.log("data: ", data);
-	console.log("isLoading: ", isLoading);
-	console.log("isError: ", isError);
-	console.log("errorMessage: ", errorMessage);
-	
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const [searchParams] = useSearchParams();
@@ -39,8 +34,6 @@ const Homepage = () => {
 		if (category && category !== "all") query.category = category;
 		if (sort) query.sort = sort;
 		if (sortByRating) query.sortByRating = sortByRating;
-
-		console.log("Homepage - Fetching products with clean query:", query);
 		dispatch(getData(query));
 	};
 	
@@ -52,7 +45,6 @@ const Homepage = () => {
 	useEffect(() => {
 		if (isError && retryCount < 3) {
 			const timer = setTimeout(() => {
-				console.log(`Retrying product fetch (attempt ${retryCount + 1})`);
 				setRetryCount(prev => prev + 1);
 				fetchProducts();
 			}, 2000 * (retryCount + 1)); // Exponential backoff
@@ -60,9 +52,6 @@ const Homepage = () => {
 			return () => clearTimeout(timer);
 		}
 	}, [isError, retryCount]);
-
-	console.log("Homepage - Current data:", data);
-
 	return (
 		<div>
 			<Banner />
