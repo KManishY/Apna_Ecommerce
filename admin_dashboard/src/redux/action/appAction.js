@@ -18,6 +18,7 @@ import {
 } from "../constants/appConstant.js";
 const token = localStorage.getItem("authToken");
 const baseURL = "https://homedecorserver.onrender.com";
+// export const baseURL = "http://localhost:8080";
 export const allUsers = () => dispatch => {
 	dispatch({ type: USER_DETAILS_REQUEST });
 	return axios({

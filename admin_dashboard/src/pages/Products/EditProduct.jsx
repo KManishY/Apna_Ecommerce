@@ -2,16 +2,13 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import {
 	Button,
-	chakra,
 	FormControl,
-	FormHelperText,
 	Heading,
 	Input,
 	InputGroup,
 	InputLeftElement,
 	Stack
 } from "@chakra-ui/react";
-import { FaUserAlt, FaLock } from "react-icons/fa";
 import { SiNamecheap } from "react-icons/si";
 import { MdPriceCheck } from "react-icons/md";
 import { FcRating } from "react-icons/fc";
