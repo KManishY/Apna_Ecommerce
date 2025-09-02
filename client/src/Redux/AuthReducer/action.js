@@ -7,13 +7,14 @@ import {
 	REGISTER_REQUEST,
 	REGISTER_SUCCESS
 } from "./constants.js";
+import { baseURL } from "../../../apiConfig.js";
 
 export const login = payload => dispatch => {
 	dispatch({ type: LOGIN_REQUEST });
 	return axios({
 		method: "post",
 		url: "/user/login",
-		baseURL: "https://homedecorserver.onrender.com",
+		baseURL: baseURL,
 		data: payload
 	})
 		.then(r => {
@@ -39,7 +40,7 @@ export const register = (payload) => (dispatch) => {
 	return axios({
 		method: "post",
 		url: "/user/register",
-		baseURL: "https://homedecorserver.onrender.com",
+		baseURL: baseURL,
 		data: payload
 	})
 		.then((r) =>

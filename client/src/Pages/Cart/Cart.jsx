@@ -129,7 +129,7 @@ const Cart = () => {
 	const handleTestCartAPI = async () => {
 		try {
 			const token = localStorage.getItem("token");
-			const response = await fetch("https://homedecorserver.onrender.com/userDashboard/cart", {
+			const response = await fetch(baseURL + "/userDashboard/cart", {
 				method: "GET",
 				headers: {
 					"Authorization": token,

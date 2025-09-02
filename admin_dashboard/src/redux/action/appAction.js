@@ -17,13 +17,14 @@ import {
 	DELETE_PRODUCT_FAILURE
 } from "../constants/appConstant.js";
 const token = localStorage.getItem("authToken");
+const baseURL = "https://homedecorserver.onrender.com";
 export const allUsers = () => dispatch => {
 	dispatch({ type: USER_DETAILS_REQUEST });
 	return axios({
 		method: "get",
 		url: "/admindashboard/users",
 		// localhost:8080/admindashboard/users
-		baseURL: "https://homedecorserver.onrender.com",
+		baseURL: baseURL,
 		headers: {
 			Authorization: token
 		}
@@ -45,7 +46,7 @@ export const getProduct = () => dispatch => {
 		method: "get",
 		url: "/admindashboard",
 		// localhost:8080/admindashboard/users
-		baseURL: "https://homedecorserver.onrender.com",
+		baseURL: baseURL,
 		headers: {
 			Authorization: token
 		}
@@ -66,7 +67,7 @@ export const editProduct = payload => dispatch => {
 	return axios({
 		method: "patch",
 		url: `/admindashboard/edit/${payload.id}`,
-		baseURL: "https://homedecorserver.onrender.com",
+		baseURL: baseURL,
 		headers: {
 			Authorization: token
 		},
@@ -90,7 +91,7 @@ export const addProduct = payload => dispatch => {
 	return axios({
 		method: "post",
 		url: `/admindashboard/create`,
-		baseURL: "https://homedecorserver.onrender.com",
+		baseURL: baseURL,
 		headers: {
 			Authorization: token
 		},
@@ -114,7 +115,7 @@ export const deleteProduct = payload => dispatch => {
 	return axios({
 		method: "delete",
 		url: `/admindashboard/delete/${payload}`,
-		baseURL: "https://homedecorserver.onrender.com",
+		baseURL: baseURL,
 		headers: {
 			Authorization: token
 		}

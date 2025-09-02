@@ -13,10 +13,11 @@ import {
   DELETE_CART_DATA_SUCCESS,
   DELETE_CART_DATA_FAIL
 } from "./constants.js";
+import { baseURL } from "../../../apiConfig.js";
 
 // Create an Axios instance with common configuration
 const axiosInstance = axios.create({
-  baseURL: "https://homedecorserver.onrender.com"
+  baseURL: baseURL
 });
 
 // Helper function to get fresh token
