@@ -4,28 +4,41 @@ import {
 	GET_CART_DATA_SUCCESS
 } from "./constants.js";
 
-// storeing all data into data :[]
+// Initial state with proper structure
 const initialState = {
 	isAuth: false,
 	cart: [],
 	isLoading: false,
-	isError: false
+	isError: false,
+	errorMessage: ""
 };
+
 export const getCartReducer = (oldState = initialState, { type, payload }) => {
 	switch (type) {
 		case GET_CART_DATA_REQUEST:
 			return {
-				isLoading: true
+				...oldState,
+				isLoading: true,
+				isError: false,
+				errorMessage: ""
 			};
+			
 		case GET_CART_DATA_SUCCESS:
 			return {
 				...oldState,
 				isLoading: false,
-				cart: payload
+				isError: false,
+				cart: Array.isArray(payload) ? payload : [],
+				errorMessage: ""
 			};
+			
 		case GET_CART_DATA_FAIL:
 			return {
-				isError: true
+				...oldState,
+				isLoading: false,
+				isError: true,
+				cart: [],
+				errorMessage: payload || "Failed to fetch cart data"
 			};
 
 		default:

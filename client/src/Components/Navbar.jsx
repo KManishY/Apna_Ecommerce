@@ -1,37 +1,66 @@
-import React, { useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { BsFillCartFill } from "react-icons/bs";
-import { Link, useNavigate } from "react-router-dom";
-import Wrapper from "./Wrapper.jsx";
-import styled from "./navbar.module.css";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Flex,
+  Text,
+  Button,
+  HStack,
+  VStack,
+  Heading,
+  Avatar,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  Badge,
+  Icon,
+  useColorModeValue,
+  Container,
+  IconButton,
+  useDisclosure,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Divider
+} from "@chakra-ui/react";
+import {
+  GiShoppingCart
+} from "react-icons/gi";
+import {
+  FiUser,
+  FiLogOut,
+  FiShoppingBag,
+  FiHeart,
+  FiMenu,
+  FiHome,
+  FiPackage
+} from "react-icons/fi";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { getCartData } from "../Redux/AppReducer/action.js";
+
 const Navbar = () => {
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
-
   const { name } = useSelector((state) => state.AuthReducer.user);
-  console.log("state: ", name);
-
-  const [hamBtn, sethamBtn] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   let { cart } = useSelector((state) => state.getCartReducer);
-  console.log("cart: ", cart);
-  if (cart == "Please Login Again") {
-    console.log(cart);
+  if (cart === "Please Login") {
     cart = "";
   }
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getCartData());
-  }, []);
-
-  const handleClick = () => {
-    sethamBtn(!hamBtn);
-  };
-
-  // const user =JSON.parse(localStorage.getItem("user"))
+  }, [dispatch]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -40,92 +69,288 @@ const Navbar = () => {
     window.location.reload();
   };
 
-  // const token = localStorage.getItem("token");
-  const [showDropdown, setShowDropdown] = useState(false);
+  // Color scheme
+  const bgColor = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("gray.200", "gray.600");
+  const textColor = useColorModeValue("white", "white");
+  const accentColor = useColorModeValue("blue.500", "blue.300");
 
-  const handleUsernameClick = () => {
-    setShowDropdown(!showDropdown);
-  };
+  const isActive = (path) => location.pathname === path;
+
+  const NavLink = ({ to, children, icon, isActive }) => (
+    <Link to={to}>
+      <Button
+        variant="ghost"
+        size="lg"
+        leftIcon={<Icon as={icon} />}
+        color="white"
+        bgGradient="linear(to-r, blue.500, purple.500)"
+        _hover={{
+          bgGradient: "linear(to-r, blue.600, purple.600)",
+          transform: "translateY(-2px)"
+        }}
+        _active={{
+          transform: "scale(0.95)"
+        }}
+        transition="all 0.2s ease"
+        borderRadius="xl"
+        fontWeight="semibold"
+        boxShadow="md"
+      >
+        {children}
+      </Button>
+    </Link>
+  );
+
+  const CartButton = () => (
+    <Link to="/cart">
+      <Button
+        variant="ghost"
+        size="lg"
+        position="relative"
+        leftIcon={<Icon as={GiShoppingCart} boxSize="5" />}
+        color="white"
+        bgGradient="linear(to-r, blue.500, purple.500)"
+        _hover={{
+          bgGradient: "linear(to-r, blue.600, purple.600)",
+          transform: "translateY(-2px)"
+        }}
+        _active={{
+          transform: "scale(0.95)"
+        }}
+        transition="all 0.2s ease"
+        borderRadius="xl"
+        fontWeight="semibold"
+        boxShadow="md"
+      >
+        Cart
+        {cart && cart.length > 0 && (
+          <Badge
+            position="absolute"
+            top="-2"
+            right="-2"
+            colorScheme="red"
+            borderRadius="full"
+            fontSize="xs"
+            fontWeight="bold"
+            minW="20px"
+            h="20px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            boxShadow="md"
+          >
+            {cart.length}
+          </Badge>
+        )}
+      </Button>
+    </Link>
+  );
+
+  const UserMenu = () => (
+    <Menu>
+      <MenuButton
+        as={Button}
+        variant="ghost"
+        size="lg"
+        leftIcon={<Avatar size="sm" name={user} bgGradient="linear(to-r, blue.400, purple.500)" />}
+        rightIcon={<Icon as={FiUser} />}
+        color="white"
+        bgGradient="linear(to-r, blue.500, purple.500)"
+        _hover={{
+          bgGradient: "linear(to-r, blue.600, purple.600)",
+          transform: "translateY(-2px)"
+        }}
+        _active={{
+          transform: "scale(0.95)"
+        }}
+        transition="all 0.2s ease"
+        borderRadius="xl"
+        fontWeight="semibold"
+        boxShadow="md"
+      >
+        {user}
+      </MenuButton>
+      <MenuList
+        bg={bgColor}
+        border="1px solid"
+        borderColor={borderColor}
+        borderRadius="xl"
+        boxShadow="xl"
+        py="2"
+      >
+        <MenuItem
+          icon={<Icon as={FiUser} />}
+          _hover={{ bg: "gray.100" }}
+          borderRadius="md"
+          mx="2"
+        >
+          Profile
+        </MenuItem>
+        <MenuItem
+          icon={<Icon as={FiHeart} />}
+          _hover={{ bg: "gray.100" }}
+          borderRadius="md"
+          mx="2"
+        >
+          Wishlist
+        </MenuItem>
+        <MenuItem
+          icon={<Icon as={FiShoppingBag} />}
+          _hover={{ bg: "gray.100" }}
+          borderRadius="md"
+          mx="2"
+        >
+          Orders
+        </MenuItem>
+        <MenuDivider />
+        <MenuItem
+          icon={<Icon as={FiLogOut} />}
+          color="red.500"
+          _hover={{ bg: "red.50" }}
+          borderRadius="md"
+          mx="2"
+          onClick={handleLogout}
+        >
+          Logout
+        </MenuItem>
+      </MenuList>
+    </Menu>
+  );
+
+  const LoginButton = () => (
+    <Link to="/login">
+      <Button
+        size="lg"
+        bgGradient="linear(to-r, blue.500, purple.500)"
+        color="white"
+        _hover={{
+          transform: "translateY(-2px)",
+          boxShadow: "lg",
+          filter: "brightness(1.1)"
+        }}
+        _active={{
+          transform: "scale(0.95)"
+        }}
+        transition="all 0.2s ease"
+        borderRadius="xl"
+        fontWeight="bold"
+        px="8"
+        leftIcon={<Icon as={FiUser} />}
+      >
+        Login
+      </Button>
+    </Link>
+  );
+
+  const MobileMenu = () => (
+    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+      <DrawerOverlay />
+      <DrawerContent bg={bgColor}>
+        <DrawerCloseButton />
+        <DrawerHeader
+          borderBottomWidth="1px"
+          borderColor={borderColor}
+          bgGradient="linear(to-r, blue.500, purple.500)"
+          color="white"
+        >
+          <Flex align="center" gap="3">
+            <Avatar size="sm" name="Apna Ecommerce" bg="white" color="blue.500" />
+            <Text fontWeight="bold">Apna Ecommerce</Text>
+          </Flex>
+        </DrawerHeader>
+        <DrawerBody py="6">
+          <VStack spacing="4" align="stretch">
+            <NavLink to="/" icon={FiHome} isActive={isActive("/")}>
+              Home
+            </NavLink>
+            <NavLink to="/product" icon={FiPackage} isActive={isActive("/product")}>
+              Products
+            </NavLink>
+            <CartButton />
+            {token ? (
+              <>
+                <Divider />
+                <UserMenu />
+              </>
+            ) : (
+              <LoginButton />
+            )}
+          </VStack>
+        </DrawerBody>
+      </DrawerContent>
+    </Drawer>
+  );
 
   return (
-    <>
-      <div className={styled.main_div}>
-        <header>
-          <nav className={styled.nav}>
-            <div>
-              {/* <Link to="/" style={{ margin: "0", padding: "0" }}>
-                <img
-                  style={{ borderRadius: "50%" }}
-                  width="70px"
-                  src="https://media.istockphoto.com/vectors/online-shop-logo-designs-template-phone-shop-logo-symbol-icon-logo-vector-id1398022333?b=1&k=20&m=1398022333&s=612x612&w=0&h=nJ5jI5vZ-vBAA40nIvJs8xWEhVWx1d8IR61oVr_nfUs="
-                  alt="logo"
-                />
-              </Link> */}
-              {!token ? (
-                <Link className={styled.abc} to="/login">
-                  <b className={styled.nav_elem}>Login</b>
-                </Link>
-              ) : (
-                <span className={styled.abc}>
-                  <span
-                    style={{ cursor: "pointer" }}
-                    onClick={handleUsernameClick}
-                    className={styled.nav_elem}
-                  >
-                    {user}
-                  </span>
-                  {showDropdown && (
-                    <div className={styled.dropdown}>
-                      <span
-                        style={{ cursor: "pointer", color: "red" }}
-                        onClick={handleLogout}
-                        className={styled.nav_elem}
-                      >
-                        Logout
-                      </span>
-                    </div>
-                  )}
-                </span>
-              )}
-            </div>
-            <div>
-              <Link className={styled.abc} to="/">
-                <b className={styled.nav_elem}>Home</b>
-              </Link>
-              <Link className={styled.abc} to="/product">
-                <b className={styled.nav_elem}>Product</b>
-              </Link>
+    <Box
+      bg="rgba(255, 255, 255, 0.95)"
+      borderBottom="1px solid"
+      borderColor={borderColor}
+      position="sticky"
+      top="0"
+      zIndex="1000"
+      boxShadow="sm"
+      backdropFilter="blur(10px)"
+    >
+      <Container maxW="7xl" px={{ base: 4, md: 8 }}>
+        <Flex
+          h="16"
+          alignItems="center"
+          justifyContent="space-between"
+          gap="4"
+        >
+          {/* Logo */}
+          <Link to="/">
+            <Flex align="center" gap="3" _hover={{ transform: "scale(1.05)" }} transition="transform 0.2s ease">
+              <Box
+                p="2"
+                borderRadius="xl"
+                bgGradient="linear(to-r, blue.500, purple.500)"
+                color="white"
+                boxShadow="lg"
+              >
+                <Icon as={GiShoppingCart} boxSize="6" />
+              </Box>
+              <Heading size="md" bgGradient="linear(to-r, blue.500, purple.500)" bgClip="text">
+                Apna Ecommerce
+              </Heading>
+            </Flex>
+          </Link>
 
-              {/* ---------------------- */}
+          {/* Desktop Navigation */}
+          <HStack spacing="2" display={{ base: "none", md: "flex" }}>
+            <NavLink to="/" icon={FiHome} isActive={isActive("/")}>
+              Home
+            </NavLink>
+            <NavLink to="/product" icon={FiPackage} isActive={isActive("/product")}>
+              Products
+            </NavLink>
+            <CartButton />
+          </HStack>
 
-              {/* ---------------------- */}
+          {/* User Actions */}
+          <HStack spacing="3" display={{ base: "none", md: "flex" }}>
+            {token ? <UserMenu /> : <LoginButton />}
+          </HStack>
 
-              <Link className={styled.abc} to="/cart">
-                <span style={{ position: "absolute" }}>
-                  <BsFillCartFill style={{ fontSize: "1.8rem" }} />
-                </span>
-                <span
-                  style={{
-                    position: "relative",
-                    top: "-16px",
-                    right: "-9px",
-                    color: "red",
-                    fontWeight: "bold",
-                    fontSize: "1.2rem"
-                  }}
-                >
-                  {cart && cart.length}
-                </span>
-              </Link>
-            </div>
-            <div className={styled.hamburger} style={{ fontSize: "40px" }}>
-              <GiHamburgerMenu onClick={handleClick} />
-            </div>
-          </nav>
-        </header>
-        <div className={styled.mobileNav}>{hamBtn && <Wrapper />}</div>
-      </div>
-    </>
+          {/* Mobile Menu Button */}
+          <IconButton
+            display={{ base: "flex", md: "none" }}
+            onClick={onOpen}
+            icon={<Icon as={FiMenu} />}
+            variant="ghost"
+            size="lg"
+            aria-label="Open menu"
+            borderRadius="xl"
+            _hover={{ bg: "gray.100" }}
+          />
+        </Flex>
+      </Container>
+
+      {/* Mobile Menu */}
+      <MobileMenu />
+    </Box>
   );
 };
 

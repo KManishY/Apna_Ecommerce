@@ -19,7 +19,10 @@ const axiosInstance = axios.create({
   baseURL: "https://homedecorserver.onrender.com"
 });
 
-const token = localStorage.getItem("token");
+// Helper function to get fresh token
+const getAuthToken = () => {
+  return localStorage.getItem("token");
+};
 
 export const getData = (params) => async (dispatch) => {
   dispatch({ type: GET_DATA_REQUEST });
@@ -34,42 +37,89 @@ export const getData = (params) => async (dispatch) => {
 export const postCartData = (payload) => async (dispatch) => {
   dispatch({ type: POST_CART_DATA_REQUEST });
   try {
+    const token = getAuthToken();
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
+
     const response = await axiosInstance.post("/userDashboard/create", payload.data, {
       headers: {
         Authorization: token
       }
     });
-    alert(response.data.message);
-    dispatch({ type: POST_CART_DATA_SUCCESS, payload: response.data.message });
+    
+    // Refresh cart data after adding item
+    dispatch(getCartData());
+    
+    return response.data;
   } catch (error) {
-    dispatch({ type: POST_CART_DATA_FAIL });
+    console.error("Error adding to cart:", error);
+    dispatch({ type: POST_CART_DATA_FAIL, payload: error.message });
+    throw error;
   }
 };
 
 export const getCartData = () => async (dispatch) => {
   dispatch({ type: GET_CART_DATA_REQUEST });
   try {
+    const token = getAuthToken();
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
+
     const response = await axiosInstance.get("/userDashboard/cart", {
       headers: {
         Authorization: token
       }
     });
-    dispatch({ type: GET_CART_DATA_SUCCESS, payload: response.data });
+    
+    // Check if response contains cart data
+    if (response.data && Array.isArray(response.data)) {
+      dispatch({ type: GET_CART_DATA_SUCCESS, payload: response.data });
+    } else if (response.data && response.data.message) {
+      // Handle case where server returns a message instead of cart data
+      dispatch({ type: GET_CART_DATA_SUCCESS, payload: [] });
+    } else {
+      dispatch({ type: GET_CART_DATA_SUCCESS, payload: [] });
+    }
   } catch (error) {
-    dispatch({ type: GET_CART_DATA_FAIL });
+    console.error("Error fetching cart:", error);
+    
+    // Handle different types of errors
+    if (error.response?.status === 401) {
+      // Unauthorized - token expired or invalid
+      dispatch({ type: GET_CART_DATA_FAIL, payload: "Please Login Again" });
+    } else if (error.response?.status === 404) {
+      // Cart not found - return empty cart
+      dispatch({ type: GET_CART_DATA_SUCCESS, payload: [] });
+    } else {
+      // Other errors
+      dispatch({ type: GET_CART_DATA_FAIL, payload: error.message || "Failed to fetch cart" });
+    }
   }
 };
 
 export const deleteCartData = ({ params }) => async (dispatch) => {
   dispatch({ type: DELETE_CART_DATA_REQUEST });
   try {
+    const token = getAuthToken();
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
+
     const response = await axiosInstance.delete(`/userDashboard/delete/${params}`, {
       headers: {
         Authorization: token
       }
     });
-    dispatch({ type: DELETE_CART_DATA_SUCCESS, payload: response.data });
+    
+    // Refresh cart data after deletion
+    dispatch(getCartData());
+    
+    return response.data;
   } catch (error) {
-    dispatch({ type: DELETE_CART_DATA_FAIL });
+    console.error("Error deleting from cart:", error);
+    dispatch({ type: DELETE_CART_DATA_FAIL, payload: error.message });
+    throw error;
   }
 };

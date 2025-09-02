@@ -1,4 +1,3 @@
-import { Alert } from "@chakra-ui/react";
 import axios from "axios";
 import {
 	LOGIN_FAILURE,
@@ -10,7 +9,6 @@ import {
 } from "./constants.js";
 
 export const login = payload => dispatch => {
-	console.log("payload: ", payload);
 	dispatch({ type: LOGIN_REQUEST });
 	return axios({
 		method: "post",
