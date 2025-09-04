@@ -7,6 +7,7 @@ import {
 	getData,
 	postCartData
 } from "../../Redux/AppReducer/action.js";
+import { addToWishlist, removeFromWishlist, checkWishlist } from "../../Redux/WishlistReducer/action.js";
 import {
 	Box,
 	Button,
@@ -29,16 +30,18 @@ import {
 	useColorModeValue
 } from "@chakra-ui/react";
 import { BsCartPlusFill } from "react-icons/bs";
-import { FiStar, FiSearch, FiTrendingUp, FiZap, FiRefreshCw } from "react-icons/fi";
+import { FiStar, FiSearch, FiTrendingUp, FiZap, FiRefreshCw, FiHeart } from "react-icons/fi";
 import PaginationComp from "../../Components/Pagination.jsx";
 
 const Products = () => {
 	const dispatch = useDispatch();
 	const { data, isLoading, isError, errorMessage } = useSelector((state) => state.productReducer);
+	const { wishlistItems } = useSelector((state) => state.wishlistReducer);
 	const [globalData, setGlobalData] = useState([]);
 	const [filterData, setFilterData] = useState([]);
 	const [searchParams] = useSearchParams();
 	const [loadingStates, setLoadingStates] = useState({}); // Individual loading states for each product
+	const [wishlistLoadingStates, setWishlistLoadingStates] = useState({}); // Wishlist loading states
 	const token = localStorage.getItem("token");
 	const toast = useToast();
 
@@ -102,6 +105,69 @@ const Products = () => {
 		}
 	};
 
+	// Handle wishlist toggle
+	const handleWishlistToggle = async (item) => {
+		if (!token) {
+			toast({
+				title: "Please login first",
+				description: "You need to be logged in to add items to wishlist",
+				status: "warning",
+				duration: 3000,
+				isClosable: true,
+			});
+			return;
+		}
+
+		// Prevent multiple rapid clicks
+		if (wishlistLoadingStates[item._id]) {
+			return;
+		}
+
+		// Set loading state for this specific product
+		setWishlistLoadingStates(prev => ({ ...prev, [item._id]: true }));
+		
+		try {
+			const isInWishlist = wishlistItems.some(wishlistItem => wishlistItem.productId === item._id);
+			
+			if (isInWishlist) {
+				await dispatch(removeFromWishlist(item._id));
+				toast({
+					title: "Removed from wishlist",
+					description: `${item.prod_name} has been removed from your wishlist`,
+					status: "success",
+					duration: 2000,
+					isClosable: true,
+				});
+			} else {
+				await dispatch(addToWishlist(item._id));
+				toast({
+					title: "Added to wishlist!",
+					description: `${item.prod_name} has been added to your wishlist`,
+					status: "success",
+					duration: 2000,
+					isClosable: true,
+				});
+			}
+		} catch (error) {
+			console.error("Error toggling wishlist:", error);
+			toast({
+				title: "Error",
+				description: "Failed to update wishlist",
+				status: "error",
+				duration: 3000,
+				isClosable: true,
+			});
+		} finally {
+			// Clear loading state for this specific product
+			setWishlistLoadingStates(prev => ({ ...prev, [item._id]: false }));
+		}
+	};
+
+	// Check if product is in wishlist
+	const isInWishlist = (productId) => {
+		return wishlistItems.some(wishlistItem => wishlistItem.productId === productId);
+	};
+
 	// Handle input change for filtering data
 	const handleInputChange = (e) => {
 		const searchText = e.target.value.toLowerCase();
@@ -147,6 +213,8 @@ const Products = () => {
 	// Product Card Component
 	const ProductCard = ({ item }) => {
 		const isItemLoading = loadingStates[item._id] || false;
+		const isWishlistLoading = wishlistLoadingStates[item._id] || false;
+		const itemInWishlist = isInWishlist(item._id);
 		
 		return (
 			<Box
@@ -192,12 +260,37 @@ const Products = () => {
 						</Badge>
 					)}
 					
+					{/* Wishlist Button */}
+					<Button
+						position="absolute"
+						top="3"
+						right="3"
+						size="sm"
+						variant="solid"
+						colorScheme={itemInWishlist ? "red" : "gray"}
+						bg={itemInWishlist ? "red.500" : "white"}
+						color={itemInWishlist ? "white" : "gray.600"}
+						_hover={{
+							bg: itemInWishlist ? "red.600" : "gray.100",
+							transform: "scale(1.1)"
+						}}
+						onClick={() => handleWishlistToggle(item)}
+						isLoading={isWishlistLoading}
+						loadingText=""
+						borderRadius="full"
+						boxShadow="md"
+						aria-label={itemInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+						transition="all 0.2s ease"
+					>
+						<Icon as={FiHeart} />
+					</Button>
+					
 					{/* Loading Overlay */}
 					{isItemLoading && (
 						<Box
 							position="absolute"
 							top="3"
-							right="3"
+							left="3"
 							bgGradient="linear(to-r, blue.500, purple.500)"
 							color="white"
 							px="3"

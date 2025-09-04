@@ -10,6 +10,8 @@ const { userProductController } = require("./Routes/userDashboard.routes.js");
 const { dataController } = require("./Routes/Products.routes.js");
 const { addressController } = require("./Routes/address.routes.js");
 const { orderController } = require("./Routes/order.routes.js");
+const wishlistController = require("./Routes/wishlist.routes.js");
+const dashboardController = require("./Routes/dashboard.routes.js");
 require("dotenv").config();
 const app = express();
 app.use(express.json());
@@ -24,6 +26,8 @@ app.use("/admindashboard", authorized, adminProductController);
 app.use("/userDashboard", authentication, userProductController);
 app.use("/userDashboard/address", addressController);
 app.use("/userDashboard/order", orderController);
+app.use("/userDashboard/wishlist", wishlistController);
+app.use("/dashboard", dashboardController);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, async () => {

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
   VStack,
@@ -10,7 +11,8 @@ import {
   useDisclosure,
   Button,
   Divider,
-  Heading
+  Heading,
+  Skeleton
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -26,16 +28,60 @@ import {
 } from "react-icons/fi";
 import { Link, useLocation } from "react-router-dom";
 import NavItem from "./NavItem";
+import { getDashboardAnalytics } from "../../redux/action/dashboardAction.js";
+import { getProduct, allUsers } from "../../redux/action/appAction.js";
 
 const Sidebar = ({ onClose }) => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const { isOpen: isStatsOpen, onToggle: onStatsToggle } = useDisclosure();
+  
+  // Redux state
+  const { analytics, analyticsLoading } = useSelector(state => state.dashboardReducer);
+  const { productData } = useSelector(state => state.productReducer);
+  const { userData } = useSelector(state => state.userReducer);
+
+  // Load dashboard data if not already loaded
+  useEffect(() => {
+    if (!analytics && !analyticsLoading) {
+      dispatch(getDashboardAnalytics());
+    }
+    // Load products and users data if not already loaded
+    if (!productData || productData.length === 0) {
+      dispatch(getProduct());
+    }
+    if (!userData || userData.length === 0) {
+      dispatch(allUsers());
+    }
+  }, [dispatch, analytics, analyticsLoading, productData, userData]);
   
   // Color mode values
   const bgColor = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const textColor = useColorModeValue("gray.700", "gray.200");
   const hoverBg = useColorModeValue("gray.50", "gray.700");
+
+  // Helper functions for formatting
+  const formatCurrency = (amount) => {
+    if (!amount) return "₹0";
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1,
+      notation: amount >= 1000000 ? 'compact' : 'standard'
+    }).format(amount);
+  };
+
+  const formatNumber = (num) => {
+    if (!num) return "0";
+    return new Intl.NumberFormat('en-IN').format(num);
+  };
+
+  // Get real data counts
+  const productCount = productData?.length || analytics?.kpis?.totalProducts?.value || 0;
+  const orderCount = analytics?.kpis?.totalOrders?.value || 0;
+  const userCount = analytics?.kpis?.totalUsers?.value || userData?.length || 0;
 
   const navigationItems = [
     {
@@ -54,7 +100,7 @@ const Sidebar = ({ onClose }) => {
           name: "All Products",
           icon: FiPackage,
           path: "/products",
-          badge: "24"
+          badge: analyticsLoading ? "..." : formatNumber(productCount)
         },
         {
           name: "Add Product",
@@ -68,13 +114,13 @@ const Sidebar = ({ onClose }) => {
       name: "Orders",
       icon: FiShoppingCart,
       path: "/order",
-      badge: "12"
+      badge: analyticsLoading ? "..." : formatNumber(orderCount)
     },
     {
       name: "Users",
       icon: FiUsers,
       path: "/user",
-      badge: "156"
+      badge: analyticsLoading ? "..." : formatNumber(userCount)
     },
     {
       name: "Analytics",
@@ -200,9 +246,13 @@ const Sidebar = ({ onClose }) => {
                 Revenue
               </Text>
             </HStack>
-            <Text fontSize="sm" fontWeight="semibold" color="green.500">
-              ₹2.4M
-            </Text>
+            {analyticsLoading ? (
+              <Skeleton height="20px" width="60px" />
+            ) : (
+              <Text fontSize="sm" fontWeight="semibold" color="green.500">
+                {formatCurrency(analytics?.kpis?.totalRevenue?.value || 0)}
+              </Text>
+            )}
           </HStack>
           
           <HStack justify="space-between">
@@ -212,9 +262,13 @@ const Sidebar = ({ onClose }) => {
                 Orders
               </Text>
             </HStack>
-            <Text fontSize="sm" fontWeight="semibold" color="blue.500">
-              1,234
-            </Text>
+            {analyticsLoading ? (
+              <Skeleton height="20px" width="40px" />
+            ) : (
+              <Text fontSize="sm" fontWeight="semibold" color="blue.500">
+                {formatNumber(orderCount)}
+              </Text>
+            )}
           </HStack>
           
           <HStack justify="space-between">
@@ -224,9 +278,13 @@ const Sidebar = ({ onClose }) => {
                 Users
               </Text>
             </HStack>
-            <Text fontSize="sm" fontWeight="semibold" color="purple.500">
-              5,678
-            </Text>
+            {analyticsLoading ? (
+              <Skeleton height="20px" width="40px" />
+            ) : (
+              <Text fontSize="sm" fontWeight="semibold" color="purple.500">
+                {formatNumber(userCount)}
+              </Text>
+            )}
           </HStack>
         </VStack>
       </Box>

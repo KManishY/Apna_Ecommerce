@@ -4,13 +4,14 @@ import {
 	LOGIN_REQUEST,
 	LOGIN_SUCCESS
 } from "../constants/appConstant.js";
+import { baseURL } from "../../apiconfig.js";
 
 export const login = (payload) => (dispatch) => {
 	dispatch({ type: LOGIN_REQUEST });
 	return axios({
 		method: "post",
 		url: "/admin/login",
-		baseURL: "https://homedecorserver.onrender.com",
+		baseURL: baseURL,
 		data: payload
 	})
 		.then(r => {

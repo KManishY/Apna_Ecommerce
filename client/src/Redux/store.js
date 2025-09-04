@@ -6,6 +6,7 @@ import { productReducer } from "./AppReducer/productReducer.js";
 import { getCartReducer } from "./AppReducer/getCartReducer.js";
 import { addressReducer } from "./AddressReducer/reducer.js";
 import { orderReducer } from "./OrderReducer/reducer.js";
+import { wishlistReducer } from "./WishlistReducer/reducer.js";
 import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
 	productReducer,
 	getCartReducer,
 	addressReducer,
-	orderReducer
+	orderReducer,
+	wishlistReducer
 });
 
 const store = legacy_createStore(rootReducer, applyMiddleware(thunk));

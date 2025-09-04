@@ -154,9 +154,8 @@ const Navbar = () => {
         leftIcon={<Avatar size="sm" name={user} bgGradient="linear(to-r, blue.400, purple.500)" />}
         rightIcon={<Icon as={FiUser} />}
         color="white"
-        bg="transparent"
+        bgGradient="linear(to-r, blue.400, purple.500)"
         _hover={{
-          bg: "transparent",
           transform: "translateY(-2px)"
         }}
         _active={{

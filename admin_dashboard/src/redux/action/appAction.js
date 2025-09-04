@@ -16,9 +16,9 @@ import {
 	DELETE_PRODUCT_SUCCESS,
 	DELETE_PRODUCT_FAILURE
 } from "../constants/appConstant.js";
+import { baseURL } from "../../apiconfig.js";
 const token = localStorage.getItem("authToken");
-const baseURL = "https://homedecorserver.onrender.com";
-// export const baseURL = "http://localhost:8080";
+
 export const allUsers = () => dispatch => {
 	dispatch({ type: USER_DETAILS_REQUEST });
 	return axios({

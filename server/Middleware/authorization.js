@@ -4,7 +4,6 @@ const authorized = async (req, res, next) => {
   if (!req.headers.authorization) {
     return res.send("Please Login Again");
   }
-  console.log("helloUpdate")
 
   const token = req.headers.authorization;
   await jwt.verify(token, "manish", function (err, decoded) {

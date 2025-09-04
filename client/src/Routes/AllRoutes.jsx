@@ -20,6 +20,8 @@ const Signup = lazy(() => import("../Pages/Login_Signup/Signup.jsx"));
 const Cart = lazy(() => import("../Pages/Cart/Cart.jsx"));
 const SinglePage = lazy(() => import("../Pages/SinglePage/SinglePage.jsx"));
 const Orders = lazy(() => import("../Pages/Orders/Orders.jsx"));
+const Wishlist = lazy(() => import("../Pages/Wishlist/Wishlist.jsx"));
+const Profile = lazy(() => import("../Pages/Profile/Profile.jsx"));
 
 // Modern loading component with Chakra UI
 const LoadingSpinner = () => {
@@ -68,6 +70,8 @@ const AllRoutes = () => {
 						<Route exact path='/login' element={<Login />} />
 						<Route exact path='/checkout' element={<Checkout />} />
 						<Route exact path='/orders' element={<Orders />} />
+						<Route exact path='/wishlist' element={<Wishlist />} />
+						<Route exact path='/profile' element={<Profile />} />
 						<Route exact path='/product' element={<Products />} />
 						<Route
 							exact

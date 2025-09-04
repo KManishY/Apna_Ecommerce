@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
   Grid,
@@ -18,7 +19,11 @@ import {
   Td,
   Button,
   useColorModeValue,
-  SimpleGrid
+  SimpleGrid,
+  Spinner,
+  Center,
+  Alert,
+  AlertIcon
 } from "@chakra-ui/react";
 import {
   FiTrendingUp,
@@ -28,108 +33,88 @@ import {
   FiUsers,
   FiPackage
 } from "react-icons/fi";
+import { getDashboardAnalytics } from "../../redux/action/dashboardAction.js";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+  const { analytics, analyticsLoading, analyticsError } = useSelector(state => state.dashboardReducer);
+  
   const cardBg = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const textColor = useColorModeValue("gray.700", "gray.200");
 
+  // Fetch dashboard data on component mount
+  useEffect(() => {
+    dispatch(getDashboardAnalytics());
+  }, [dispatch]);
+
+  // Format currency
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount);
+  };
+
+  // Format number with commas
+  const formatNumber = (num) => {
+    return new Intl.NumberFormat('en-IN').format(num);
+  };
+
+  // Format percentage
+  const formatPercentage = (change) => {
+    const sign = change >= 0 ? '+' : '';
+    return `${sign}${change.toFixed(1)}%`;
+  };
+
+  // Prepare stats data from API with safe defaults
   const stats = [
     {
       title: "Total Revenue",
-      value: "₹2,456,789",
-      change: "+12.5%",
-      changeType: "increase",
+      value: formatCurrency(analytics?.kpis?.totalRevenue?.value || 0),
+      change: formatPercentage(analytics?.kpis?.totalRevenue?.change || 0),
+      changeType: (analytics?.kpis?.totalRevenue?.change || 0) >= 0 ? "increase" : "decrease",
       icon: FiDollarSign,
       color: "green"
     },
     {
       title: "Total Orders",
-      value: "1,234",
-      change: "+8.2%",
-      changeType: "increase",
+      value: formatNumber(analytics?.kpis?.totalOrders?.value || 0),
+      change: formatPercentage(analytics?.kpis?.totalOrders?.change || 0),
+      changeType: (analytics?.kpis?.totalOrders?.change || 0) >= 0 ? "increase" : "decrease",
       icon: FiShoppingCart,
       color: "blue"
     },
     {
       title: "Total Users",
-      value: "5,678",
-      change: "+15.3%",
-      changeType: "increase",
+      value: formatNumber(analytics?.kpis?.totalUsers?.value || 0),
+      change: formatPercentage(analytics?.kpis?.totalUsers?.change || 0),
+      changeType: (analytics?.kpis?.totalUsers?.change || 0) >= 0 ? "increase" : "decrease",
       icon: FiUsers,
       color: "purple"
     },
     {
       title: "Products",
-      value: "456",
-      change: "-2.1%",
-      changeType: "decrease",
+      value: formatNumber(analytics?.kpis?.totalProducts?.value || 0),
+      change: formatPercentage(analytics?.kpis?.totalProducts?.change || 0),
+      changeType: (analytics?.kpis?.totalProducts?.change || 0) >= 0 ? "increase" : "decrease",
       icon: FiPackage,
       color: "orange"
     }
   ];
 
-  const recentOrders = [
-    {
-      id: "#12345",
-      customer: "John Doe",
-      email: "john@example.com",
-      amount: "₹2,499",
-      status: "completed",
-      date: "2024-01-15"
-    },
-    {
-      id: "#12346",
-      customer: "Jane Smith",
-      email: "jane@example.com",
-      amount: "₹1,299",
-      status: "pending",
-      date: "2024-01-15"
-    },
-    {
-      id: "#12347",
-      customer: "Bob Johnson",
-      email: "bob@example.com",
-      amount: "₹3,999",
-      status: "shipped",
-      date: "2024-01-14"
-    },
-    {
-      id: "#12348",
-      customer: "Alice Brown",
-      email: "alice@example.com",
-      amount: "₹899",
-      status: "completed",
-      date: "2024-01-14"
-    }
-  ];
+  // Format date
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-IN');
+  };
 
-  const topProducts = [
-    {
-      name: "Wireless Headphones",
-      sales: 156,
-      revenue: "₹1,24,800",
-      growth: "+12%"
-    },
-    {
-      name: "Smart Watch",
-      sales: 89,
-      revenue: "₹89,000",
-      growth: "+8%"
-    },
-    {
-      name: "Laptop Stand",
-      sales: 234,
-      revenue: "₹46,800",
-      growth: "+15%"
-    },
-    {
-      name: "Phone Case",
-      sales: 445,
-      revenue: "₹22,250",
-      growth: "+5%"
-    }
-  ];
+  // Get recent orders from API with safe defaults
+  const recentOrders = analytics?.recentOrders || [];
+
+  // Get top products from API with safe defaults
+  const topProducts = analytics?.topProducts || [];
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -139,6 +124,33 @@ const Dashboard = () => {
       default: return "gray";
     }
   };
+
+  // Show loading state
+  if (analyticsLoading || !analytics?.kpis) {
+    return (
+      <Center h="400px">
+        <VStack spacing={4}>
+          <Spinner size="xl" color="blue.500" />
+          <Text color="gray.500">Loading dashboard data...</Text>
+        </VStack>
+      </Center>
+    );
+  }
+
+  // Show error state
+  if (analyticsError) {
+    return (
+      <Box>
+        <Alert status="error" mb={4}>
+          <AlertIcon />
+          {analyticsError}
+        </Alert>
+        <Button onClick={() => dispatch(getDashboardAnalytics())} colorScheme="blue">
+          Retry
+        </Button>
+      </Box>
+    );
+  }
 
   return (
     <Box>
@@ -221,45 +233,53 @@ const Dashboard = () => {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {recentOrders.map((order, index) => (
-                      <Tr key={index}>
-                        <Td>
-                          <Text fontWeight="medium" color={textColor}>
-                            {order.id}
-                          </Text>
-                        </Td>
-                        <Td>
-                          <VStack align="start" spacing={0}>
-                            <Text fontSize="sm" fontWeight="medium" color={textColor}>
-                              {order.customer}
+                    {recentOrders.length > 0 ? (
+                      recentOrders.map((order, index) => (
+                        <Tr key={index}>
+                          <Td>
+                            <Text fontWeight="medium" color={textColor}>
+                              {order.orderId || `#${order._id?.slice(-6)}`}
                             </Text>
-                            <Text fontSize="xs" color="gray.500">
-                              {order.email}
+                          </Td>
+                          <Td>
+                            <VStack align="start" spacing={0}>
+                              <Text fontSize="sm" fontWeight="medium" color={textColor}>
+                                {order.userEmail?.split('@')[0] || 'Unknown User'}
+                              </Text>
+                              <Text fontSize="xs" color="gray.500">
+                                {order.userEmail}
+                              </Text>
+                            </VStack>
+                          </Td>
+                          <Td>
+                            <Text fontWeight="semibold" color={textColor}>
+                              {formatCurrency(order.totalAmount)}
                             </Text>
-                          </VStack>
-                        </Td>
-                        <Td>
-                          <Text fontWeight="semibold" color={textColor}>
-                            {order.amount}
-                          </Text>
-                        </Td>
-                        <Td>
-                          <Badge
-                            colorScheme={getStatusColor(order.status)}
-                            variant="subtle"
-                            borderRadius="full"
-                            textTransform="capitalize"
-                          >
-                            {order.status}
-                          </Badge>
-                        </Td>
-                        <Td>
-                          <Text fontSize="sm" color="gray.500">
-                            {order.date}
-                          </Text>
+                          </Td>
+                          <Td>
+                            <Badge
+                              colorScheme={getStatusColor(order.status)}
+                              variant="subtle"
+                              borderRadius="full"
+                              textTransform="capitalize"
+                            >
+                              {order.status}
+                            </Badge>
+                          </Td>
+                          <Td>
+                            <Text fontSize="sm" color="gray.500">
+                              {formatDate(order.createdAt)}
+                            </Text>
+                          </Td>
+                        </Tr>
+                      ))
+                    ) : (
+                      <Tr>
+                        <Td colSpan={5} textAlign="center">
+                          <Text color="gray.500">No recent orders found</Text>
                         </Td>
                       </Tr>
-                    ))}
+                    )}
                   </Tbody>
                 </Table>
               </Box>
@@ -277,32 +297,38 @@ const Dashboard = () => {
             </Box>
             <Box>
               <VStack spacing={4} align="stretch">
-                {topProducts.map((product, index) => (
-                  <Box key={index}>
-                    <HStack justify="space-between" mb={2}>
-                      <Text fontSize="sm" fontWeight="medium" color={textColor}>
-                        {product.name}
-                      </Text>
-                      <Text fontSize="sm" color="green.500" fontWeight="medium">
-                        {product.growth}
-                      </Text>
-                    </HStack>
-                    <HStack justify="space-between" mb={2}>
-                      <Text fontSize="xs" color="gray.500">
-                        {product.sales} sales
-                      </Text>
-                      <Text fontSize="xs" fontWeight="semibold" color={textColor}>
-                        {product.revenue}
-                      </Text>
-                    </HStack>
-                    <Progress
-                      value={(product.sales / 500) * 100}
-                      size="sm"
-                      colorScheme="blue"
-                      borderRadius="full"
-                    />
-                  </Box>
-                ))}
+                {topProducts.length > 0 ? (
+                  topProducts.map((product, index) => (
+                    <Box key={index}>
+                      <HStack justify="space-between" mb={2}>
+                        <Text fontSize="sm" fontWeight="medium" color={textColor}>
+                          {product.productName}
+                        </Text>
+                        <Text fontSize="sm" color="green.500" fontWeight="medium">
+                          {formatPercentage(0)} {/* Growth calculation can be added later */}
+                        </Text>
+                      </HStack>
+                      <HStack justify="space-between" mb={2}>
+                        <Text fontSize="xs" color="gray.500">
+                          {product.totalSales} sales
+                        </Text>
+                        <Text fontSize="xs" fontWeight="semibold" color={textColor}>
+                          {formatCurrency(product.totalRevenue)}
+                        </Text>
+                      </HStack>
+                      <Progress
+                        value={topProducts.length > 0 ? Math.min((product.totalSales / Math.max(...topProducts.map(p => p.totalSales))) * 100, 100) : 0}
+                        size="sm"
+                        colorScheme="blue"
+                        borderRadius="full"
+                      />
+                    </Box>
+                  ))
+                ) : (
+                  <Text color="gray.500" textAlign="center">
+                    No product data available
+                  </Text>
+                )}
               </VStack>
             </Box>
           </Box>
