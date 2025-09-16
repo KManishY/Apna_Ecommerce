@@ -73,8 +73,6 @@ export const editProduct = payload => dispatch => {
 		data: payload
 	})
 		.then(response => {
-			alert(response.data.message);
-
 			dispatch({
 				type: EDIT_PRODUCT_SUCCESS,
 				payload: response.data.message
@@ -96,8 +94,6 @@ export const addProduct = payload => dispatch => {
 		data: payload
 	})
 		.then(response => {
-			alert(response.data.message);
-
 			dispatch({
 				type: ADD_PRODUCT_SUCCESS,
 				payload: response.data.message
@@ -119,8 +115,6 @@ export const deleteProduct = payload => dispatch => {
 		// data: payload
 	})
 		.then(response => {
-			alert(response.data.message);
-
 			dispatch({
 				type: DELETE_PRODUCT_SUCCESS,
 				payload: response.data.message
