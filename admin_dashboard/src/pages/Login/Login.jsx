@@ -72,8 +72,10 @@ const Login = () => {
 					duration: 3000,
 					isClosable: true,
 				});
-				navigate("/");
-				// window.location.reload();
+				// Small delay to ensure Redux state is updated
+				setTimeout(() => {
+					navigate("/");
+				}, 100);
 			} else {
 				setError("Invalid email or password");
 			}

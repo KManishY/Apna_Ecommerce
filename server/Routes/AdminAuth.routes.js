@@ -30,8 +30,9 @@ adminController.post("/login", async (req, res) => {
 	if (!user) {
 		return res.status(406).send({ message: "Wrong Credentials" });
 	}
-	const hash = user.password;
-	bcrypt.compare(password, hash, async (err, result) => {
+
+	bcrypt.compare(password, user.password, async (err, result) => {
+		console.log('result: ', result);
 		if (err) {
 			console.log('err: during Login ', err);
 			return res.status(406).send({ message: "Wrong Credentials" });

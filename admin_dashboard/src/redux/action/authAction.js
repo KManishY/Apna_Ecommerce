@@ -15,9 +15,7 @@ export const login = (payload) => (dispatch) => {
 		data: payload
 	})
 		.then(r => {
-			setTimeout(() => {
-				localStorage.setItem("authToken", r.data);
-			}, 100);
+			localStorage.setItem("authToken", r.data);
 			return dispatch({ type: LOGIN_SUCCESS, payload: r.data });
 		})
 		.catch(e => dispatch({ type: LOGIN_FAILURE }));
